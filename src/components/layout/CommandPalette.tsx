@@ -219,15 +219,15 @@ export function CommandPalette() {
             transition={{ type: 'spring', damping: 28, stiffness: 350 }}
             className="
               relative z-10 w-full max-w-xl h-dvh md:h-auto md:max-h-[450px] flex flex-col
-              bg-white dark:bg-[#1a1a1a]
-              border-b md:border border-[#efefef] dark:border-[#333]
+              bg-white dark:bg-[#121214]
+              border-b md:border border-zinc-200 dark:border-zinc-800
               rounded-none md:rounded-2xl shadow-2xl overflow-hidden
               pb-safe-bottom
             "
           >
             {/* Search Input */}
-            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#efefef] dark:border-[#333]">
-              <Search size={16} className="text-[#999] dark:text-[#555] flex-shrink-0" aria-hidden="true" />
+            <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800">
+              <Search size={16} className="text-zinc-400 dark:text-zinc-650 flex-shrink-0" aria-hidden="true" />
               <input
                 ref={inputRef}
                 type="text"
@@ -235,8 +235,8 @@ export function CommandPalette() {
                 value={commandPaletteQuery}
                 onChange={(e) => setCommandPaletteQuery(e.target.value)}
                 className="
-                  flex-1 bg-transparent text-[#111] dark:text-white
-                  text-sm font-normal placeholder:text-[#bbbbbb] dark:placeholder:text-[#555]
+                  flex-1 bg-transparent text-zinc-800 dark:text-zinc-100
+                  text-sm font-normal placeholder:text-zinc-400 dark:placeholder:text-zinc-600
                   outline-none
                 "
                 aria-autocomplete="list"
@@ -244,9 +244,9 @@ export function CommandPalette() {
               />
               <kbd className="
                 px-1.5 py-0.5 text-[10px] font-mono
-                bg-[#f8f8f8] dark:bg-[#333]
-                text-[#999] dark:text-[#666]
-                border border-[#efefef] dark:border-[#444]
+                bg-zinc-50 dark:bg-zinc-900
+                text-zinc-400 dark:text-zinc-500
+                border border-zinc-200 dark:border-zinc-800
                 rounded
               ">
                 esc
@@ -261,13 +261,13 @@ export function CommandPalette() {
             >
               {Object.entries(grouped).length === 0 ? (
                 <div className="px-4 py-8 text-center">
-                  <p className="text-sm text-[#bbbbbb] dark:text-[#555]">No results for &ldquo;{commandPaletteQuery}&rdquo;</p>
+                  <p className="text-sm text-zinc-400 dark:text-zinc-600">No results for &ldquo;{commandPaletteQuery}&rdquo;</p>
                 </div>
               ) : (
                 Object.entries(grouped).map(([category, items]) => (
                   <div key={category} className="mb-1">
                     <div className="px-4 py-1">
-                      <span className="text-[10px] font-semibold tracking-widest uppercase text-[#bbbbbb] dark:text-[#555]">
+                      <span className="text-[10px] font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-650">
                         {category}
                       </span>
                     </div>
@@ -288,23 +288,23 @@ export function CommandPalette() {
                             w-full flex items-center gap-3 px-4 py-2.5 text-left
                             transition-colors duration-75
                             ${isSelected
-                              ? 'bg-[#f8f8f8] dark:bg-[#2a2a2a]'
-                              : 'hover:bg-[#f8f8f8] dark:hover:bg-[#2a2a2a]'
+                              ? 'bg-zinc-100 dark:bg-zinc-900'
+                              : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
                             }
                           `}
                         >
                           {item.icon && (
-                            <span className="text-[#999] dark:text-[#555] w-4 text-center flex-shrink-0">
+                            <span className="text-zinc-400 dark:text-zinc-650 w-4 text-center flex-shrink-0">
                               {item.icon}
                             </span>
                           )}
 
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-[#222] dark:text-[#efefef] truncate">
+                            <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 truncate">
                               {highlightMatch(item.label, commandPaletteQuery)}
                             </p>
                             {item.description && (
-                              <p className="text-xs text-[#999] dark:text-[#555] truncate">
+                              <p className="text-xs text-zinc-400 dark:text-zinc-500 truncate">
                                 {item.description}
                               </p>
                             )}
@@ -313,9 +313,9 @@ export function CommandPalette() {
                           {item.shortcut && (
                             <kbd className="
                               px-1.5 py-0.5 text-[10px] font-mono flex-shrink-0
-                              bg-[#efefef] dark:bg-[#333]
-                              text-[#777] dark:text-[#666]
-                              border border-[#dddddd] dark:border-[#444]
+                              bg-zinc-100 dark:bg-zinc-900
+                              text-zinc-500 dark:text-zinc-400
+                              border border-zinc-200 dark:border-zinc-800
                               rounded
                             ">
                               {item.shortcut}
@@ -323,7 +323,7 @@ export function CommandPalette() {
                           )}
 
                           {isSelected && (
-                            <CornerDownLeft size={12} className="text-[#bbbbbb] dark:text-[#555] flex-shrink-0" />
+                            <CornerDownLeft size={12} className="text-zinc-400 dark:text-zinc-650 flex-shrink-0" />
                           )}
                         </motion.button>
                       )
@@ -334,14 +334,14 @@ export function CommandPalette() {
             </div>
 
             {/* Footer hint */}
-            <div className="px-4 py-2.5 border-t border-[#efefef] dark:border-[#333] flex items-center gap-4">
-              <span className="flex items-center gap-1 text-[10px] text-[#bbbbbb] dark:text-[#555]">
+            <div className="px-4 py-2.5 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-4">
+              <span className="flex items-center gap-1 text-[10px] text-zinc-400 dark:text-zinc-500">
                 <kbd className="font-mono">↑↓</kbd> navigate
               </span>
-              <span className="flex items-center gap-1 text-[10px] text-[#bbbbbb] dark:text-[#555]">
+              <span className="flex items-center gap-1 text-[10px] text-zinc-400 dark:text-zinc-500">
                 <kbd className="font-mono">↵</kbd> select
               </span>
-              <span className="flex items-center gap-1 text-[10px] text-[#bbbbbb] dark:text-[#555]">
+              <span className="flex items-center gap-1 text-[10px] text-zinc-400 dark:text-zinc-500">
                 <kbd className="font-mono">esc</kbd> close
               </span>
             </div>
