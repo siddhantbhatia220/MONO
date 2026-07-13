@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Type-check, Lint, Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript — strict type check
+        run: npm run type-check
+
+      - name: ESLint — code quality check
+        run: npm run lint
+
+      - name: Prettier — formatting check
+        run: npm run format:check
+
+      - name: Next.js — production build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_APP_NAME: MONO
+          NEXT_PUBLIC_APP_VERSION: 0.1.0
