@@ -23,7 +23,7 @@ import { useUIStore } from '@/lib/store/uiStore'
 import { useAppStore } from '@/lib/store/appStore'
 import { listWorkspaces, createWorkspace } from '@/lib/db/workspaces'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
-import { Menu } from 'lucide-react'
+import { Menu, Plus } from 'lucide-react'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 // ============================
@@ -260,15 +260,27 @@ function WorkspaceHeader() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => openModal('create-workspace')}
-          aria-label="Add workspace"
-          className="text-xs md:text-sm px-2 py-1 md:px-3 md:py-1.5"
-        >
-          + Workspace
-        </Button>
+        {!isMobile ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => openModal('create-workspace')}
+            aria-label="Add workspace"
+            className="text-xs md:text-sm px-3 py-1.5"
+          >
+            + Workspace
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => openModal('create-workspace')}
+            aria-label="Add workspace"
+            className="h-8 w-8 flex items-center justify-center rounded-lg"
+          >
+            <Plus size={16} />
+          </Button>
+        )}
       </div>
     </div>
   )
@@ -368,17 +380,19 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="grid grid-cols-3 gap-4 mt-14"
+              className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-10 md:mt-14"
             >
               {[
                 { icon: '⚡', label: 'Instant', desc: 'Works offline. No loading.' },
                 { icon: '⌨', label: 'Keyboard-first', desc: 'Everything via ⌘K' },
                 { icon: '∞', label: 'Flexible', desc: 'Adapts to your workflow' },
               ].map((f) => (
-                <div key={f.label} className="text-center p-3">
-                  <div className="text-2xl mb-2">{f.icon}</div>
-                  <p className="text-xs font-semibold text-[#444] dark:text-[#bbbbbb] tracking-tight">{f.label}</p>
-                  <p className="text-xs text-[#bbbbbb] dark:text-[#555] mt-0.5">{f.desc}</p>
+                <div key={f.label} className="flex md:flex-col items-center md:items-center text-left md:text-center gap-3 md:gap-1 p-3 bg-neutral-50 dark:bg-neutral-900 md:bg-transparent dark:md:bg-transparent rounded-xl border border-neutral-100 dark:border-neutral-800 md:border-none">
+                  <div className="text-2xl flex-shrink-0">{f.icon}</div>
+                  <div>
+                    <p className="text-xs font-semibold text-[#444] dark:text-[#bbbbbb] tracking-tight">{f.label}</p>
+                    <p className="text-[11px] text-[#bbbbbb] dark:text-[#555] mt-0.5">{f.desc}</p>
+                  </div>
                 </div>
               ))}
             </motion.div>
@@ -396,7 +410,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {TEMPLATES.map((t) => (
                 <button
                   key={t.name}
@@ -557,18 +571,18 @@ function AppShell() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#111]">
+      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-[#fafafa] dark:bg-[#0f0f0f]">
         <WorkspaceHeader />
 
-        <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4">
+        <div className="flex-1 overflow-y-auto px-4 md:px-8 pt-4 pb-28">
           <div className="max-w-3xl mx-auto w-full">
             <ListView />
           </div>
         </div>
 
-        {/* Quick Capture — bottom pinned with screen padding */}
-        <div className="border-t border-[#efefef] dark:border-[#333] w-full bg-white dark:bg-[#111] pb-safe-bottom">
-          <div className="max-w-3xl mx-auto w-full">
+        {/* Floating Quick Capture */}
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-t from-[#fafafa] via-[#fafafa]/90 to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0f]/90 dark:to-transparent pt-8 pb-safe-bottom">
+          <div className="max-w-3xl mx-auto w-full px-4 pointer-events-auto">
             <QuickCapture />
           </div>
         </div>
