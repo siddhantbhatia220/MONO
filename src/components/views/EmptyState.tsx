@@ -55,7 +55,7 @@ function NoItemsIllustration() {
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="round"
-          strokeOpacity="0.15"
+          strokeOpacity="0.4"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={{ pathLength: 1, opacity: 1 }}
           transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
@@ -72,7 +72,7 @@ function NoItemsIllustration() {
           rx="2"
           stroke="currentColor"
           strokeWidth="1.5"
-          strokeOpacity="0.3"
+          strokeOpacity="0.6"
           fill="none"
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -82,7 +82,7 @@ function NoItemsIllustration() {
       {/* Pencil */}
       <motion.g
         initial={{ opacity: 0, y: 8, rotate: -10 }}
-        animate={{ opacity: 0.4, y: 0, rotate: 0 }}
+        animate={{ opacity: 0.8, y: 0, rotate: 0 }}
         transition={{ delay: 0.5, type: 'spring', bounce: 0.3 }}
         style={{ transformOrigin: '75px 30px' }}
       >
@@ -114,7 +114,7 @@ function NoWorkspaceIllustration() {
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeOpacity="0.25"
+        strokeOpacity="0.5"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
@@ -122,7 +122,7 @@ function NoWorkspaceIllustration() {
       {/* Plus symbol */}
       <motion.g
         initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.4, scale: 1 }}
+        animate={{ opacity: 0.7, scale: 1 }}
         transition={{ delay: 0.6, type: 'spring', bounce: 0.5 }}
       >
         <line x1="60" y1="57" x2="60" y2="77" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
@@ -149,7 +149,7 @@ function NoResultsIllustration() {
         r="24"
         stroke="currentColor"
         strokeWidth="2"
-        strokeOpacity="0.25"
+        strokeOpacity="0.5"
         fill="none"
         initial={{ scale: 0.8, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
@@ -164,7 +164,7 @@ function NoResultsIllustration() {
         stroke="currentColor"
         strokeWidth="3"
         strokeLinecap="round"
-        strokeOpacity="0.25"
+        strokeOpacity="0.5"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ delay: 0.3, duration: 0.3 }}
@@ -172,7 +172,7 @@ function NoResultsIllustration() {
       {/* X inside */}
       <motion.g
         initial={{ opacity: 0, rotate: -45 }}
-        animate={{ opacity: 0.35, rotate: 0 }}
+        animate={{ opacity: 0.6, rotate: 0 }}
         transition={{ delay: 0.5, type: 'spring' }}
         style={{ transformOrigin: '52px 52px' }}
       >
@@ -226,26 +226,26 @@ export function EmptyState({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`
-        flex flex-col items-center justify-center gap-4 py-10 md:py-16 px-4 md:px-8 text-center
-        text-[#bbbbbb] dark:text-[#444]
+        flex flex-col items-center justify-center gap-5 py-14 md:py-20 px-4 md:px-8 text-center
+        text-zinc-400 dark:text-zinc-500
         ${className}
       `}
       role="status"
       aria-label={title ?? defaultTitle}
     >
-      <div className="opacity-70">{illustration}</div>
+      <div className="opacity-95">{illustration}</div>
 
-      <div className="max-w-xs">
-        <h2 className="text-base font-semibold text-[#444] dark:text-[#777] mb-1 tracking-tight">
+      <div className="max-w-sm">
+        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 mb-2 tracking-tight">
           {title ?? defaultTitle}
         </h2>
-        <p className="text-sm leading-relaxed text-[#999] dark:text-[#555]">
+        <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
           {description ?? defaultDescription}
         </p>
       </div>
 
       {(action || secondaryAction) && (
-        <div className="flex items-center gap-2 mt-1">
+        <div className="flex items-center gap-2 mt-2">
           {action && (
             <Button variant="primary" size="sm" onClick={action.onClick}>
               {action.label}
