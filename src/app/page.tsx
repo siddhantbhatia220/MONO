@@ -23,6 +23,8 @@ import { useUIStore } from '@/lib/store/uiStore'
 import { useAppStore } from '@/lib/store/appStore'
 import { listWorkspaces, createWorkspace } from '@/lib/db/workspaces'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
+import { Menu } from 'lucide-react'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 // ============================
 // Toast Notification System
@@ -225,22 +227,36 @@ function ShortcutsModal() {
 // ============================
 function WorkspaceHeader() {
   const { activeWorkspace, activeProject } = useAppStore()
-  const { openModal } = useUIStore()
+  const { openModal, toggleSidebar } = useUIStore()
+  const isMobile = useIsMobile()
 
   if (!activeWorkspace) return null
 
   return (
-    <div className="flex items-center justify-between px-8 py-4 border-b border-[#efefef] dark:border-[#333]">
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{activeWorkspace.icon}</span>
-          <h1 className="text-xl font-bold tracking-tight text-[#111] dark:text-white">
-            {activeProject?.name ?? activeWorkspace.name}
-          </h1>
+    <div className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-[#efefef] dark:border-[#333]">
+      <div className="flex items-center gap-3">
+        {isMobile && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            aria-label="Open sidebar menu"
+            className="flex-shrink-0"
+          >
+            <Menu size={18} />
+          </Button>
+        )}
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-lg md:text-xl">{activeWorkspace.icon}</span>
+            <h1 className="text-lg md:text-xl font-bold tracking-tight text-[#111] dark:text-white">
+              {activeProject?.name ?? activeWorkspace.name}
+            </h1>
+          </div>
+          <p className="text-xs text-[#999] dark:text-[#555] mt-0.5 ml-0">
+            {activeProject ? `in ${activeWorkspace.name}` : 'All items'}
+          </p>
         </div>
-        <p className="text-xs text-[#999] dark:text-[#555] mt-0.5">
-          {activeProject ? `in ${activeWorkspace.name}` : 'All items'}
-        </p>
       </div>
 
       <div className="flex items-center gap-2">
@@ -249,6 +265,7 @@ function WorkspaceHeader() {
           size="sm"
           onClick={() => openModal('create-workspace')}
           aria-label="Add workspace"
+          className="text-xs md:text-sm px-2 py-1 md:px-3 md:py-1.5"
         >
           + Workspace
         </Button>
@@ -483,7 +500,15 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 // App Shell
 // ============================
 function AppShell() {
-  const { toggleSidebar, openCommandPalette, openModal } = useUIStore()
+  const { toggleSidebar, openCommandPalette, openModal, setSidebarOpen } = useUIStore()
+  const isMobile = useIsMobile()
+
+  // Auto-close sidebar on mobile devices on initial render
+  useEffect(() => {
+    if (isMobile) {
+      setSidebarOpen(false)
+    }
+  }, [isMobile, setSidebarOpen])
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -493,10 +518,18 @@ function AppShell() {
       const inInput = ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) || target.isContentEditable
       if (inInput && e.key !== 'Escape') return
 
-      // ⌘K / Ctrl+K — Command Palette
+      // Ctrl+K / Cmd+K — Open command palette
       if (e.key === 'k' && (e.ctrlKey || e.metaKey)) {
         e.preventDefault()
         openCommandPalette()
+        return
+      }
+
+      // N — New item (focuses quick capture)
+      if (e.key === 'n' && !inInput) {
+        e.preventDefault()
+        const qInput = document.getElementById('quick-capture-input')
+        qInput?.focus()
         return
       }
 
@@ -519,23 +552,25 @@ function AppShell() {
   }, [openCommandPalette, toggleSidebar, openModal])
 
   return (
-    <div className="app-shell" role="main">
+    <div className="app-shell flex h-dvh overflow-hidden" role="main">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main content */}
-      <div className="app-main">
+      <div className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#111]">
         <WorkspaceHeader />
 
-        <div className="flex-1 overflow-y-auto">
-          <div className="max-w-3xl mx-auto">
+        <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4">
+          <div className="max-w-3xl mx-auto w-full">
             <ListView />
           </div>
         </div>
 
-        {/* Quick Capture — always visible at bottom */}
-        <div className="border-t border-[#efefef] dark:border-[#333] max-w-3xl mx-auto w-full">
-          <QuickCapture />
+        {/* Quick Capture — bottom pinned with screen padding */}
+        <div className="border-t border-[#efefef] dark:border-[#333] w-full bg-white dark:bg-[#111] pb-safe-bottom">
+          <div className="max-w-3xl mx-auto w-full">
+            <QuickCapture />
+          </div>
         </div>
       </div>
     </div>
