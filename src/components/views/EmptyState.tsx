@@ -226,7 +226,7 @@ export function EmptyState({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
       className={`
-        flex flex-col items-center justify-center gap-4 py-16 px-8 text-center
+        flex flex-col items-center justify-center gap-4 py-10 md:py-16 px-4 md:px-8 text-center
         text-[#bbbbbb] dark:text-[#444]
         ${className}
       `}
