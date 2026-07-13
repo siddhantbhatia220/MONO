@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, CornerDownLeft } from 'lucide-react'
 import { useUIStore } from '@/lib/store/uiStore'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 interface CommandItem {
   id: string
@@ -187,13 +188,14 @@ export function CommandPalette() {
     return () => document.removeEventListener('keydown', handleKey)
   }, [commandPaletteOpen, selectedIndex, closeCommandPalette])
 
+  const isMobile = useIsMobile()
   let flatIndex = 0
 
   return (
     <AnimatePresence>
       {commandPaletteOpen && (
         <div
-          className="fixed inset-0 z-[500] flex items-start justify-center pt-[15vh] px-4"
+          className="fixed inset-0 z-[500] flex items-start justify-center pt-0 px-0 md:pt-[15vh] md:px-4"
           role="dialog"
           aria-modal="true"
           aria-label="Command palette"
@@ -211,15 +213,16 @@ export function CommandPalette() {
 
           {/* Palette */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.97, y: -8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: -8 }}
-            transition={{ type: 'spring', damping: 30, stiffness: 400 }}
+            initial={isMobile ? { y: '-100%' } : { opacity: 0, scale: 0.97, y: -8 }}
+            animate={isMobile ? { y: 0 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={isMobile ? { y: '-100%' } : { opacity: 0, scale: 0.97, y: -8 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 350 }}
             className="
-              relative z-10 w-full max-w-xl
+              relative z-10 w-full max-w-xl h-dvh md:h-auto md:max-h-[450px] flex flex-col
               bg-white dark:bg-[#1a1a1a]
-              border border-[#efefef] dark:border-[#333]
-              rounded-2xl shadow-2xl overflow-hidden
+              border-b md:border border-[#efefef] dark:border-[#333]
+              rounded-none md:rounded-2xl shadow-2xl overflow-hidden
+              pb-safe-bottom
             "
           >
             {/* Search Input */}
@@ -254,7 +257,7 @@ export function CommandPalette() {
             <div
               id="command-list"
               role="listbox"
-              className="max-h-80 overflow-y-auto py-2"
+              className="max-h-[60vh] md:max-h-80 flex-1 overflow-y-auto py-2"
             >
               {Object.entries(grouped).length === 0 ? (
                 <div className="px-4 py-8 text-center">
