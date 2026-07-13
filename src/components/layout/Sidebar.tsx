@@ -242,8 +242,8 @@ export function Sidebar() {
               transition={{ type: 'spring', damping: 25, stiffness: 250 }}
               className="
                 fixed top-0 left-0 bottom-0 z-[400] w-[260px] flex flex-col
-                bg-zinc-50 dark:bg-zinc-950
-                border-r border-zinc-200/80 dark:border-zinc-900
+                bg-white dark:bg-zinc-950
+                border-r border-zinc-200 dark:border-zinc-800
                 overflow-hidden shadow-2xl
               "
               aria-label="Sidebar navigation"
@@ -291,8 +291,8 @@ export function Sidebar() {
       transition={{ type: 'spring', damping: 25, stiffness: 250 }}
       className="
         relative flex flex-col h-full flex-shrink-0
-        bg-zinc-50 dark:bg-zinc-950
-        border-r border-zinc-200/80 dark:border-zinc-900
+        bg-zinc-50 dark:bg-[#111113]
+        border-r border-zinc-200 dark:border-zinc-800
         overflow-hidden
       "
       style={{ width: sidebarWidth }}
