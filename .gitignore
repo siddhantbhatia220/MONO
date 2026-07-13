@@ -53,6 +53,8 @@ coverage/
 next-env.d.ts
 .claude/
 CLAUDE.md
+agents.md
+AGENTS.md
 .agents/
 .ai/
 decisions/
