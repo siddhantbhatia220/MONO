@@ -168,46 +168,37 @@ a:hover {
 .app-shell {
   display: flex;
   height: 100dvh;
+  width: 100vw;
   overflow: hidden;
-}
-
-.app-sidebar {
-  width: var(--sidebar-width);
-  flex-shrink: 0;
-  border-right: 1px solid var(--border-subtle);
-  background-color: var(--bg-secondary);
-  overflow-y: auto;
-  overflow-x: hidden;
-  transition: width var(--transition-base);
-}
-
-.app-sidebar.collapsed {
-  width: var(--sidebar-collapsed-width);
 }
 
 .app-main {
   flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-.app-content {
-  flex: 1;
-  padding: var(--space-8);
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  width: 100%;
+/* Safe Area Insets for Mobile devices (iOS/Android PWA) */
+.pb-safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 12px);
 }
 
-/* Mobile */
+.pt-safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Mobile layout adjustments */
 @media (max-width: 768px) {
-  .app-sidebar {
-    display: none;
+  body {
+    font-size: 15px; /* Slightly smaller base font for mobile */
   }
 
-  .app-content {
-    padding: var(--space-4);
+  /* Compact tap targets and paddings for mobile viewports */
+  .px-8 {
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
   }
 }
+
