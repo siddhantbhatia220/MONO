@@ -129,21 +129,22 @@ export function QuickCapture() {
   const isMobile = useIsMobile()
 
   return (
-    <div className="pb-4 pt-2">
+    <div className="pb-6 pt-2">
       <motion.form
         onSubmit={handleSubmit}
         animate={{
-          boxShadow: focused
-            ? '0 0 0 2px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06)'
-            : '0 1px 3px rgba(0,0,0,0.06)',
+          scale: focused ? 1.015 : 1,
         }}
-        transition={{ duration: 0.2 }}
-        className="
+        transition={{ duration: 0.15 }}
+        className={`
           flex items-center gap-2 md:gap-3
-          bg-white dark:bg-[#222]
-          border border-[#efefef] dark:border-[#333]
+          bg-white/90 dark:bg-[#121214]/90 backdrop-blur-md
+          border border-zinc-200 dark:border-zinc-800
+          ${focused ? 'border-zinc-400 dark:border-zinc-500' : ''}
           rounded-xl px-3 md:px-4 py-2.5 md:py-3
-        "
+          shadow-lg shadow-zinc-200/20 dark:shadow-black/50
+          transition-all duration-150
+        `}
       >
         {/* Plus icon */}
         <motion.div
@@ -163,8 +164,8 @@ export function QuickCapture() {
           onBlur={() => setFocused(false)}
           placeholder={isMobile ? "Add item..." : "Add an item... #tag !priority"}
           className="
-            flex-1 bg-transparent text-sm text-[#222] dark:text-[#efefef]
-            placeholder:text-[#cccccc] dark:placeholder:text-[#555]
+            flex-1 bg-transparent text-sm text-zinc-800 dark:text-zinc-200
+            placeholder:text-zinc-400 dark:placeholder:text-zinc-650
             outline-none min-w-0
           "
           aria-label="Quick capture — press Enter to create"
