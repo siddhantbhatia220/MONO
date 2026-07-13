@@ -236,9 +236,9 @@ export function EmptyState({
       <div className="opacity-70">{illustration}</div>
 
       <div className="max-w-xs">
-        <h3 className="text-base font-semibold text-[#444] dark:text-[#777] mb-1 tracking-tight">
+        <h2 className="text-base font-semibold text-[#444] dark:text-[#777] mb-1 tracking-tight">
           {title ?? defaultTitle}
-        </h3>
+        </h2>
         <p className="text-sm leading-relaxed text-[#999] dark:text-[#555]">
           {description ?? defaultDescription}
         </p>
