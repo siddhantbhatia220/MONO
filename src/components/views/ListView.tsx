@@ -22,8 +22,8 @@ const SKELETON_WIDTHS = ['45%', '72%', '38%', '60%', '55%']
 function ItemSkeleton({ index }: { index: number }) {
   return (
     <div className="flex items-center gap-3 px-2 py-2 animate-pulse">
-      <div className="w-4 h-4 rounded bg-[#efefef] dark:bg-[#333] flex-shrink-0" />
-      <div className="h-3 rounded bg-[#efefef] dark:bg-[#333] flex-1" style={{ maxWidth: SKELETON_WIDTHS[index % SKELETON_WIDTHS.length] }} />
+      <div className="w-4 h-4 rounded bg-zinc-200 dark:bg-zinc-800 flex-shrink-0" />
+      <div className="h-3 rounded bg-zinc-200 dark:bg-zinc-800 flex-1" style={{ maxWidth: SKELETON_WIDTHS[index % SKELETON_WIDTHS.length] }} />
     </div>
   )
 }
