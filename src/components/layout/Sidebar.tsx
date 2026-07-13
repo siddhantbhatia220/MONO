@@ -94,10 +94,10 @@ export function Sidebar() {
                 onClick={item.action}
                 className={`
                   flex items-center gap-3 w-full px-2 py-2 rounded-lg text-left
-                  text-sm font-medium
-                  text-[#555] dark:text-[#999]
-                  hover:bg-[#efefef] hover:text-[#111]
-                  dark:hover:bg-[#333] dark:hover:text-white
+                  text-sm font-medium cursor-pointer
+                  text-zinc-600 dark:text-zinc-400
+                  hover:bg-zinc-100 hover:text-zinc-900
+                  dark:hover:bg-zinc-900 dark:hover:text-zinc-50
                   transition-colors duration-100
                   ${(!sidebarOpen && !isMobile) ? 'justify-center' : ''}
                 `}
@@ -131,7 +131,7 @@ export function Sidebar() {
             className="mb-2"
           >
             <div className="flex items-center justify-between px-2 mb-1">
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-[#bbbbbb] dark:text-[#555]">
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-600">
                 Projects
               </span>
               <Tooltip content="New project" position="right">
@@ -147,7 +147,7 @@ export function Sidebar() {
               </Tooltip>
             </div>
 
-            <p className="px-2 text-xs text-[#bbbbbb] dark:text-[#555] py-1">
+            <p className="px-2 text-xs text-zinc-400 dark:text-zinc-600 py-1">
               No projects yet
             </p>
           </motion.div>
@@ -155,15 +155,16 @@ export function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-2 pb-3 pt-2 border-t border-[#efefef] dark:border-[#333] flex flex-col gap-0.5">
+      <div className="px-2 pb-3 pt-2 border-t border-zinc-200/80 dark:border-zinc-900 flex flex-col gap-0.5">
         <Tooltip content="Settings" shortcut="," position="right">
           <button
             onClick={() => openModal('settings')}
             className={`
               flex items-center gap-3 w-full px-2 py-2 rounded-lg text-left
-              text-sm font-medium text-[#777] dark:text-[#777]
-              hover:bg-[#efefef] hover:text-[#111]
-              dark:hover:bg-[#333] dark:hover:text-white
+              text-sm font-medium cursor-pointer
+              text-zinc-500 dark:text-zinc-400
+              hover:bg-zinc-100 hover:text-zinc-900
+              dark:hover:bg-zinc-900 dark:hover:text-zinc-50
               transition-colors duration-100
               ${(!sidebarOpen && !isMobile) ? 'justify-center' : ''}
             `}
@@ -190,9 +191,10 @@ export function Sidebar() {
             onClick={() => openModal('keyboard-shortcuts')}
             className={`
               flex items-center gap-3 w-full px-2 py-2 rounded-lg text-left
-              text-sm font-medium text-[#777] dark:text-[#777]
-              hover:bg-[#efefef] hover:text-[#111]
-              dark:hover:bg-[#333] dark:hover:text-white
+              text-sm font-medium cursor-pointer
+              text-zinc-500 dark:text-zinc-400
+              hover:bg-zinc-100 hover:text-zinc-900
+              dark:hover:bg-zinc-900 dark:hover:text-zinc-50
               transition-colors duration-100
               ${(!sidebarOpen && !isMobile) ? 'justify-center' : ''}
             `}
@@ -240,8 +242,8 @@ export function Sidebar() {
               transition={{ type: 'spring', damping: 25, stiffness: 250 }}
               className="
                 fixed top-0 left-0 bottom-0 z-[400] w-[260px] flex flex-col
-                bg-[#f8f8f8] dark:bg-[#1a1a1a]
-                border-r border-[#efefef] dark:border-[#333]
+                bg-zinc-50 dark:bg-zinc-950
+                border-r border-zinc-200/80 dark:border-zinc-900
                 overflow-hidden shadow-2xl
               "
               aria-label="Sidebar navigation"
@@ -289,8 +291,8 @@ export function Sidebar() {
       transition={{ type: 'spring', damping: 25, stiffness: 250 }}
       className="
         relative flex flex-col h-full flex-shrink-0
-        bg-[#f8f8f8] dark:bg-[#1a1a1a]
-        border-r border-[#efefef] dark:border-[#333]
+        bg-zinc-50 dark:bg-zinc-950
+        border-r border-zinc-200/80 dark:border-zinc-900
         overflow-hidden
       "
       style={{ width: sidebarWidth }}
