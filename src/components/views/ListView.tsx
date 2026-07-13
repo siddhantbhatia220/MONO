@@ -107,7 +107,7 @@ export function ListView() {
     <div
       role="list"
       aria-label="Items"
-      className="px-4 pt-2 pb-4 flex flex-col gap-0.5"
+      className="px-0 pt-2 pb-4 flex flex-col gap-0.5"
     >
       <AnimatePresence initial={false} mode="popLayout">
         {items.map((item) => (
