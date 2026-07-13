@@ -155,7 +155,7 @@ export function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="px-2 pb-3 pt-2 border-t border-zinc-200/80 dark:border-zinc-900 flex flex-col gap-0.5">
+      <div className="px-2 pb-16 pt-2 border-t border-zinc-200/80 dark:border-zinc-900 flex flex-col gap-0.5">
         <Tooltip content="Settings" shortcut="," position="right">
           <button
             onClick={() => openModal('settings')}
@@ -227,10 +227,10 @@ export function Sidebar() {
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.4 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={toggleSidebar}
-              className="fixed inset-0 bg-black z-[390]"
+              className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[390]"
               aria-hidden="true"
             />
 
