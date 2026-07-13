@@ -12,10 +12,12 @@
 
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import dynamic from 'next/dynamic'
 import { Sidebar } from '@/components/layout/Sidebar'
-import { CommandPalette } from '@/components/layout/CommandPalette'
 import { ListView } from '@/components/views/ListView'
-import { QuickCapture } from '@/components/items/QuickCapture'
+
+const CommandPalette = dynamic(() => import('@/components/layout/CommandPalette').then(mod => mod.CommandPalette), { ssr: false })
+const QuickCapture = dynamic(() => import('@/components/items/QuickCapture').then(mod => mod.QuickCapture), { ssr: false })
 import { Modal } from '@/components/ui/Modal'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -144,7 +146,7 @@ function CreateWorkspaceModal() {
             Cancel
           </Button>
           <Button
-            variant="primary"
+            variant="default"
             onClick={handleCreate}
             loading={loading}
             disabled={!name.trim()}
@@ -368,7 +370,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               className="mt-8 flex flex-col gap-3 justify-center px-4"
             >
               <Button
-                variant="primary"
+                variant="default"
                 size="lg"
                 onClick={() => setStep(1)}
               >
@@ -388,7 +390,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
                 { icon: '⌨', label: 'Keyboard-Driven Flow', desc: 'Execute commands and find everything in milliseconds with the ⌘K palette.' },
                 { icon: '∞', label: 'Adaptive & Flexible OS', desc: 'Unifies tasks, notes, habits, and goals in a system that adapts to your thinking.' },
               ].map((f) => (
-                <div key={f.label} className="flex items-start gap-4 p-4 bg-zinc-50/80 dark:bg-zinc-900/30 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-150">
+                <div key={f.label} className="flex items-start gap-4 p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-500 transition-all duration-150">
                   <div className="text-2xl flex-shrink-0 mt-0.5">{f.icon}</div>
                   <div>
                     <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-200 tracking-tight">{f.label}</p>
@@ -494,7 +496,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
                 ← Back
               </Button>
               <Button
-                variant="primary"
+                variant="default"
                 size="lg"
                 onClick={handleCreateWorkspace}
                 loading={loading}
@@ -581,10 +583,12 @@ function AppShell() {
           </div>
         </div>
 
-        {/* Floating Quick Capture */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-t from-[#fafafa] via-[#fafafa]/95 to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0f]/95 dark:to-transparent pt-12 pb-4 md:pb-8">
-          <div className="max-w-3xl mx-auto w-full px-4 md:px-8 pointer-events-auto">
-            <QuickCapture />
+        {/* Fixed Native-like Quick Capture Bar */}
+        <div className="absolute bottom-0 left-0 right-0 z-10">
+          <div className="border-t border-zinc-200 dark:border-zinc-800/80 bg-[#f8f8f8]/80 dark:bg-[#0f0f0f]/80 backdrop-blur-2xl pt-2 pb-4 md:pb-6">
+            <div className="max-w-3xl mx-auto w-full px-4 md:px-8">
+              <QuickCapture />
+            </div>
           </div>
         </div>
       </main>
