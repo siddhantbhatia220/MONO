@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={id}
-            className="text-xs font-medium tracking-wide text-[#444] dark:text-[#bbbbbb] uppercase"
+            className="text-xs font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 uppercase"
           >
             {label}
           </label>
@@ -61,7 +61,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative flex items-center">
           {leftIcon && (
-            <span className="absolute left-3 text-[#999] pointer-events-none" aria-hidden="true">
+            <span className="absolute left-3 text-zinc-400 dark:text-zinc-500 pointer-events-none" aria-hidden="true">
               {leftIcon}
             </span>
           )}
@@ -75,18 +75,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               [error ? errorId : '', hint ? hintId : ''].filter(Boolean).join(' ') || undefined
             }
             className={`
-              w-full rounded-lg border bg-white text-[#222]
-              placeholder:text-[#bbbbbb]
+              w-full rounded-lg border bg-white text-zinc-800
+              placeholder:text-zinc-400
               transition-all duration-150
-              focus:outline-none focus:ring-2 focus:ring-black focus:border-black
+              focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400
               ${error
-                ? 'border-[#444] bg-[#f8f8f8]'
-                : 'border-[#dddddd] hover:border-[#bbbbbb]'
+                ? 'border-zinc-500 bg-zinc-50'
+                : 'border-zinc-200 hover:border-zinc-400'
               }
-              dark:bg-[#333] dark:text-white dark:border-[#555]
-              dark:placeholder:text-[#666]
-              dark:focus:ring-white dark:focus:border-white
-              dark:hover:border-[#777]
+              dark:bg-zinc-950 dark:text-zinc-200 dark:border-zinc-800
+              dark:placeholder:text-zinc-600
+              dark:focus:ring-zinc-500 dark:focus:border-zinc-500
+              dark:hover:border-zinc-600
               disabled:opacity-50 disabled:cursor-not-allowed
               ${leftIcon ? 'pl-10' : ''}
               ${(rightIcon || (onClear && hasValue)) ? 'pr-10' : ''}
@@ -101,27 +101,27 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               type="button"
               onClick={onClear}
               aria-label="Clear input"
-              className="absolute right-3 text-[#bbbbbb] hover:text-[#444] transition-colors duration-100 dark:hover:text-white"
+              className="absolute right-3 text-zinc-400 hover:text-zinc-800 transition-colors duration-100 dark:hover:text-zinc-200 cursor-pointer"
             >
               <X size={14} />
             </button>
           )}
 
           {rightIcon && !onClear && (
-            <span className="absolute right-3 text-[#999] pointer-events-none" aria-hidden="true">
+            <span className="absolute right-3 text-zinc-400 dark:text-zinc-500 pointer-events-none" aria-hidden="true">
               {rightIcon}
             </span>
           )}
         </div>
 
         {error && (
-          <p id={errorId} role="alert" className="text-xs text-[#444] font-medium dark:text-[#bbbbbb]">
+          <p id={errorId} role="alert" className="text-xs text-zinc-600 font-semibold dark:text-zinc-400">
             {error}
           </p>
         )}
 
         {hint && !error && (
-          <p id={hintId} className="text-xs text-[#999] dark:text-[#666]">
+          <p id={hintId} className="text-xs text-zinc-400 dark:text-zinc-600">
             {hint}
           </p>
         )}
