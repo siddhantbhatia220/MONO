@@ -52,12 +52,12 @@ export function Checkbox({
         onClick={() => !disabled && onChange(!checked)}
         className={`
           relative flex items-center justify-center flex-shrink-0
-          rounded-md border-2 transition-all duration-150
+          rounded border transition-all duration-150
           cursor-pointer focus-visible:outline focus-visible:outline-2
-          focus-visible:outline-offset-2 focus-visible:outline-black
+          focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white
           ${checked
-            ? 'bg-black border-black dark:bg-white dark:border-white'
-            : 'bg-white border-[#dddddd] hover:border-[#999] dark:bg-[#333] dark:border-[#555] dark:hover:border-[#777]'
+            ? 'bg-zinc-900 border-zinc-900 dark:bg-zinc-100 dark:border-zinc-100'
+            : 'bg-white border-zinc-300 hover:border-zinc-400 dark:bg-zinc-950 dark:border-zinc-800 dark:hover:border-zinc-700'
           }
           disabled:opacity-40 disabled:cursor-not-allowed
         `}
@@ -81,7 +81,7 @@ export function Checkbox({
             >
               <motion.path
                 d={checkPath}
-                stroke="white"
+                className="stroke-white dark:stroke-black"
                 strokeWidth={stroke}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -103,7 +103,7 @@ export function Checkbox({
           className={`
             text-sm leading-none cursor-pointer select-none
             transition-all duration-200
-            ${checked ? 'text-[#999] line-through' : 'text-[#222] dark:text-[#efefef]'}
+            ${checked ? 'text-zinc-400 line-through dark:text-zinc-600' : 'text-zinc-800 dark:text-zinc-200'}
             ${disabled ? 'opacity-40 cursor-not-allowed' : ''}
           `}
         >
