@@ -1,17 +1,56 @@
 {
-  "name": "mono-app",
+  "name": "mono-personal-os",
   "version": "0.1.0",
+  "description": "A local-first Personal Operating System that unifies tasks, notes, projects, and collaboration into one elegant, keyboard-first workspace.",
   "private": true,
+  "homepage": "https://github.com/siddhantbhatia220/MONO",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siddhantbhatia220/MONO.git"
+  },
+  "author": {
+    "name": "Siddhant Bhatia",
+    "url": "https://github.com/siddhantbhatia220"
+  },
+  "license": "MIT",
+  "keywords": [
+    "productivity",
+    "personal-os",
+    "workspace",
+    "task-management",
+    "notes",
+    "kanban",
+    "calendar",
+    "typescript",
+    "react",
+    "nextjs",
+    "offline-first",
+    "collaboration",
+    "markdown",
+    "open-source"
+  ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint src --ext .ts,.tsx",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
+    "date-fns": "^4.1.0",
+    "framer-motion": "^12.18.1",
+    "idb": "^8.0.2",
+    "lucide-react": "^0.513.0",
+    "nanoid": "^5.1.5",
     "next": "16.2.10",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,7 +59,12 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "prettier": "^3.5.3",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   }
 }
