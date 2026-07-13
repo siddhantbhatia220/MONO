@@ -13,16 +13,16 @@
   /* --- Color Palette (Monochrome Only) --- */
   --color-white: #ffffff;
   --color-black: #000000;
-  --color-gray-50: #f8f8f8;
-  --color-gray-100: #efefef;
-  --color-gray-200: #dddddd;
-  --color-gray-300: #bbbbbb;
-  --color-gray-400: #999999;
-  --color-gray-500: #777777;
-  --color-gray-600: #555555;
-  --color-gray-700: #444444;
-  --color-gray-800: #333333;
-  --color-gray-900: #222222;
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-300: #d4d4d8;
+  --color-gray-400: #a1a1aa;
+  --color-gray-500: #71717a;
+  --color-gray-600: #52525b;
+  --color-gray-700: #3f3f46;
+  --color-gray-800: #27272a;
+  --color-gray-900: #18181b;
 
   /* --- Semantic Color Roles --- */
   --bg-primary: var(--color-white);
@@ -30,15 +30,15 @@
   --bg-tertiary: var(--color-gray-100);
   --bg-elevated: var(--color-white);
 
-  --text-primary: var(--color-gray-900);
+  --text-primary: var(--color-black);
   --text-secondary: var(--color-gray-600);
   --text-tertiary: var(--color-gray-400);
   --text-disabled: var(--color-gray-300);
   --text-inverse: var(--color-white);
 
-  --border-subtle: var(--color-gray-100);
-  --border-default: var(--color-gray-200);
-  --border-strong: var(--color-gray-400);
+  --border-subtle: var(--color-gray-50);
+  --border-default: var(--color-gray-100);
+  --border-strong: var(--color-gray-300);
 
   --interactive-default: var(--color-black);
   --interactive-hover: var(--color-gray-800);
@@ -144,30 +144,30 @@
    (Inverted monochrome — equally elegant)
    ============================ */
 [data-theme='dark'] {
-  --bg-primary: var(--color-gray-900);
-  --bg-secondary: var(--color-gray-800);
-  --bg-tertiary: var(--color-gray-700);
-  --bg-elevated: var(--color-gray-800);
+  --bg-primary: #09090b;
+  --bg-secondary: #0f0f11;
+  --bg-tertiary: #18181b;
+  --bg-elevated: #18181b;
 
-  --text-primary: var(--color-gray-50);
-  --text-secondary: var(--color-gray-300);
-  --text-tertiary: var(--color-gray-500);
-  --text-disabled: var(--color-gray-600);
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-disabled: #3f3f46;
   --text-inverse: var(--color-black);
 
-  --border-subtle: var(--color-gray-800);
-  --border-default: var(--color-gray-700);
-  --border-strong: var(--color-gray-500);
+  --border-subtle: #0f0f11;
+  --border-default: #27272a;
+  --border-strong: #3f3f46;
 
   --interactive-default: var(--color-white);
   --interactive-hover: var(--color-gray-100);
   --interactive-active: var(--color-gray-50);
-  --interactive-muted: var(--color-gray-800);
+  --interactive-muted: #18181b;
 
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.35);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.45), 0 10px 10px rgba(0, 0, 0, 0.35);
-  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.6);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.6), 0 4px 6px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.7), 0 10px 10px rgba(0, 0, 0, 0.6);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.85);
 }
