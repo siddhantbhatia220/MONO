@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
 import { Button } from './Button'
 
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
+
 interface ModalProps {
   open: boolean
   onClose: () => void
@@ -38,6 +40,7 @@ export function Modal({
 }: ModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null)
   const contentRef = useRef<HTMLDivElement>(null)
+  const isMobile = useIsMobile()
 
   // Escape key to close
   useEffect(() => {
@@ -79,7 +82,7 @@ export function Modal({
           aria-modal="true"
           aria-labelledby={title ? 'modal-title' : undefined}
           aria-describedby={description ? 'modal-description' : undefined}
-          className="fixed inset-0 z-[400] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[400] flex items-end md:items-center justify-center p-0 md:p-4"
         >
           {/* Backdrop */}
           <motion.div
@@ -96,16 +99,16 @@ export function Modal({
           {/* Content */}
           <motion.div
             ref={contentRef}
-            initial={{ opacity: 0, scale: 0.95, y: 8 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.97, y: 4 }}
-            transition={{ type: 'spring', duration: 0.35, bounce: 0.2 }}
+            initial={isMobile ? { y: '100%' } : { opacity: 0, scale: 0.95, y: 8 }}
+            animate={isMobile ? { y: 0 } : { opacity: 1, scale: 1, y: 0 }}
+            exit={isMobile ? { y: '100%' } : { opacity: 0, scale: 0.97, y: 4 }}
+            transition={{ type: 'spring', damping: 28, stiffness: 280, bounce: 0.1 }}
             className={`
               relative z-10 w-full ${sizeStyles[size]}
               bg-white dark:bg-[#222]
-              border border-[#efefef] dark:border-[#444]
-              rounded-2xl shadow-2xl
-              p-6
+              border-t md:border border-[#efefef] dark:border-[#444]
+              rounded-t-2xl md:rounded-2xl shadow-2xl
+              p-6 max-h-[85vh] overflow-y-auto pb-safe-bottom
             `}
           >
             {/* Header */}
