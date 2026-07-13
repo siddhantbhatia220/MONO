@@ -116,8 +116,8 @@ function CreateWorkspaceModal() {
                   w-9 h-9 rounded-lg text-lg flex items-center justify-center
                   border-2 transition-all duration-100
                   ${icon === emoji
-                    ? 'border-black dark:border-white bg-[#f8f8f8] dark:bg-[#333]'
-                    : 'border-transparent hover:border-[#efefef] dark:hover:border-[#444]'
+                    ? 'border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-900'
+                    : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800'
                   }
                 `}
                 aria-label={`Select ${emoji} as workspace icon`}
@@ -199,14 +199,14 @@ function ShortcutsModal() {
                 return (
                   <div
                     key={`${s.key}-${s.modifier}`}
-                    className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-[#f8f8f8] dark:hover:bg-[#2a2a2a] transition-colors duration-100"
+                    className="flex items-center justify-between py-1.5 px-2 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors duration-100"
                   >
-                    <span className="text-sm text-[#444] dark:text-[#bbbbbb]">{s.description}</span>
+                    <span className="text-sm text-zinc-700 dark:text-zinc-300">{s.description}</span>
                     <kbd className="
                       px-2 py-1 text-xs font-mono
-                      bg-[#efefef] dark:bg-[#333]
-                      text-[#555] dark:text-[#999]
-                      border border-[#dddddd] dark:border-[#444]
+                      bg-zinc-100 dark:bg-zinc-900
+                      text-zinc-600 dark:text-zinc-450
+                      border border-zinc-200 dark:border-zinc-800
                       rounded-md
                     ">
                       {mod}{key}
@@ -233,7 +233,7 @@ function WorkspaceHeader() {
   if (!activeWorkspace) return null
 
   return (
-    <div className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-[#efefef] dark:border-[#333]">
+    <div className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-zinc-200/80 dark:border-zinc-900 bg-white dark:bg-[#09090b]">
       <div className="flex items-center gap-3">
         {isMobile && (
           <Button
@@ -320,9 +320,9 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
   }
 
   return (
-    <main className="min-h-dvh bg-white dark:bg-[#111] flex items-center justify-center p-8">
+    <main className="min-h-dvh bg-zinc-50 dark:bg-[#09090b] flex items-center justify-center p-4 sm:p-8">
       <motion.div
-        className="w-full max-w-lg"
+        className="w-full max-w-lg bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xl dark:shadow-black/50"
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
@@ -348,13 +348,13 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h1 className="text-5xl font-black tracking-tighter text-[#111] dark:text-white mb-3">
+              <h1 className="text-4xl sm:text-5xl font-black tracking-tighter text-black dark:text-white mb-3">
                 MONO
               </h1>
-              <p className="text-lg text-[#777] dark:text-[#555] font-normal mb-2">
+              <p className="text-base sm:text-lg text-zinc-500 dark:text-zinc-400 font-normal mb-2">
                 One place. Every workflow.
               </p>
-              <p className="text-sm text-[#bbbbbb] dark:text-[#444] max-w-sm mx-auto leading-relaxed">
+              <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 max-w-sm mx-auto leading-relaxed px-2">
                 A local-first workspace for tasks, notes, projects, and everything in between.
                 Keyboard-first. Distraction-free. Yours.
               </p>
@@ -364,7 +364,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
+              className="mt-8 flex flex-col gap-3 justify-center px-4"
             >
               <Button
                 variant="primary"
@@ -380,18 +380,18 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mt-10 md:mt-14"
+              className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-10"
             >
               {[
                 { icon: '⚡', label: 'Instant', desc: 'Works offline. No loading.' },
                 { icon: '⌨', label: 'Keyboard-first', desc: 'Everything via ⌘K' },
                 { icon: '∞', label: 'Flexible', desc: 'Adapts to your workflow' },
               ].map((f) => (
-                <div key={f.label} className="flex md:flex-col items-center md:items-center text-left md:text-center gap-3 md:gap-1 p-3 bg-neutral-50 dark:bg-neutral-900 md:bg-transparent dark:md:bg-transparent rounded-xl border border-neutral-100 dark:border-neutral-800 md:border-none">
+                <div key={f.label} className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-3 sm:gap-1.5 p-3.5 bg-zinc-50 dark:bg-zinc-900/50 sm:bg-transparent dark:sm:bg-transparent rounded-xl border border-zinc-100 dark:border-zinc-800/80 sm:border-none">
                   <div className="text-2xl flex-shrink-0">{f.icon}</div>
                   <div>
-                    <p className="text-xs font-semibold text-[#444] dark:text-[#bbbbbb] tracking-tight">{f.label}</p>
-                    <p className="text-[11px] text-[#bbbbbb] dark:text-[#555] mt-0.5">{f.desc}</p>
+                    <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 tracking-tight">{f.label}</p>
+                    <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-0.5">{f.desc}</p>
                   </div>
                 </div>
               ))}
@@ -401,11 +401,11 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 
         {step === 1 && (
           <div>
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold tracking-tight text-[#111] dark:text-white mb-2">
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-black dark:text-white mb-2">
                 Choose a template
               </h2>
-              <p className="text-[#777] dark:text-[#555] text-sm">
+              <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm">
                 Pick a starting point. You can customize everything later.
               </p>
             </div>
@@ -420,18 +420,18 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
                     setStep(2)
                   }}
                   className="
-                    p-4 rounded-xl border-2 border-[#efefef] dark:border-[#333] text-left
-                    hover:border-[#bbbbbb] dark:hover:border-[#555]
-                    hover:bg-[#f8f8f8] dark:hover:bg-[#1a1a1a]
+                    p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-left
+                    hover:border-zinc-400 dark:hover:border-zinc-650
+                    hover:bg-zinc-50 dark:hover:bg-zinc-900/50
                     transition-all duration-150
-                    group
+                    group cursor-pointer
                   "
                 >
                   <span className="text-2xl block mb-2">{t.icon}</span>
-                  <p className="font-semibold text-[#222] dark:text-[#efefef] text-sm tracking-tight group-hover:text-black dark:group-hover:text-white transition-colors">
+                  <p className="font-semibold text-zinc-800 dark:text-zinc-200 text-sm tracking-tight group-hover:text-black dark:group-hover:text-white transition-colors">
                     {t.name}
                   </p>
-                  <p className="text-xs text-[#999] dark:text-[#555] mt-1">{t.description}</p>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 leading-relaxed">{t.description}</p>
                 </button>
               ))}
             </div>
@@ -440,7 +440,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               variant="ghost"
               size="sm"
               onClick={() => setStep(0)}
-              className="mt-4"
+              className="mt-6"
             >
               ← Back
             </Button>
@@ -449,26 +449,26 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 
         {step === 2 && (
           <div>
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold tracking-tight text-[#111] dark:text-white mb-2">
+            <div className="mb-6">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-black dark:text-white mb-2">
                 Name your workspace
               </h2>
-              <p className="text-[#777] dark:text-[#555] text-sm">
+              <p className="text-zinc-500 dark:text-zinc-400 text-xs sm:text-sm">
                 Give it a name that reflects what lives here.
               </p>
             </div>
 
-            <div className="flex gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-6">
               {ICONS.map((emoji) => (
                 <button
                   key={emoji}
                   onClick={() => setSelectedIcon(emoji)}
                   className={`
-                    w-10 h-10 rounded-xl text-xl flex items-center justify-center border-2
-                    transition-all duration-100
+                    w-10 h-10 rounded-xl text-xl flex items-center justify-center border
+                    transition-all duration-100 cursor-pointer
                     ${selectedIcon === emoji
-                      ? 'border-black dark:border-white bg-[#f8f8f8] dark:bg-[#333]'
-                      : 'border-transparent hover:bg-[#f8f8f8] dark:hover:bg-[#333]'
+                      ? 'border-black dark:border-white bg-zinc-50 dark:bg-zinc-900/50'
+                      : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700'
                     }
                   `}
                   aria-label={`Choose ${emoji}`}
