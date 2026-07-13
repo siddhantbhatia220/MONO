@@ -14,6 +14,7 @@ import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import { Priority, ItemType } from '@/lib/types/item'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 const PRIORITY_MAP: Record<string, Priority> = {
   '!low': Priority.Low,
@@ -125,6 +126,7 @@ export function QuickCapture() {
   const { tags, priority } = parseQuickInput(value)
   const hasTags = tags.length > 0
   const hasPriority = priority !== Priority.None
+  const isMobile = useIsMobile()
 
   return (
     <div className="px-4 pb-4 pt-2">
@@ -137,10 +139,10 @@ export function QuickCapture() {
         }}
         transition={{ duration: 0.2 }}
         className="
-          flex items-center gap-3
+          flex items-center gap-2 md:gap-3
           bg-white dark:bg-[#222]
           border border-[#efefef] dark:border-[#333]
-          rounded-xl px-4 py-3
+          rounded-xl px-3 md:px-4 py-2.5 md:py-3
         "
       >
         {/* Plus icon */}
@@ -153,16 +155,17 @@ export function QuickCapture() {
 
         <input
           ref={inputRef}
+          id="quick-capture-input"
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          placeholder="Add an item... #tag !priority"
+          placeholder={isMobile ? "Add item..." : "Add an item... #tag !priority"}
           className="
             flex-1 bg-transparent text-sm text-[#222] dark:text-[#efefef]
             placeholder:text-[#cccccc] dark:placeholder:text-[#555]
-            outline-none
+            outline-none min-w-0
           "
           aria-label="Quick capture — press Enter to create"
         />
@@ -176,7 +179,7 @@ export function QuickCapture() {
               exit={{ opacity: 0, scale: 0.8 }}
               className="flex items-center gap-1 flex-shrink-0"
             >
-              {tags.slice(0, 2).map((tag) => (
+              {tags.slice(0, isMobile ? 1 : 2).map((tag) => (
                 <span
                   key={tag}
                   className="
@@ -189,6 +192,9 @@ export function QuickCapture() {
                   {tag}
                 </span>
               ))}
+              {isMobile && tags.length > 1 && (
+                <span className="text-[10px] text-[#cccccc] font-medium">+{tags.length - 1}</span>
+              )}
             </motion.div>
           )}
 
@@ -205,7 +211,7 @@ export function QuickCapture() {
 
         {/* Hint */}
         <AnimatePresence>
-          {focused && !value && (
+          {focused && !value && !isMobile && (
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -227,7 +233,7 @@ export function QuickCapture() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-3 px-1 pt-2 overflow-hidden"
+            className="flex items-center gap-3 px-1 pt-2 overflow-hidden flex-wrap"
           >
             {[
               { icon: <Hash size={10} />, text: '#tag' },
