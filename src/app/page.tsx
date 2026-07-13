@@ -262,13 +262,14 @@ function WorkspaceHeader() {
       <div className="flex items-center gap-2">
         {!isMobile ? (
           <Button
-            variant="ghost"
+            variant="secondary"
             size="sm"
             onClick={() => openModal('create-workspace')}
             aria-label="Add workspace"
-            className="text-xs md:text-sm px-3 py-1.5"
+            className="flex items-center gap-1.5 border border-zinc-200 dark:border-zinc-800 bg-transparent hover:bg-zinc-50 dark:hover:bg-zinc-900 text-xs text-zinc-700 dark:text-zinc-400 font-semibold px-2.5 py-1.5 rounded-lg"
           >
-            + Workspace
+            <Plus size={13} />
+            <span>Workspace</span>
           </Button>
         ) : (
           <Button
@@ -375,23 +376,23 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
               </Button>
             </motion.div>
 
-            {/* Feature grid */}
+            {/* Features List */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-10"
+              className="flex flex-col gap-3 mt-10 text-left"
             >
               {[
-                { icon: '⚡', label: 'Instant', desc: 'Works offline. No loading.' },
-                { icon: '⌨', label: 'Keyboard-first', desc: 'Everything via ⌘K' },
-                { icon: '∞', label: 'Flexible', desc: 'Adapts to your workflow' },
+                { icon: '⚡', label: 'Instant & Offline-First', desc: 'Works offline with zero loading lag. Your data is stored securely on device.' },
+                { icon: '⌨', label: 'Keyboard-Driven Flow', desc: 'Execute commands and find everything in milliseconds with the ⌘K palette.' },
+                { icon: '∞', label: 'Adaptive & Flexible OS', desc: 'Unifies tasks, notes, habits, and goals in a system that adapts to your thinking.' },
               ].map((f) => (
-                <div key={f.label} className="flex sm:flex-col items-center sm:items-center text-left sm:text-center gap-3 sm:gap-1.5 p-3.5 bg-zinc-50 dark:bg-zinc-900/50 sm:bg-transparent dark:sm:bg-transparent rounded-xl border border-zinc-100 dark:border-zinc-800/80 sm:border-none">
-                  <div className="text-2xl flex-shrink-0">{f.icon}</div>
+                <div key={f.label} className="flex items-start gap-4 p-4 bg-zinc-50/80 dark:bg-zinc-900/30 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-150">
+                  <div className="text-2xl flex-shrink-0 mt-0.5">{f.icon}</div>
                   <div>
-                    <p className="text-xs font-semibold text-zinc-800 dark:text-zinc-200 tracking-tight">{f.label}</p>
-                    <p className="text-[10px] text-zinc-400 dark:text-zinc-500 mt-0.5">{f.desc}</p>
+                    <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-200 tracking-tight">{f.label}</p>
+                    <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">{f.desc}</p>
                   </div>
                 </div>
               ))}
@@ -581,8 +582,8 @@ function AppShell() {
         </div>
 
         {/* Floating Quick Capture */}
-        <div className="absolute bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-t from-[#fafafa] via-[#fafafa]/90 to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0f]/90 dark:to-transparent pt-8 pb-safe-bottom">
-          <div className="max-w-3xl mx-auto w-full px-4 pointer-events-auto">
+        <div className="absolute bottom-0 left-0 right-0 pointer-events-none bg-gradient-to-t from-[#fafafa] via-[#fafafa]/95 to-transparent dark:from-[#0f0f0f] dark:via-[#0f0f0f]/95 dark:to-transparent pt-12 pb-4 md:pb-8">
+          <div className="max-w-3xl mx-auto w-full px-4 md:px-8 pointer-events-auto">
             <QuickCapture />
           </div>
         </div>
