@@ -308,7 +308,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
   }
 
   return (
-    <div className="min-h-dvh bg-white dark:bg-[#111] flex items-center justify-center p-8">
+    <main className="min-h-dvh bg-white dark:bg-[#111] flex items-center justify-center p-8">
       <motion.div
         className="w-full max-w-lg"
         initial={{ opacity: 0, y: 16 }}
@@ -492,7 +492,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
           </div>
         )}
       </motion.div>
-    </div>
+    </main>
   )
 }
 
@@ -552,12 +552,12 @@ function AppShell() {
   }, [openCommandPalette, toggleSidebar, openModal])
 
   return (
-    <div className="app-shell flex h-dvh overflow-hidden" role="main">
+    <div className="app-shell flex h-dvh overflow-hidden">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main content */}
-      <div className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#111]">
+      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#111]">
         <WorkspaceHeader />
 
         <div className="flex-1 overflow-y-auto px-4 md:px-8 py-4">
@@ -572,7 +572,7 @@ function AppShell() {
             <QuickCapture />
           </div>
         </div>
-      </div>
+      </main>
     </div>
   )
 }
