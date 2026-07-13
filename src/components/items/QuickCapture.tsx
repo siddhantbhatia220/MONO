@@ -129,7 +129,7 @@ export function QuickCapture() {
   const isMobile = useIsMobile()
 
   return (
-    <div className="px-4 pb-4 pt-2">
+    <div className="pb-4 pt-2">
       <motion.form
         onSubmit={handleSubmit}
         animate={{
