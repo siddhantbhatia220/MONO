@@ -81,10 +81,10 @@ export function ItemRow({
         group relative flex items-start gap-2 py-2 px-2.5 rounded-lg
         cursor-pointer transition-colors duration-100
         ${isSelected
-          ? 'bg-[#f8f8f8] dark:bg-[#2a2a2a]'
-          : 'hover:bg-[#f8f8f8] dark:hover:bg-[#2a2a2a]'
+          ? 'bg-zinc-100 dark:bg-zinc-900'
+          : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
         }
-        ${isCompleted ? 'opacity-50' : ''}
+        ${isCompleted ? 'opacity-40' : ''}
       `}
       style={{ paddingLeft: `${(depth * 20) + 8}px` }}
       onMouseEnter={() => setHovered(true)}
@@ -99,7 +99,7 @@ export function ItemRow({
             e.stopPropagation()
             setExpanded(!expanded)
           }}
-          className="mt-1 text-[#bbbbbb] hover:text-[#444] dark:hover:text-white transition-colors flex-shrink-0 p-1 -m-1"
+          className="mt-1 text-zinc-400 dark:text-zinc-600 hover:text-zinc-800 dark:hover:text-zinc-200 transition-colors flex-shrink-0 p-1 -m-1"
           aria-label={expanded ? 'Collapse' : 'Expand'}
           aria-expanded={expanded}
         >
@@ -130,8 +130,8 @@ export function ItemRow({
               className={`
                 text-sm leading-snug font-medium break-words
                 ${isCompleted
-                  ? 'line-through text-[#bbbbbb] dark:text-[#555]'
-                  : 'text-[#222] dark:text-[#efefef]'
+                  ? 'line-through text-zinc-400 dark:text-zinc-650'
+                  : 'text-zinc-800 dark:text-zinc-200'
                 }
               `}
             >
@@ -151,7 +151,7 @@ export function ItemRow({
                       flex items-center gap-0.5 text-[10px]
                       ${overdue
                         ? 'text-black dark:text-white font-semibold'
-                        : 'text-[#999] dark:text-[#555]'
+                        : 'text-zinc-400 dark:text-zinc-500'
                       }
                     `}
                   >
@@ -161,7 +161,7 @@ export function ItemRow({
                 )}
 
                 {item.tags.length > 0 && (
-                  <span className="flex items-center gap-0.5 text-[10px] text-[#999] dark:text-[#555]">
+                  <span className="flex items-center gap-0.5 text-[10px] text-zinc-400 dark:text-zinc-500">
                     <Tag size={10} />
                     {item.tags.slice(0, 2).join(', ')}
                     {item.tags.length > 2 && ` +${item.tags.length - 2}`}
@@ -177,8 +177,8 @@ export function ItemRow({
               className={`
                 text-sm leading-snug flex-1 min-w-0
                 ${isCompleted
-                  ? 'line-through text-[#bbbbbb] dark:text-[#555]'
-                  : 'text-[#222] dark:text-[#efefef]'
+                  ? 'line-through text-zinc-400 dark:text-zinc-600'
+                  : 'text-zinc-800 dark:text-zinc-200'
                 }
               `}
             >
@@ -196,8 +196,8 @@ export function ItemRow({
                 className={`
                   flex items-center gap-1 text-xs flex-shrink-0
                   ${overdue
-                    ? 'text-[#444] dark:text-[#bbbbbb] font-medium'
-                    : 'text-[#999] dark:text-[#555]'
+                    ? 'text-zinc-800 dark:text-zinc-200 font-medium'
+                    : 'text-zinc-400 dark:text-zinc-500'
                   }
                 `}
               >
@@ -208,7 +208,7 @@ export function ItemRow({
 
             {/* Tags */}
             {item.tags.length > 0 && (
-              <span className="flex items-center gap-1 text-xs text-[#bbbbbb] dark:text-[#555] flex-shrink-0">
+              <span className="flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0">
                 <Tag size={10} />
                 {item.tags.slice(0, 2).join(', ')}
                 {item.tags.length > 2 && ` +${item.tags.length - 2}`}
@@ -219,7 +219,7 @@ export function ItemRow({
 
         {/* Notes preview */}
         {item.notes && !isCompleted && (
-          <p className="text-xs text-[#bbbbbb] dark:text-[#555] mt-1 truncate">
+          <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 truncate">
             {item.notes}
           </p>
         )}
@@ -242,11 +242,11 @@ export function ItemRow({
               }}
               aria-label={`Delete "${item.title}"`}
               className="
-                p-2 md:p-1.5 rounded-md text-[#cccccc] dark:text-[#555]
-                hover:text-[#444] hover:bg-[#efefef]
-                dark:hover:text-[#efefef] dark:hover:bg-[#333]
+                p-2 md:p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
+                hover:text-zinc-900 hover:bg-zinc-100
+                dark:hover:text-zinc-200 dark:hover:bg-zinc-800
                 transition-colors duration-100
-                focus-visible:outline-black dark:focus-visible:outline-white
+                focus-visible:outline-black dark:focus-visible:outline-white cursor-pointer
               "
             >
               <Trash2 size={14} />
@@ -258,11 +258,11 @@ export function ItemRow({
               }}
               aria-label={`Open "${item.title}"`}
               className="
-                p-2 md:p-1.5 rounded-md text-[#cccccc] dark:text-[#555]
-                hover:text-[#444] hover:bg-[#efefef]
-                dark:hover:text-[#efefef] dark:hover:bg-[#333]
+                p-2 md:p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
+                hover:text-zinc-900 hover:bg-zinc-100
+                dark:hover:text-zinc-200 dark:hover:bg-zinc-800
                 transition-colors duration-100
-                focus-visible:outline-black dark:focus-visible:outline-white
+                focus-visible:outline-black dark:focus-visible:outline-white cursor-pointer
               "
             >
               <MoreHorizontal size={14} />
