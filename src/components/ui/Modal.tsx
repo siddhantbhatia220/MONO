@@ -105,8 +105,8 @@ export function Modal({
             transition={{ type: 'spring', damping: 28, stiffness: 280, bounce: 0.1 }}
             className={`
               relative z-10 w-full ${sizeStyles[size]}
-              bg-white dark:bg-[#222]
-              border-t md:border border-[#efefef] dark:border-[#444]
+              bg-white dark:bg-[#121214]
+              border-t md:border border-zinc-200 dark:border-zinc-800
               rounded-t-2xl md:rounded-2xl shadow-2xl
               p-6 max-h-[85vh] overflow-y-auto pb-safe-bottom
             `}
@@ -118,7 +118,7 @@ export function Modal({
                   {title && (
                     <h2
                       id="modal-title"
-                      className="text-lg font-semibold tracking-tight text-[#111] dark:text-white"
+                      className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50"
                     >
                       {title}
                     </h2>
@@ -126,7 +126,7 @@ export function Modal({
                   {description && (
                     <p
                       id="modal-description"
-                      className="text-sm text-[#777] dark:text-[#999] mt-1"
+                      className="text-sm text-zinc-500 dark:text-zinc-400 mt-1"
                     >
                       {description}
                     </p>
