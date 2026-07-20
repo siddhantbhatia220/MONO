@@ -18,6 +18,8 @@ interface CheckboxProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
   id?: string
+  'aria-label'?: string
+  'aria-labelledby'?: string
 }
 
 const sizeMap = {
@@ -36,6 +38,8 @@ export function Checkbox({
   size = 'md',
   className = '',
   id: propId,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledBy,
 }: CheckboxProps) {
   const generatedId = useId()
   const id = propId ?? generatedId
@@ -48,6 +52,8 @@ export function Checkbox({
         role="checkbox"
         aria-checked={checked}
         aria-disabled={disabled}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledBy}
         disabled={disabled}
         onClick={() => !disabled && onChange(!checked)}
         className={`
