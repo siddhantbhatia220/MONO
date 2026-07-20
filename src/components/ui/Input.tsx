@@ -75,19 +75,12 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               [error ? errorId : '', hint ? hintId : ''].filter(Boolean).join(' ') || undefined
             }
             className={`
-              w-full rounded-lg border bg-white text-zinc-800
-              placeholder:text-zinc-400
-              transition-all duration-150
-              focus:outline-none focus:ring-1 focus:ring-zinc-400 focus:border-zinc-400
-              ${error
-                ? 'border-zinc-500 bg-zinc-50'
-                : 'border-zinc-200 hover:border-zinc-400'
-              }
-              dark:bg-zinc-950 dark:text-zinc-200 dark:border-zinc-800
-              dark:placeholder:text-zinc-600
-              dark:focus:ring-zinc-500 dark:focus:border-zinc-500
-              dark:hover:border-zinc-600
-              disabled:opacity-50 disabled:cursor-not-allowed
+              flex w-full rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-base shadow-sm
+              transition-colors placeholder:text-zinc-500
+              focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950
+              disabled:cursor-not-allowed disabled:opacity-50 md:text-sm
+              dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300
+              ${error ? 'border-red-500 focus-visible:ring-red-500 dark:border-red-900 dark:focus-visible:ring-red-900' : ''}
               ${leftIcon ? 'pl-10' : ''}
               ${(rightIcon || (onClear && hasValue)) ? 'pr-10' : ''}
               ${sizeStyles[size]}
