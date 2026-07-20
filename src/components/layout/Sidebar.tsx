@@ -162,7 +162,7 @@ export function Sidebar() {
             transition={{ duration: 0.2 }}
           >
             <div className="flex items-center justify-between px-3 mb-2">
-              <span className="text-[11px] font-semibold tracking-wider uppercase text-zinc-400 dark:text-zinc-600">
+              <span className="text-[11px] font-semibold tracking-wider uppercase text-zinc-500 dark:text-zinc-400">
                 Projects
               </span>
               <Tooltip content="New project" position="right">
@@ -179,7 +179,7 @@ export function Sidebar() {
             </div>
 
             {projects.length === 0 ? (
-              <p className="px-3 text-[12px] text-zinc-400 dark:text-zinc-650 py-2">
+              <p className="px-3 text-[12px] text-zinc-500 dark:text-zinc-450 py-2">
                 No projects yet
               </p>
             ) : (
