@@ -95,8 +95,7 @@ export function ItemRow({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       role="listitem"
-      aria-label={item.title}
-    >,StartLine:90,TargetContent:
+    >
       {/* Expand/collapse for items with children */}
       {hasChildren ? (
         <button
