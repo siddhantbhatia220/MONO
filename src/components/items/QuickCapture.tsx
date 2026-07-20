@@ -2,13 +2,13 @@
 
 /**
  * MONO — Quick Capture Bar
- * Always-visible bottom input for instant item creation.
+ * Native-like bottom input for instant item creation.
  * Supports #tag, !priority, and @date inline syntax.
  */
 
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Hash, AlertCircle, Calendar } from 'lucide-react'
+import { Plus, Hash, AlertCircle, Calendar, CornerDownLeft } from 'lucide-react'
 import { createItem } from '@/lib/db/items'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
@@ -129,29 +129,32 @@ export function QuickCapture() {
   const isMobile = useIsMobile()
 
   return (
-    <div className="pb-6 pt-2">
-      <motion.form
-        onSubmit={handleSubmit}
-        animate={{
-          scale: focused ? 1.015 : 1,
-        }}
-        transition={{ duration: 0.15 }}
+    <form onSubmit={handleSubmit} className="flex flex-col gap-1.5">
+      <div
         className={`
-          flex items-center gap-2 md:gap-3
-          bg-white/90 dark:bg-[#121214]/90 backdrop-blur-md
-          border border-zinc-200 dark:border-zinc-800
-          ${focused ? 'border-zinc-400 dark:border-zinc-500' : ''}
-          rounded-xl px-3 md:px-4 py-2.5 md:py-3
-          shadow-lg shadow-zinc-200/20 dark:shadow-black/50
-          transition-all duration-150
+          flex items-center gap-3
+          rounded-xl px-3.5 py-3
+          bg-zinc-100 dark:bg-zinc-900
+          border transition-all duration-150
+          ${focused
+            ? 'border-zinc-400 dark:border-zinc-500 ring-2 ring-zinc-300/50 dark:ring-zinc-600/30'
+            : 'border-zinc-200 dark:border-zinc-800'
+          }
         `}
       >
         {/* Plus icon */}
         <motion.div
-          animate={{ rotate: focused ? 45 : 0, opacity: focused ? 1 : 0.4 }}
-          transition={{ duration: 0.15 }}
+          animate={{ rotate: focused ? 45 : 0 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          className="flex-shrink-0"
         >
-          <Plus size={16} className="text-[#777] dark:text-[#666] flex-shrink-0" aria-hidden="true" />
+          <Plus
+            size={16}
+            className={`transition-colors duration-150 ${
+              focused ? 'text-zinc-700 dark:text-zinc-300' : 'text-zinc-400 dark:text-zinc-600'
+            }`}
+            aria-hidden="true"
+          />
         </motion.div>
 
         <input
@@ -162,11 +165,11 @@ export function QuickCapture() {
           onChange={(e) => setValue(e.target.value)}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          placeholder={isMobile ? "Add item..." : "Add an item... #tag !priority"}
+          placeholder={isMobile ? 'New task...' : 'New task...  #tag  !priority'}
           className="
-            flex-1 bg-transparent text-sm text-zinc-800 dark:text-zinc-200
-            placeholder:text-zinc-400 dark:placeholder:text-zinc-650
-            outline-none min-w-0
+            flex-1 bg-transparent text-[14px] text-zinc-900 dark:text-zinc-100
+            placeholder:text-zinc-400 dark:placeholder:text-zinc-600
+            outline-none min-w-0 font-medium
           "
           aria-label="Quick capture — press Enter to create"
         />
@@ -178,23 +181,25 @@ export function QuickCapture() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              className="flex items-center gap-1 flex-shrink-0"
+              className="flex items-center gap-1.5 flex-shrink-0"
             >
               {tags.slice(0, isMobile ? 1 : 2).map((tag) => (
                 <span
                   key={tag}
                   className="
-                    flex items-center gap-0.5 px-1.5 py-0.5
-                    text-[10px] font-medium text-[#777] dark:text-[#666]
-                    bg-[#f8f8f8] dark:bg-[#333] rounded
+                    flex items-center gap-0.5 px-2 py-0.5
+                    text-[11px] font-semibold text-zinc-500 dark:text-zinc-400
+                    bg-zinc-200 dark:bg-zinc-800 rounded-md
                   "
                 >
-                  <Hash size={8} />
+                  <Hash size={9} />
                   {tag}
                 </span>
               ))}
               {isMobile && tags.length > 1 && (
-                <span className="text-[10px] text-[#cccccc] font-medium">+{tags.length - 1}</span>
+                <span className="text-[11px] text-zinc-400 dark:text-zinc-500 font-semibold">
+                  +{tags.length - 1}
+                </span>
               )}
             </motion.div>
           )}
@@ -204,46 +209,55 @@ export function QuickCapture() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
+              className="flex-shrink-0"
             >
-              <AlertCircle size={14} className="text-[#777] dark:text-[#555] flex-shrink-0" />
+              <AlertCircle size={14} className="text-zinc-500 dark:text-zinc-400" />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Hint */}
+        {/* Enter hint */}
         <AnimatePresence>
-          {focused && !value && !isMobile && (
-            <motion.span
+          {focused && !isMobile && (
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="text-[10px] text-[#cccccc] dark:text-[#555] flex-shrink-0 font-mono"
+              className="flex items-center gap-1 flex-shrink-0"
             >
-              ↵ create
-            </motion.span>
+              <kbd className="
+                inline-flex items-center gap-0.5 px-1.5 py-0.5
+                text-[10px] font-medium text-zinc-400 dark:text-zinc-500
+                bg-zinc-200/70 dark:bg-zinc-800 rounded
+                border border-zinc-300/50 dark:border-zinc-700/50
+              ">
+                <CornerDownLeft size={9} />
+              </kbd>
+            </motion.div>
           )}
         </AnimatePresence>
 
         <button type="submit" className="sr-only">Create item</button>
-      </motion.form>
+      </div>
 
-      {/* Syntax hints */}
+      {/* Syntax hints — only on desktop when focused */}
       <AnimatePresence>
-        {focused && (
+        {focused && !isMobile && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="flex items-center gap-3 px-1 pt-2 overflow-hidden flex-wrap"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.12 }}
+            className="flex items-center gap-4 px-1"
           >
             {[
               { icon: <Hash size={10} />, text: '#tag' },
               { icon: <AlertCircle size={10} />, text: '!priority' },
-              { icon: <Calendar size={10} />, text: '@date (soon)' },
+              { icon: <Calendar size={10} />, text: '@date' },
             ].map((hint) => (
               <span
                 key={hint.text}
-                className="flex items-center gap-1 text-[10px] text-[#cccccc] dark:text-[#555]"
+                className="flex items-center gap-1 text-[10px] font-medium text-zinc-400 dark:text-zinc-600"
               >
                 {hint.icon} {hint.text}
               </span>
@@ -251,6 +265,6 @@ export function QuickCapture() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </form>
   )
 }
