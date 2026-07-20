@@ -3,15 +3,15 @@
 /**
  * MONO — Button Component
  *
- * Accessible, animated button with multiple variants.
- * Every variant is purely monochrome — no exceptions.
+ * Accessible, animated button matching Shadcn UI design specs.
+ * Every variant uses the monochrome (Zinc/Black/White) scale.
  */
 
 import React from 'react'
 import { motion, type HTMLMotionProps } from 'framer-motion'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'destructive'
-type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
+type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'
+type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
 
 interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
   variant?: ButtonVariant
@@ -24,44 +24,44 @@ interface ButtonProps extends Omit<HTMLMotionProps<'button'>, 'children'> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: `
-    bg-black text-white border border-black
-    hover:bg-[#222] active:bg-[#111]
-    dark:bg-white dark:text-black dark:border-white
-    dark:hover:bg-[#efefef] dark:active:bg-[#dddddd]
+  default: `
+    bg-zinc-900 text-zinc-50 shadow hover:bg-zinc-900/90
+    dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90
   `,
   secondary: `
-    bg-white text-black border border-[#dddddd]
-    hover:bg-[#f8f8f8] hover:border-[#bbbbbb] active:bg-[#efefef]
-    dark:bg-[#333] dark:text-white dark:border-[#444]
-    dark:hover:bg-[#444] dark:hover:border-[#555]
+    bg-zinc-100 text-zinc-900 shadow-sm hover:bg-zinc-100/80
+    dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80
+  `,
+  outline: `
+    border border-zinc-200 bg-white shadow-sm hover:bg-zinc-100 hover:text-zinc-900
+    dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50
   `,
   ghost: `
-    bg-transparent text-[#444] border border-transparent
-    hover:bg-[#f8f8f8] hover:text-black active:bg-[#efefef]
-    dark:text-[#bbbbbb] dark:hover:bg-[#333] dark:hover:text-white
+    hover:bg-zinc-100 hover:text-zinc-900
+    dark:hover:bg-zinc-800 dark:hover:text-zinc-50
   `,
   destructive: `
-    bg-white text-black border border-[#dddddd]
-    hover:bg-black hover:text-white hover:border-black
-    active:bg-[#222] active:border-[#222]
-    dark:bg-[#333] dark:text-white dark:border-[#444]
-    dark:hover:bg-white dark:hover:text-black dark:hover:border-white
+    bg-red-500 text-zinc-50 shadow-sm hover:bg-red-500/90
+    dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90
   `,
+  link: `
+    text-zinc-900 underline-offset-4 hover:underline
+    dark:text-zinc-50
+  `
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'py-1.5 px-3 text-xs gap-1.5 rounded-md min-h-[30px]',
-  md: 'py-2 px-4 text-sm gap-2 rounded-lg min-h-[38px]',
-  lg: 'py-3.5 px-8 text-sm font-semibold gap-2.5 rounded-xl min-h-[48px]',
-  icon: 'h-9 w-9 p-0 rounded-lg flex items-center justify-center',
+  default: 'h-9 px-4 py-2 text-sm',
+  sm: 'h-8 rounded-md px-3 text-xs',
+  lg: 'h-10 rounded-md px-8 text-sm font-semibold',
+  icon: 'h-9 w-9 p-0 flex items-center justify-center',
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      variant = 'secondary',
-      size = 'md',
+      variant = 'default',
+      size = 'default',
       loading = false,
       icon,
       iconPosition = 'left',
@@ -78,17 +78,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <motion.button
         ref={ref}
-        whileTap={{ scale: isDisabled ? 1 : 0.97 }}
+        whileTap={{ scale: isDisabled ? 1 : 0.98 }}
         transition={{ duration: 0.1 }}
         disabled={isDisabled}
         aria-disabled={isDisabled}
         aria-busy={loading}
         className={`
-          inline-flex items-center justify-center
-          font-medium tracking-tight
-          transition-colors duration-150
-          cursor-pointer select-none
-          disabled:opacity-40 disabled:cursor-not-allowed
+          inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium
+          transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-zinc-950 dark:focus-visible:ring-zinc-300
+          disabled:pointer-events-none disabled:opacity-50
+          gap-2
           ${variantStyles[variant]}
           ${sizeStyles[size]}
           ${fullWidth ? 'w-full' : ''}
@@ -98,8 +97,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {loading && (
           <svg
-            className="animate-spin"
-            style={{ width: '14px', height: '14px' }}
+            className="animate-spin h-4 w-4"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
