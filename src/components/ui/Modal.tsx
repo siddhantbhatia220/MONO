@@ -78,6 +78,7 @@ export function Modal({
     <AnimatePresence>
       {open && (
         <div
+          key={title ? `modal-${title}` : 'modal'}
           role="dialog"
           aria-modal="true"
           aria-labelledby={title ? 'modal-title' : undefined}
@@ -91,7 +92,7 @@ export function Modal({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             onClick={onClose}
             aria-hidden="true"
           />
@@ -105,9 +106,9 @@ export function Modal({
             transition={{ type: 'spring', damping: 28, stiffness: 280, bounce: 0.1 }}
             className={`
               relative z-10 w-full ${sizeStyles[size]}
-              bg-white dark:bg-[#121214]
-              border-t md:border border-zinc-200 dark:border-zinc-800
-              rounded-t-2xl md:rounded-2xl shadow-2xl
+              bg-white dark:bg-zinc-950
+              border-t sm:border border-zinc-200 dark:border-zinc-800
+              rounded-t-2xl sm:rounded-lg shadow-lg
               p-6 max-h-[85vh] overflow-y-auto pb-safe-bottom
             `}
           >
