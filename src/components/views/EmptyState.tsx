@@ -2,13 +2,14 @@
 
 /**
  * MONO — Empty State Component
- * Hand-crafted monochrome SVG illustrations with animations.
+ * Minimal, premium empty states with subtle icon containers.
  * Used when there's no data to show — makes first impressions memorable.
  */
 
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/Button'
+import { Inbox, FolderOpen, SearchX, Sparkles } from 'lucide-react'
 
 type EmptyStateVariant =
   | 'no-items'
@@ -31,182 +32,30 @@ interface EmptyStateProps {
   className?: string
 }
 
-// Monochrome animated SVG illustrations
-function NoItemsIllustration() {
-  return (
-    <motion.svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      initial="hidden"
-      animate="visible"
-      aria-hidden="true"
-    >
-      {/* Notebook lines */}
-      {[0, 1, 2, 3].map((i) => (
-        <motion.line
-          key={i}
-          x1="30"
-          y1={45 + i * 14}
-          x2="90"
-          y2={45 + i * 14}
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeOpacity="0.4"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ delay: 0.1 + i * 0.08, duration: 0.4 }}
-        />
-      ))}
-      {/* Checkboxes */}
-      {[0, 1, 2].map((i) => (
-        <motion.rect
-          key={i}
-          x="20"
-          y={42 + i * 14}
-          width="8"
-          height="8"
-          rx="2"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeOpacity="0.6"
-          fill="none"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 + i * 0.08, type: 'spring', bounce: 0.4 }}
-        />
-      ))}
-      {/* Pencil */}
-      <motion.g
-        initial={{ opacity: 0, y: 8, rotate: -10 }}
-        animate={{ opacity: 0.8, y: 0, rotate: 0 }}
-        transition={{ delay: 0.5, type: 'spring', bounce: 0.3 }}
-        style={{ transformOrigin: '75px 30px' }}
-      >
-        <rect x="68" y="18" width="8" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M68 38 L72 46 L76 38" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" fill="none" />
-        <line x1="68" y1="25" x2="76" y2="25" stroke="currentColor" strokeWidth="1" />
-      </motion.g>
-    </motion.svg>
-  )
-}
-
-function NoWorkspaceIllustration() {
-  return (
-    <motion.svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      initial="hidden"
-      animate="visible"
-      aria-hidden="true"
-    >
-      {/* Folder outline */}
-      <motion.path
-        d="M20 45 L20 85 Q20 88 23 88 L97 88 Q100 88 100 85 L100 48 Q100 45 97 45 L55 45 L50 38 L23 38 Q20 38 20 41 Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        fill="none"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeOpacity="0.5"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.8, ease: 'easeInOut' }}
-      />
-      {/* Plus symbol */}
-      <motion.g
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 0.7, scale: 1 }}
-        transition={{ delay: 0.6, type: 'spring', bounce: 0.5 }}
-      >
-        <line x1="60" y1="57" x2="60" y2="77" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-        <line x1="50" y1="67" x2="70" y2="67" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-      </motion.g>
-    </motion.svg>
-  )
-}
-
-function NoResultsIllustration() {
-  return (
-    <motion.svg
-      width="120"
-      height="120"
-      viewBox="0 0 120 120"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      {/* Search circle */}
-      <motion.circle
-        cx="52"
-        cy="52"
-        r="24"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeOpacity="0.5"
-        fill="none"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-      />
-      {/* Handle */}
-      <motion.line
-        x1="70"
-        y1="70"
-        x2="90"
-        y2="90"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeOpacity="0.5"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ delay: 0.3, duration: 0.3 }}
-      />
-      {/* X inside */}
-      <motion.g
-        initial={{ opacity: 0, rotate: -45 }}
-        animate={{ opacity: 0.6, rotate: 0 }}
-        transition={{ delay: 0.5, type: 'spring' }}
-        style={{ transformOrigin: '52px 52px' }}
-      >
-        <line x1="44" y1="44" x2="60" y2="60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        <line x1="60" y1="44" x2="44" y2="60" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      </motion.g>
-    </motion.svg>
-  )
-}
-
 const variants: Record<EmptyStateVariant, {
-  illustration: React.ReactNode
+  icon: React.ReactNode
   defaultTitle: string
   defaultDescription: string
 }> = {
   'no-items': {
-    illustration: <NoItemsIllustration />,
-    defaultTitle: 'Nothing here yet',
-    defaultDescription: 'Create your first item with N or the quick capture bar below.',
+    icon: <Inbox size={24} strokeWidth={1.5} />,
+    defaultTitle: 'No items yet',
+    defaultDescription: 'Press N or use the input below to create your first task.',
   },
   'no-workspace': {
-    illustration: <NoWorkspaceIllustration />,
-    defaultTitle: 'Create your first workspace',
-    defaultDescription: 'A workspace is where all your work, projects, and items live.',
+    icon: <FolderOpen size={24} strokeWidth={1.5} />,
+    defaultTitle: 'Create a workspace',
+    defaultDescription: 'A workspace holds all your projects and items.',
   },
   'no-results': {
-    illustration: <NoResultsIllustration />,
-    defaultTitle: 'No results found',
+    icon: <SearchX size={24} strokeWidth={1.5} />,
+    defaultTitle: 'No results',
     defaultDescription: 'Try adjusting your search or filters.',
   },
   'first-launch': {
-    illustration: <NoWorkspaceIllustration />,
+    icon: <Sparkles size={24} strokeWidth={1.5} />,
     defaultTitle: 'Welcome to MONO',
-    defaultDescription: 'One place. Every workflow. Let\'s set up your first workspace.',
+    defaultDescription: 'One place. Every workflow. Create your first workspace to begin.',
   },
 }
 
@@ -218,36 +67,49 @@ export function EmptyState({
   secondaryAction,
   className = '',
 }: EmptyStateProps) {
-  const { illustration, defaultTitle, defaultDescription } = variants[variant]
+  const { icon, defaultTitle, defaultDescription } = variants[variant]
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`
-        flex flex-col items-center justify-center gap-5 py-14 md:py-20 px-4 md:px-8 text-center
-        text-zinc-400 dark:text-zinc-500
+        flex flex-col items-center justify-center gap-4 py-20 md:py-28 px-6 text-center
         ${className}
       `}
       role="status"
       aria-label={title ?? defaultTitle}
     >
-      <div className="opacity-95">{illustration}</div>
+      {/* Icon container */}
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.1, type: 'spring', stiffness: 200, damping: 20 }}
+        className="
+          w-12 h-12 rounded-2xl
+          bg-zinc-100 dark:bg-zinc-900
+          border border-zinc-200 dark:border-zinc-800
+          flex items-center justify-center
+          text-zinc-400 dark:text-zinc-500
+        "
+      >
+        {icon}
+      </motion.div>
 
-      <div className="max-w-sm">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100 mb-2 tracking-tight">
+      <div className="max-w-xs">
+        <h2 className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-100 mb-1 tracking-tight">
           {title ?? defaultTitle}
         </h2>
-        <p className="text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
+        <p className="text-[13px] leading-relaxed text-zinc-500 dark:text-zinc-500">
           {description ?? defaultDescription}
         </p>
       </div>
 
       {(action || secondaryAction) && (
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2 mt-1">
           {action && (
-            <Button variant="primary" size="sm" onClick={action.onClick}>
+            <Button variant="default" size="sm" onClick={action.onClick}>
               {action.label}
             </Button>
           )}
