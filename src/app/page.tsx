@@ -15,6 +15,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { ListView } from '@/components/views/ListView'
+import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
+import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
+import { SettingsModal } from '@/components/layout/SettingsModal'
+import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
 
 const CommandPalette = dynamic(() => import('@/components/layout/CommandPalette').then(mod => mod.CommandPalette), { ssr: false })
 const QuickCapture = dynamic(() => import('@/components/items/QuickCapture').then(mod => mod.QuickCapture), { ssr: false })
@@ -23,6 +27,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { useUIStore } from '@/lib/store/uiStore'
 import { useAppStore } from '@/lib/store/appStore'
+import { useItemStore } from '@/lib/store/itemStore'
 import { listWorkspaces, createWorkspace } from '@/lib/db/workspaces'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
 import { Menu, Plus } from 'lucide-react'
@@ -229,13 +234,24 @@ function ShortcutsModal() {
 // ============================
 function WorkspaceHeader() {
   const { activeWorkspace, activeProject } = useAppStore()
-  const { openModal, toggleSidebar } = useUIStore()
+  const { toggleSidebar } = useUIStore()
+  const { items } = useItemStore()
   const isMobile = useIsMobile()
 
   if (!activeWorkspace) return null
 
+  const itemCount = Object.values(items).filter(
+    (i) => i.status !== 'completed' && i.status !== 'archived'
+  ).length
+
   return (
-    <div className="flex items-center justify-between px-4 md:px-8 py-4 border-b border-zinc-200/80 dark:border-zinc-900 bg-white dark:bg-[#09090b]">
+    <header className="
+      flex items-center justify-between
+      px-4 md:px-8 h-14
+      border-b border-zinc-200/80 dark:border-zinc-800/60
+      bg-white dark:bg-[#0f0f0f]
+      flex-shrink-0
+    ">
       <div className="flex items-center gap-3">
         {isMobile && (
           <Button
@@ -243,49 +259,37 @@ function WorkspaceHeader() {
             size="icon"
             onClick={toggleSidebar}
             aria-label="Open sidebar menu"
-            className="flex-shrink-0"
+            className="flex-shrink-0 -ml-1"
           >
             <Menu size={18} />
           </Button>
         )}
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-lg md:text-xl">{activeWorkspace.icon}</span>
-            <h1 className="text-lg md:text-xl font-bold tracking-tight text-[#111] dark:text-white">
-              {activeProject?.name ?? activeWorkspace.name}
-            </h1>
-          </div>
-          <p className="text-xs text-[#999] dark:text-[#555] mt-0.5 ml-0">
-            {activeProject ? `in ${activeWorkspace.name}` : 'All items'}
-          </p>
+        <div className="flex items-center gap-2.5">
+          {activeProject ? (
+            <>
+              <span className="text-base flex-shrink-0">{activeProject.icon ?? '📂'}</span>
+              <h1 className="text-[15px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] md:max-w-[200px]">
+                {activeProject.name}
+              </h1>
+              <span className="text-[12px] font-medium text-zinc-400 dark:text-zinc-600 flex-shrink-0">
+                in {activeWorkspace.name}
+              </span>
+            </>
+          ) : (
+            <WorkspaceSwitcher />
+          )}
+          {itemCount > 0 && (
+            <span className="
+              text-[11px] font-semibold text-zinc-400 dark:text-zinc-600
+              bg-zinc-100 dark:bg-zinc-900 px-2 py-0.5 rounded-full
+              flex-shrink-0 tabular-nums
+            ">
+              {itemCount} {itemCount === 1 ? 'item' : 'items'}
+            </span>
+          )}
         </div>
       </div>
-
-      <div className="flex items-center gap-2">
-        {!isMobile ? (
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => openModal('create-workspace')}
-            aria-label="Add workspace"
-            className="flex items-center gap-1.5 border border-zinc-200 dark:border-zinc-800 bg-transparent hover:bg-zinc-50 dark:hover:bg-zinc-900 text-xs text-zinc-700 dark:text-zinc-400 font-semibold px-2.5 py-1.5 rounded-lg"
-          >
-            <Plus size={13} />
-            <span>Workspace</span>
-          </Button>
-        ) : (
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => openModal('create-workspace')}
-            aria-label="Add workspace"
-            className="h-8 w-8 flex items-center justify-center rounded-lg"
-          >
-            <Plus size={16} />
-          </Button>
-        )}
-      </div>
-    </div>
+    </header>
   )
 }
 
@@ -574,21 +578,19 @@ function AppShell() {
       <Sidebar />
 
       {/* Main content */}
-      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-[#fafafa] dark:bg-[#0f0f0f]">
+      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0f0f0f]">
         <WorkspaceHeader />
 
-        <div className="flex-1 overflow-y-auto px-4 md:px-8 pt-4 pb-28">
+        <div className="flex-1 overflow-y-auto px-4 md:px-8 pt-2 pb-4">
           <div className="max-w-3xl mx-auto w-full">
             <ListView />
           </div>
         </div>
 
-        {/* Fixed Native-like Quick Capture Bar */}
-        <div className="absolute bottom-0 left-0 right-0 z-10">
-          <div className="border-t border-zinc-200 dark:border-zinc-800/80 bg-[#f8f8f8]/80 dark:bg-[#0f0f0f]/80 backdrop-blur-2xl pt-2 pb-4 md:pb-6">
-            <div className="max-w-3xl mx-auto w-full px-4 md:px-8">
-              <QuickCapture />
-            </div>
+        {/* Quick Capture Bar — always visible at bottom */}
+        <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4">
+          <div className="max-w-3xl mx-auto w-full">
+            <QuickCapture />
           </div>
         </div>
       </main>
@@ -653,6 +655,9 @@ export default function Home() {
       {/* Global overlays */}
       <CommandPalette />
       <CreateWorkspaceModal />
+      <CreateProjectModal />
+      <SettingsModal />
+      <ItemDetailPanel />
       <ShortcutsModal />
       <Toasts />
     </>
