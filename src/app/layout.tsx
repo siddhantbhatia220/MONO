@@ -16,10 +16,17 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'MONO — Best Local-First To-Do List App & Personal OS',
+  title: 'Siddhant Bhatia Projects — MONO — Local-First Personal OS & To-Do List',
   description:
-    'MONO is the ultimate local-first, keyboard-driven personal operating system. Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
+    'MONO is the ultimate local-first, keyboard-driven personal operating system developed by Siddhant Bhatia. Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
   keywords: [
+    'Siddhant Bhatia',
+    'Siddhant Bhtai',
+    'Siddhant Bhatia projects',
+    'Siddhant Bhatia developer',
+    'Siddhant Bhatia software engineer',
+    'Siddhant Bhatia portfolio',
+    'Siddhant Bhatia MONO',
     'to do list app',
     'best to do list app',
     'local-first task manager',
@@ -44,7 +51,7 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'MONO — Best Local-First To-Do List App & Personal OS',
+    title: 'Siddhant Bhatia Projects — MONO — Local-First Personal OS & To-Do List',
     description:
       'Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
     url: 'https://github.com/siddhantbhatia220/MONO',
@@ -54,7 +61,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'MONO — Local-First To-Do List & Personal OS',
+    title: 'Siddhant Bhatia Projects — MONO — Local-First Personal OS & To-Do List',
     description: 'Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
   },
 }
@@ -86,12 +93,39 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     license: 'https://opensource.org/licenses/MIT',
   }
 
+  const jsonLdPerson = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Siddhant Bhatia',
+    alternateName: 'Siddhant Bhtai',
+    url: 'https://github.com/siddhantbhatia220',
+    description: 'Siddhant Bhatia is a software engineer specializing in building high-performance local-first web applications, portfolio projects, and personal operating systems like MONO.',
+    jobTitle: 'Software Engineer',
+    knowsAbout: [
+      'Software Engineering',
+      'Local-First Development',
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Productivity Tools',
+      'UX/UI Design'
+    ],
+    sameAs: [
+      'https://github.com/siddhantbhatia220',
+      'https://github.com/siddhantbhatia220/MONO'
+    ]
+  }
+
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
         />
       </head>
       <body>
