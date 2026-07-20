@@ -11,6 +11,7 @@ import { MoreHorizontal, Trash2, Calendar, Tag, ChevronRight } from 'lucide-reac
 import { Checkbox, PriorityBadge } from '@/components/ui'
 import { useUIStore } from '@/lib/store/uiStore'
 import { useItemStore } from '@/lib/store/itemStore'
+import { useAppStore } from '@/lib/store/appStore'
 import { completeItem, restoreItem, deleteItem } from '@/lib/db/items'
 import { formatDueDate, isOverdue } from '@/lib/utils/date'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
@@ -37,6 +38,9 @@ export function ItemRow({
 
   const { openItemDetail, addToast } = useUIStore()
   const { upsertItem, removeItem } = useItemStore()
+  const { preferences } = useAppStore()
+
+  const isCompact = preferences.density === 'compact'
 
   const isCompleted = item.status === ItemStatus.Completed
   const overdue = item.dueDate && !isCompleted && isOverdue(item.dueDate)
@@ -78,8 +82,9 @@ export function ItemRow({
       exit={{ opacity: 0, height: 0, marginBottom: 0 }}
       transition={{ duration: 0.2, layout: { duration: 0.2 } }}
       className={`
-        group relative flex items-start gap-2 py-2 px-2.5 rounded-lg
-        cursor-pointer transition-colors duration-100
+        group relative flex items-start gap-2 px-2.5 rounded-lg
+        cursor-pointer transition-all duration-100
+        ${isCompact ? 'py-1' : 'py-2'}
         ${isSelected
           ? 'bg-zinc-100 dark:bg-zinc-900'
           : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
@@ -225,9 +230,9 @@ export function ItemRow({
         )}
       </div>
 
-      {/* Actions (Hover on Desktop, Always Visible on Mobile) */}
+      {/* Actions — hover only on desktop, hidden on mobile (use detail panel) */}
       <AnimatePresence>
-        {(hovered || isMobile) && (
+        {hovered && !isMobile && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -242,7 +247,7 @@ export function ItemRow({
               }}
               aria-label={`Delete "${item.title}"`}
               className="
-                p-2 md:p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
+                p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
                 hover:text-zinc-900 hover:bg-zinc-100
                 dark:hover:text-zinc-200 dark:hover:bg-zinc-800
                 transition-colors duration-100
@@ -258,7 +263,7 @@ export function ItemRow({
               }}
               aria-label={`Open "${item.title}"`}
               className="
-                p-2 md:p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
+                p-1.5 rounded-md text-zinc-400 dark:text-zinc-600
                 hover:text-zinc-900 hover:bg-zinc-100
                 dark:hover:text-zinc-200 dark:hover:bg-zinc-800
                 transition-colors duration-100
