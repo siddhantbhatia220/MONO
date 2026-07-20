@@ -8,20 +8,22 @@ import { useUIStore } from '@/lib/store/uiStore'
 import { useAppStore } from '@/lib/store/appStore'
 import { createProject } from '@/lib/db/workspaces'
 
+import { ProjectIcon } from '@/components/ui/ProjectIcon'
+
 export function CreateProjectModal() {
   const { activeModal, closeModal, addToast } = useUIStore()
   const { activeWorkspace, setActiveProject } = useAppStore()
   const [name, setName] = useState('')
-  const [icon, setIcon] = useState('📁')
+  const [icon, setIcon] = useState('Folder')
   const [loading, setLoading] = useState(false)
 
-  const ICON_OPTIONS = ['📁', '⚡', '🎯', '💡', '📝', '🚀', '🌿', '🔬', '🎨', '📊']
+  const ICON_OPTIONS = ['Folder', 'Zap', 'Target', 'Lightbulb', 'FileText', 'Rocket', 'Leaf', 'FlaskConical', 'Palette', 'BarChart3']
 
   // Reset fields when opening modal
   useEffect(() => {
     if (activeModal === 'create-project') {
       setName('') // eslint-disable-line react-hooks/set-state-in-effect
-      setIcon('📁') // eslint-disable-line react-hooks/set-state-in-effect
+      setIcon('Folder') // eslint-disable-line react-hooks/set-state-in-effect
     }
   }, [activeModal])
 
@@ -62,21 +64,21 @@ export function CreateProjectModal() {
         <div>
           <p className="text-xs font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 uppercase mb-2">Icon</p>
           <div className="flex flex-wrap gap-2">
-            {ICON_OPTIONS.map((emoji) => (
+            {ICON_OPTIONS.map((iconName) => (
               <button
-                key={emoji}
-                onClick={() => setIcon(emoji)}
+                key={iconName}
+                onClick={() => setIcon(iconName)}
                 className={`
-                  w-9 h-9 rounded-lg text-lg flex items-center justify-center border-2 transition-all duration-100 cursor-pointer
-                  ${icon === emoji
-                    ? 'border-zinc-900 dark:border-zinc-150 bg-zinc-50 dark:bg-zinc-900'
-                    : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800'
+                  w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-100 cursor-pointer
+                  ${icon === iconName
+                    ? 'border-zinc-900 dark:border-zinc-150 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
+                    : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
                   }
                 `}
-                aria-label={`Select ${emoji} as project icon`}
-                aria-pressed={icon === emoji}
+                aria-label={`Select ${iconName} as project icon`}
+                aria-pressed={icon === iconName}
               >
-                {emoji}
+                <ProjectIcon name={iconName} className="h-4.5 w-4.5" />
               </button>
             ))}
           </div>
