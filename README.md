@@ -30,14 +30,33 @@ It is a **high-performance, local-first Personal Operating System** — a single
 
 Instead of adapting to the software, the software adapts to you.
 
-**Everything is an Item.** A task, a note, a goal, a bookmark, a habit — all inherit from the same type. Infinite views. One source of truth.
+**Everything is an Item.** A task, a note, a goal, a bookmark, a habit — all inherit from the same universal model. Infinite views. One source of truth.
+
+---
+
+## Architecture & Data Flow
+
+MONO is architected with a local-first, offline-capable database layer backed by Zustand state management and IndexedDB.
+
+```mermaid
+graph TD
+    UI[React View Components] -->|Action Dispatch| Store[Zustand App Store]
+    Store -->|Optimistic UI Update| UI
+    Store -->|Local Persistence Write| DB[(IndexedDB Local Store)]
+    DB -->|Read / Hydrate| Store
+```
+
+### Core Architecture Decoupling:
+1. **Zustand State Store**: Synchronizes runtime components. State updates are optimistic to deliver sub-50ms user action response times.
+2. **IndexedDB Layer**: Direct asynchronous background writing via the `idb` wrapper. Guarantees complete data persistence without network reliance.
+3. **Universal Item Model**: A unified model design where every data block has an `itemType` (task, note, goal) and a dynamic tag list.
 
 ---
 
 ## Design Philosophy
 
 - **Pure monochrome** — black, white, and grayscale only. Timeless.
-- **Keyboard-first** — every action accessible via `⌘K` command palette
+- **Keyboard-first** — every action accessible via `⌘K` / `Ctrl+K` command palette
 - **Local-first** — instant launch, works offline, syncs later
 - **Invisible UI** — the interface disappears so you can focus on your work
 - **Composable** — build your workflow from modular, reusable primitives
@@ -46,54 +65,15 @@ Instead of adapting to the software, the software adapts to you.
 
 ## Features — Phase 1
 
-- ✅ **Onboarding** — beautiful first-run experience with workspace templates
-- ✅ **Universal Command Palette** — `Ctrl+K` / `⌘K` for everything
-- ✅ **Quick Capture** — `N` to add an item instantly, with `#tag` and `!priority` syntax
-- ✅ **Offline-First Storage** — IndexedDB via `idb`, no backend required
-- ✅ **Animated UI** — spring physics via Framer Motion
-- ✅ **Monochrome Design System** — full token system (spacing, radius, shadow, motion)
-- ✅ **Workspace Management** — create, switch, and organize workspaces
-- ✅ **Item CRUD** — create, complete, delete, with undo/redo history
-- ✅ **Light & Dark Mode** — automatic system theme detection
-- ✅ **Keyboard Shortcuts** — global registry with `?` overlay
-- ✅ **Accessible** — ARIA annotations, keyboard navigation, focus management
-- ✅ **Monochrome Empty States** — hand-crafted animated SVG illustrations
-- ✅ **TypeScript Strict** — zero `any`, fully typed throughout
-
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Framework | Next.js 16 (App Router, Turbopack) |
-| Language | TypeScript (strict mode) |
-| Styling | Tailwind CSS v4 |
-| Animations | Framer Motion |
-| State | Zustand (with persistence + devtools) |
-| Local DB | IndexedDB via `idb` |
-| IDs | nanoid |
-| Dates | date-fns |
-| Icons | lucide-react |
-
----
-
-## Project Roadmap
-
-### Phase 1 — Foundation ✅ (current)
-Design system · Authentication-free local storage · Item CRUD · Workspaces · Command palette · Keyboard shortcuts · Onboarding
-
-### Phase 2 — Views & Search
-Multiple views (Board, Calendar, Timeline) · Universal search · Rich markdown editor · Attachments · Smart filters
-
-### Phase 3 — Collaboration & Sync
-Backend (NestJS + PostgreSQL) · Real-time sync (Yjs CRDT) · User authentication · Sharing & permissions · Comments · Activity history
-
-### Phase 4 — Extensibility
-Visual automation (IF/THEN) · Plugin system · Public API · Import/export · Backup/restore
-
-### Phase 5 — Intelligence Layer
-Duplicate detection · Smart scheduling · Workload analysis · Pattern recognition · No LLM APIs
+- ✅ **Onboarding & Cinematic Intro** — beautiful first-run experience featuring spring logo reveals, moving ambient portal backdrops, and an interactive looping simulated tour of MONO.
+- ✅ **Universal Command Palette** — `Ctrl+K` / `⌘K` launcher to quickly create items, switch workspaces, filter views, or toggle settings.
+- ✅ **Quick Capture** — `N` key focuses input instantly. Supports inline `#tag` extraction and `!priority` parsing.
+- ✅ **Offline-First Storage** — Full IndexedDB wrapper logic, allowing 100% operation in offline mode.
+- ✅ **Animated UI** — Fluid transitions and interactive bobs built using Framer Motion springs.
+- ✅ **Workspace Management** — Easily segment your life into dedicated templates (Work, Study, Personal, Custom).
+- ✅ **Light & Dark Mode** — Native system preference tracking with custom theme toggles.
+- ✅ **Keyboard Shortcuts Overlay** — Global listeners mapped throughout the interface with a toggleable guide (`?`).
+- ✅ **TypeScript Strict** — Fully compiled type definitions, zero `any` usage.
 
 ---
 
@@ -115,18 +95,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Available Commands
-
-```bash
-npm run dev          # Start development server (Turbopack)
-npm run build        # Production build
-npm run start        # Start production server
-npm run lint         # ESLint
-npm run type-check   # TypeScript check (no emit)
-npm run format       # Prettier (write)
-npm run format:check # Prettier (check only)
-```
-
 ---
 
 ## Keyboard Shortcuts
@@ -135,10 +103,10 @@ npm run format:check # Prettier (check only)
 |---|---|
 | `Ctrl+K` / `⌘K` | Open Command Palette |
 | `N` | New item (focuses quick capture) |
-| `?` | Show keyboard shortcuts |
-| `Ctrl+B` | Toggle sidebar |
-| `Escape` | Close / Cancel |
-| `↵` | Complete / Open item |
+| `?` | Show keyboard shortcuts overlay |
+| `Ctrl+B` | Toggle collapsible sidebar |
+| `Escape` | Close modals / cancel inputs |
+| `Enter` | Complete selection / open item |
 
 ---
 
@@ -146,24 +114,34 @@ npm run format:check # Prettier (check only)
 
 ```
 src/
-├── app/                 # Next.js App Router
-│   ├── layout.tsx       # Root layout (Server Component)
-│   ├── page.tsx         # Main application
-│   └── globals.css      # Global styles
+├── app/                 # Next.js App Router (pages and root layouts)
 ├── components/
-│   ├── ui/              # Button, Checkbox, Input, Modal, Badge, Tooltip
-│   ├── layout/          # Sidebar, CommandPalette, ThemeProvider
-│   ├── items/           # ItemRow, QuickCapture
-│   └── views/           # ListView, EmptyState
+│   ├── ui/              # Atom-level primitives (Button, Checkbox, Input, Modal, Badge)
+│   ├── layout/          # App chrome structure (Sidebar, CommandPalette, ThemeProvider)
+│   ├── items/           # Item interactions (ItemRow, QuickCapture, ItemDetailPanel)
+│   └── views/           # High-level layouts (ListView, EmptyState)
 ├── lib/
-│   ├── db/              # IndexedDB CRUD (items, workspaces)
-│   ├── hooks/           # Custom React hooks
-│   ├── store/           # Zustand stores (app, item, ui)
-│   ├── types/           # TypeScript domain models
-│   └── utils/           # date, id, keyboard utilities
+│   ├── db/              # IndexedDB operations (items, workspaces CRUD)
+│   ├── hooks/           # Responsive hooks (useIsMobile, etc.)
+│   ├── store/           # Zustand store instances (appStore, uiStore, itemStore)
+│   ├── types/           # Rigid TypeScript types
+│   └── utils/           # Helper scripts (dates, ids, keyboards)
 └── styles/
-    └── tokens.css       # Design token system
+    └── tokens.css       # Monochrome custom CSS design tokens
 ```
+
+---
+
+## FAQ
+
+#### Q: Why is MONO strictly monochrome?
+A: Color is often used as a crutch in modern software, causing visual distraction. By limiting MONO to pure monochrome (black, white, and grayscales), we create a high-contrast environment where visual hierarchy is driven by typography, weight, and size.
+
+#### Q: Where is my data stored?
+A: In Phase 1, 100% of your data remains locally on your device in IndexedDB. No remote servers are contacted, guaranteeing absolute privacy and instantaneous offline usability.
+
+#### Q: Why Zustand instead of Redux or React Context?
+A: Zustand offers a highly performant, boilerplate-free state model. It supports selectors to prevent unnecessary component re-renders, combines easily with IndexedDB callbacks, and offers persistent middleware options.
 
 ---
 
