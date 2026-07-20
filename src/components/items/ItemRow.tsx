@@ -94,9 +94,9 @@ export function ItemRow({
       style={{ paddingLeft: `${(depth * 20) + 8}px` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      role="article"
+      role="listitem"
       aria-label={item.title}
-    >
+    >,StartLine:90,TargetContent:
       {/* Expand/collapse for items with children */}
       {hasChildren ? (
         <button
@@ -156,7 +156,7 @@ export function ItemRow({
                       flex items-center gap-0.5 text-[10px]
                       ${overdue
                         ? 'text-black dark:text-white font-semibold'
-                        : 'text-zinc-400 dark:text-zinc-500'
+                        : 'text-zinc-500 dark:text-zinc-450'
                       }
                     `}
                   >
@@ -166,7 +166,7 @@ export function ItemRow({
                 )}
 
                 {item.tags.length > 0 && (
-                  <span className="flex items-center gap-0.5 text-[10px] text-zinc-400 dark:text-zinc-500">
+                  <span className="flex items-center gap-0.5 text-[10px] text-zinc-500 dark:text-zinc-450">
                     <Tag size={10} />
                     {item.tags.slice(0, 2).join(', ')}
                     {item.tags.length > 2 && ` +${item.tags.length - 2}`}
@@ -202,7 +202,7 @@ export function ItemRow({
                   flex items-center gap-1 text-xs flex-shrink-0
                   ${overdue
                     ? 'text-zinc-800 dark:text-zinc-200 font-medium'
-                    : 'text-zinc-400 dark:text-zinc-500'
+                    : 'text-zinc-550 dark:text-zinc-450'
                   }
                 `}
               >
@@ -213,7 +213,7 @@ export function ItemRow({
 
             {/* Tags */}
             {item.tags.length > 0 && (
-              <span className="flex items-center gap-1 text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0">
+              <span className="flex items-center gap-1 text-xs text-zinc-550 dark:text-zinc-450 flex-shrink-0">
                 <Tag size={10} />
                 {item.tags.slice(0, 2).join(', ')}
                 {item.tags.length > 2 && ` +${item.tags.length - 2}`}
@@ -224,7 +224,7 @@ export function ItemRow({
 
         {/* Notes preview */}
         {item.notes && !isCompleted && (
-          <p className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 truncate">
+          <p className="text-xs text-zinc-500 dark:text-zinc-450 mt-1 truncate">
             {item.notes}
           </p>
         )}
