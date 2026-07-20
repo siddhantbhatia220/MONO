@@ -51,15 +51,15 @@ export function Checkbox({
         disabled={disabled}
         onClick={() => !disabled && onChange(!checked)}
         className={`
-          relative flex items-center justify-center flex-shrink-0
-          rounded border transition-all duration-150
-          cursor-pointer focus-visible:outline focus-visible:outline-2
-          focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white
+          peer relative flex items-center justify-center shrink-0
+          rounded-sm border border-zinc-200 transition-colors
+          cursor-pointer focus-visible:outline-none focus-visible:ring-1
+          focus-visible:ring-zinc-950 dark:focus-visible:ring-zinc-300
           ${checked
-            ? 'bg-zinc-900 border-zinc-900 dark:bg-zinc-100 dark:border-zinc-100'
-            : 'bg-white border-zinc-300 hover:border-zinc-400 dark:bg-zinc-950 dark:border-zinc-800 dark:hover:border-zinc-700'
+            ? 'bg-zinc-900 border-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:border-zinc-50 dark:text-zinc-900'
+            : 'bg-transparent dark:border-zinc-800'
           }
-          disabled:opacity-40 disabled:cursor-not-allowed
+          disabled:opacity-50 disabled:cursor-not-allowed
         `}
         style={{ width: box, height: box }}
         type="button"
