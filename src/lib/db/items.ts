@@ -9,6 +9,7 @@ import { nanoid } from 'nanoid'
 import { getDB } from './index'
 import {
   type Item,
+  type SubItem,
   type CreateItemInput,
   type UpdateItemInput,
   type ItemFilter,
@@ -289,4 +290,57 @@ export async function searchItems(query: string, workspaceId?: string): Promise<
     { workspaceId, search: query },
     { field: 'updatedAt', direction: 'desc' }
   )
+}
+
+// ============================
+// Sub-Item CRUD
+// ============================
+
+export async function listSubItems(parentId: string): Promise<SubItem[]> {
+  const db = await getDB()
+  const all = await db.getAllFromIndex('subItems', 'by-parent', parentId)
+  return all.sort((a, b) => a.sortOrder - b.sortOrder)
+}
+
+export async function createSubItem(parentId: string, title: string): Promise<SubItem> {
+  const db = await getDB()
+  const siblings = await listSubItems(parentId)
+  const maxOrder = siblings.reduce((max, si) => Math.max(max, si.sortOrder), -1)
+  const now = new Date().toISOString()
+  
+  const subItem: SubItem = {
+    id: nanoid(),
+    parentId,
+    title: title.trim(),
+    completed: false,
+    sortOrder: maxOrder + 1,
+    createdAt: now,
+    updatedAt: now,
+  }
+  
+  await db.put('subItems', subItem)
+  return subItem
+}
+
+export async function updateSubItem(
+  id: string,
+  updates: Partial<Pick<SubItem, 'completed' | 'title'>>
+): Promise<SubItem | null> {
+  const db = await getDB()
+  const existing = await db.get('subItems', id)
+  if (!existing) return null
+  
+  const updated: SubItem = {
+    ...existing,
+    ...updates,
+    updatedAt: new Date().toISOString(),
+  }
+  
+  await db.put('subItems', updated)
+  return updated
+}
+
+export async function deleteSubItem(id: string): Promise<void> {
+  const db = await getDB()
+  await db.delete('subItems', id)
 }
