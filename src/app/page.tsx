@@ -30,7 +30,7 @@ import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { listWorkspaces, createWorkspace } from '@/lib/db/workspaces'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
-import { Menu, Plus } from 'lucide-react'
+import { Menu, Plus, Inbox, Search, Calendar, Folder, MousePointer } from 'lucide-react'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 // ============================
@@ -294,6 +294,349 @@ function WorkspaceHeader() {
 }
 
 // ============================
+// Typewriter Helper Component
+// ============================
+function Typewriter({ text, speed = 60, delay = 0 }: { text: string; speed?: number; delay?: number }) {
+  const [displayedText, setDisplayedText] = useState('')
+
+  useEffect(() => {
+    setDisplayedText('')
+    let index = 0
+    let timer: NodeJS.Timeout
+    const startTyping = () => {
+      timer = setInterval(() => {
+        setDisplayedText((prev) => prev + text.charAt(index))
+        index++
+        if (index >= text.length) {
+          clearInterval(timer)
+        }
+      }, speed)
+    }
+
+    const delayTimeout = setTimeout(startTyping, delay)
+    return () => {
+      clearTimeout(delayTimeout)
+      clearInterval(timer)
+    }
+  }, [text, speed, delay])
+
+  return <span>{displayedText}</span>
+}
+
+// ============================
+// Looping Interactive Mockup
+// ============================
+function ProductTourMockup() {
+  const [currentStep, setCurrentStep] = useState(0)
+  const [mockTheme, setMockTheme] = useState<'dark' | 'light'>('dark')
+
+  useEffect(() => {
+    const sequence = [
+      { step: 0, duration: 3000 }, // Ctrl+K Keypress Simulation
+      { step: 1, duration: 4000 }, // Command Palette typing
+      { step: 2, duration: 5000 }, // Quick Capture typing
+      { step: 3, duration: 3500 }, // Task row slide-in
+      { step: 4, duration: 4000 }, // Complete task (strike-through)
+      { step: 5, duration: 4000 }, // Smooth Theme transition (Light -> Dark)
+    ]
+
+    let timer: NodeJS.Timeout
+    let seqIndex = 0
+
+    const runNext = () => {
+      const current = sequence[seqIndex]
+      setCurrentStep(current.step)
+      
+      if (current.step === 5) {
+        const t1 = setTimeout(() => setMockTheme('light'), 800)
+        const t2 = setTimeout(() => setMockTheme('dark'), 2400)
+        return () => {
+          clearTimeout(t1)
+          clearTimeout(t2)
+        }
+      } else {
+        setMockTheme('dark')
+      }
+
+      timer = setTimeout(() => {
+        seqIndex = (seqIndex + 1) % sequence.length
+        runNext()
+      }, current.duration)
+    }
+
+    runNext()
+
+    return () => {
+      clearTimeout(timer)
+    }
+  }, [])
+
+  // Position coordinates for simulated cursor pointer ↖
+  // Using pure css/framer motion coords
+  const cursorCoords = [
+    { x: '80%', y: '80%' }, // Idle bottom right
+    { x: '50%', y: '25%' }, // Moving to Command Palette
+    { x: '50%', y: '88%' }, // Moving to Quick Capture
+    { x: '85%', y: '88%' }, // Moving to capture submit
+    { x: '42%', y: '62%' }, // Moving to Item 3 checkbox
+    { x: '88%', y: '12%' }, // Moving to mock theme switcher
+  ]
+
+  const activeCursor = cursorCoords[currentStep] || { x: '80%', y: '80%' }
+
+  return (
+    <div className={`
+      relative w-full aspect-[16/10] rounded-2xl border transition-colors duration-500 overflow-hidden shadow-2xl flex text-left select-none
+      ${mockTheme === 'dark'
+        ? 'bg-[#09090b] border-zinc-800 text-zinc-100'
+        : 'bg-white border-zinc-200 text-zinc-900'
+      }
+    `}>
+      {/* Mock Sidebar */}
+      <div className={`
+        w-[30%] border-r p-3 flex flex-col gap-4 transition-colors duration-500
+        ${mockTheme === 'dark' ? 'bg-[#0f0f11] border-zinc-800' : 'bg-zinc-50 border-zinc-200'}
+      `}>
+        {/* Mock window dots */}
+        <div className="flex gap-1.5 mb-1">
+          <div className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+          <div className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+          <div className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700" />
+        </div>
+        
+        <div className="flex items-center gap-1.5 font-bold text-xs">
+          <span>⚡</span>
+          <span>Work</span>
+        </div>
+
+        <div className="flex flex-col gap-1">
+          {[
+            { label: 'Inbox', icon: <Inbox size={11} />, active: true },
+            { label: 'Today', icon: <Calendar size={11} /> },
+          ].map((item) => (
+            <div
+              key={item.label}
+              className={`
+                flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors
+                ${item.active
+                  ? (mockTheme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-zinc-200/60 text-zinc-900')
+                  : 'text-zinc-400 dark:text-zinc-500'
+                }
+              `}
+            >
+              {item.icon}
+              {item.label}
+            </div>
+          ))}
+        </div>
+
+        <div>
+          <p className="text-[9px] font-bold tracking-widest text-zinc-400 dark:text-zinc-600 uppercase mb-1.5 px-2">Projects</p>
+          <div className="flex items-center gap-1.5 px-2 py-1 text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+            <Folder size={11} />
+            <span>docs</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mock Main Panel */}
+      <div className="flex-1 flex flex-col justify-between p-4 relative">
+        <div>
+          {/* Header */}
+          <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-3">
+            <div className="flex items-center gap-2">
+              <h3 className="text-xs font-bold">⚡ Work</h3>
+              <span className={`
+                text-[9px] font-semibold px-1.5 py-0.5 rounded-full
+                ${mockTheme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-100 text-zinc-500'}
+              `}>
+                {currentStep >= 3 ? '3 items' : '2 items'}
+              </span>
+            </div>
+          </div>
+
+          {/* List */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-center gap-2 py-1.5 px-2 rounded-lg bg-transparent">
+              <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-700' : 'border-zinc-300'}`} />
+              <span className="text-[11px] font-medium">Buy groceries</span>
+            </div>
+
+            <div className="flex items-center gap-2 py-1.5 px-2 rounded-lg bg-transparent">
+              <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-700' : 'border-zinc-300'}`} />
+              <span className="text-[11px] font-medium">Design UI tokens</span>
+            </div>
+
+            {/* Dynamic inserted row */}
+            <AnimatePresence>
+              {currentStep >= 3 && (
+                <motion.div
+                  key="inserted-row"
+                  initial={{ opacity: 0, y: -4, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+                  className="overflow-hidden"
+                >
+                  <div className={`
+                    flex items-center justify-between py-1.5 px-2 rounded-lg transition-colors
+                    ${currentStep === 4 ? 'opacity-40' : ''}
+                    ${mockTheme === 'dark' ? 'bg-zinc-900/50' : 'bg-zinc-50'}
+                  `}>
+                    <div className="flex items-center gap-2 min-w-0">
+                      {/* Checkbox with completion state */}
+                      <div className="flex-shrink-0 flex items-center justify-center">
+                        {currentStep >= 4 ? (
+                          <motion.div
+                            initial={{ scale: 0.5 }}
+                            animate={{ scale: 1 }}
+                            className={`
+                              w-3.5 h-3.5 rounded flex items-center justify-center text-[8px] text-white font-bold
+                              ${mockTheme === 'dark' ? 'bg-white text-black' : 'bg-black text-white'}
+                            `}
+                          >
+                            ✓
+                          </motion.div>
+                        ) : (
+                          <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-650' : 'border-zinc-300'}`} />
+                        )}
+                      </div>
+                      <span className={`text-[11px] font-medium truncate ${currentStep >= 4 ? 'line-through' : ''}`}>
+                        Prepare release notes
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                      <span className={`
+                        px-1 py-0.5 text-[8px] font-bold rounded
+                        ${mockTheme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-150 text-zinc-500'}
+                      `}>
+                        #docs
+                      </span>
+                      <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-500">!</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Mock Quick Capture Input */}
+        <div className={`
+          flex items-center gap-2 rounded-lg p-2 border transition-all duration-150
+          ${currentStep === 2
+            ? (mockTheme === 'dark' ? 'border-zinc-400 bg-zinc-900' : 'border-zinc-400 bg-zinc-50')
+            : (mockTheme === 'dark' ? 'border-zinc-800 bg-zinc-900/40' : 'border-zinc-200 bg-zinc-50/40')
+          }
+        `}>
+          <span className="text-zinc-400 dark:text-zinc-600 text-[10px]">+</span>
+          <div className="text-[10px] font-medium text-zinc-400 dark:text-zinc-600 flex-1">
+            {currentStep === 2 ? (
+              <Typewriter text="Prepare release notes #docs !high" speed={50} />
+            ) : (
+              "New task... #tag !priority"
+            )}
+          </div>
+        </div>
+
+        {/* OVERLAY 1: Command Palette */}
+        <AnimatePresence>
+          {currentStep === 1 && (
+            <motion.div
+              key="mock-cmd-palette"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.15 }}
+              className="absolute inset-x-6 top-10 bg-zinc-950 dark:bg-white text-white dark:text-zinc-900 border border-zinc-800 dark:border-zinc-200 rounded-xl p-3 shadow-2xl z-10 flex flex-col gap-2"
+            >
+              <div className="flex items-center gap-2 pb-2 border-b border-zinc-800 dark:border-zinc-200">
+                <Search size={11} className="text-zinc-500" />
+                <div className="text-[11px] font-semibold flex-1">
+                  <Typewriter text="New task" speed={60} delay={400} />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                {[
+                  { label: 'New Item', sub: 'Create a task, note, or goal', active: true },
+                  { label: 'New Workspace', sub: 'Create a new workspace' },
+                ].map((cmd) => (
+                  <div
+                    key={cmd.label}
+                    className={`
+                      p-1.5 rounded-lg text-left flex flex-col gap-0.5
+                      ${cmd.active
+                        ? (mockTheme === 'dark' ? 'bg-zinc-850 text-white' : 'bg-zinc-100 text-zinc-900')
+                        : 'opacity-50'
+                      }
+                    `}
+                  >
+                    <span className="text-[10px] font-bold">{cmd.label}</span>
+                    <span className="text-[8px] text-zinc-400 dark:text-zinc-500">{cmd.sub}</span>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* OVERLAY 2: Keyboard press simulation */}
+        <AnimatePresence>
+          {currentStep === 0 && (
+            <motion.div
+              key="mock-keyboard-overlay"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[1px] z-20"
+            >
+              <div className="flex gap-2 p-3 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl">
+                <motion.kbd
+                  animate={{ scale: [1, 0.9, 1], backgroundColor: ['#18181b', '#27272a', '#18181b'] }}
+                  transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1 }}
+                  className="px-3 py-2 text-xs font-bold text-zinc-300 bg-zinc-900 border border-zinc-700 rounded-lg shadow-inner"
+                >
+                  Ctrl
+                </motion.kbd>
+                <span className="text-zinc-500 self-center">+</span>
+                <motion.kbd
+                  animate={{ scale: [1, 0.9, 1], backgroundColor: ['#18181b', '#27272a', '#18181b'] }}
+                  transition={{ duration: 1.2, delay: 0.3, repeat: Infinity, repeatDelay: 1 }}
+                  className="px-3 py-2 text-xs font-bold text-zinc-300 bg-zinc-900 border border-zinc-700 rounded-lg shadow-inner"
+                >
+                  K
+                </motion.kbd>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Simulated Cursor */}
+        <motion.div
+          animate={{ x: activeCursor.x, y: activeCursor.y }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
+          className="absolute z-50 pointer-events-none text-zinc-400 dark:text-zinc-600"
+          style={{ left: 0, top: 0 }}
+        >
+          <MousePointer size={14} fill="currentColor" />
+          
+          {/* Clicks visual ripple */}
+          {currentStep === 4 && (
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0.8 }}
+              animate={{ scale: 2.2, opacity: 0 }}
+              transition={{ duration: 0.6 }}
+              className="absolute -top-1.5 -left-1.5 w-6 h-6 rounded-full border border-black dark:border-white pointer-events-none"
+            />
+          )}
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
+// ============================
 // Onboarding / First Launch
 // ============================
 function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
@@ -325,84 +668,106 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
       setLoading(false)
     }
   }
-
   return (
-    <main className="min-h-dvh bg-zinc-50 dark:bg-[#09090b] flex items-center justify-center p-4 sm:p-8">
+    <main className="relative min-h-dvh bg-zinc-50 dark:bg-[#09090b] flex items-center justify-center p-4 sm:p-8 overflow-hidden z-0">
+      {/* Background glow portal */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div
+          animate={{
+            scale: [1, 1.15, 0.95, 1],
+            x: [0, 20, -15, 0],
+            y: [0, -20, 25, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          className="absolute -top-[20%] -left-[20%] w-[140%] h-[140%] opacity-40 dark:opacity-20 blur-[120px] bg-gradient-to-tr from-zinc-200 via-zinc-100 to-zinc-300 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-950"
+        />
+      </div>
+
       <motion.div
-        className="w-full max-w-lg bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xl dark:shadow-black/50"
+        layout
+        className={`w-full relative z-10 transition-all duration-500 ease-in-out ${
+          step === 0
+            ? 'max-w-5xl bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xl dark:shadow-black/50'
+            : 'max-w-lg bg-white dark:bg-[#121214] border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 sm:p-10 shadow-xl dark:shadow-black/50'
+        }`}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
       >
         {step === 0 && (
-          <div className="text-center">
-            {/* Logo */}
-            <motion.div
-              className="flex items-center justify-center mb-8"
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ delay: 0.1, type: 'spring', bounce: 0.3 }}
-            >
-              <div className="w-14 h-14 bg-black dark:bg-white rounded-2xl flex items-center justify-center shadow-2xl">
-                <span className="text-white dark:text-black text-2xl font-black tracking-widest">
-                  M
-                </span>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <h1 className="text-4xl sm:text-5xl font-black tracking-tighter text-black dark:text-white mb-3">
-                MONO
-              </h1>
-              <p className="text-base sm:text-lg text-zinc-500 dark:text-zinc-400 font-normal mb-2">
-                One place. Every workflow.
-              </p>
-              <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 max-w-sm mx-auto leading-relaxed px-2">
-                A local-first workspace for tasks, notes, projects, and everything in between.
-                Keyboard-first. Distraction-free. Yours.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="mt-8 flex flex-col gap-3 justify-center px-4"
-            >
-              <Button
-                variant="default"
-                size="lg"
-                onClick={() => setStep(1)}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left side: branding & onboarding call to action */}
+            <div className="lg:col-span-5 flex flex-col justify-center text-center lg:text-left h-full">
+              {/* Logo */}
+              <motion.div
+                className="flex items-center justify-center lg:justify-start mb-6"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1, type: 'spring', bounce: 0.3 }}
               >
-                Get started
-              </Button>
-            </motion.div>
-
-            {/* Features List */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-              className="flex flex-col gap-3 mt-10 text-left"
-            >
-              {[
-                { icon: '⚡', label: 'Instant & Offline-First', desc: 'Works offline with zero loading lag. Your data is stored securely on device.' },
-                { icon: '⌨', label: 'Keyboard-Driven Flow', desc: 'Execute commands and find everything in milliseconds with the ⌘K palette.' },
-                { icon: '∞', label: 'Adaptive & Flexible OS', desc: 'Unifies tasks, notes, habits, and goals in a system that adapts to your thinking.' },
-              ].map((f) => (
-                <div key={f.label} className="flex items-start gap-4 p-4 bg-zinc-100 dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-700 hover:border-zinc-300 dark:hover:border-zinc-500 transition-all duration-150">
-                  <div className="text-2xl flex-shrink-0 mt-0.5">{f.icon}</div>
-                  <div>
-                    <p className="text-xs font-semibold text-zinc-900 dark:text-zinc-200 tracking-tight">{f.label}</p>
-                    <p className="text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400 mt-1">{f.desc}</p>
-                  </div>
+                <div className="w-12 h-12 bg-black dark:bg-white rounded-2xl flex items-center justify-center shadow-xl">
+                  <span className="text-white dark:text-black text-xl font-black">
+                    M
+                  </span>
                 </div>
-              ))}
-            </motion.div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                <h1 className="text-4xl sm:text-5xl font-black text-black dark:text-white mb-3 flex items-center justify-center lg:justify-start gap-1.5 overflow-hidden tracking-tight">
+                  {"MONO".split("").map((char, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: 0.2 + index * 0.08,
+                        type: 'spring',
+                        stiffness: 160,
+                        damping: 12
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </h1>
+                <p className="text-base sm:text-lg text-zinc-500 dark:text-zinc-400 font-semibold mb-2">
+                  One place. Every workflow.
+                </p>
+                <p className="text-xs sm:text-sm text-zinc-400 dark:text-zinc-500 leading-relaxed max-w-sm mx-auto lg:mx-0 mb-6">
+                  A local-first workspace for tasks, notes, projects, and everything in between.
+                  Keyboard-first. Distraction-free. Yours.
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="flex flex-col gap-3 justify-center lg:justify-start"
+              >
+                <Button
+                  variant="default"
+                  size="lg"
+                  onClick={() => setStep(1)}
+                  className="w-full lg:w-44"
+                >
+                  Get started
+                </Button>
+              </motion.div>
+            </div>
+
+            {/* Right side: Product Tour Mockup */}
+            <div className="lg:col-span-7 hidden lg:flex items-center justify-center relative w-full h-full pl-4">
+              <ProductTourMockup />
+            </div>
           </div>
         )}
 
@@ -429,7 +794,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
                   className="
                     p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 text-left
                     hover:border-zinc-400 dark:hover:border-zinc-650
-                    hover:bg-zinc-50 dark:hover:bg-zinc-900/50
+                    hover:bg-zinc-50 dark:hover:bg-zinc-900/55
                     transition-all duration-150
                     group cursor-pointer
                   "
@@ -516,7 +881,6 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
     </main>
   )
 }
-
 // ============================
 // App Shell
 // ============================
