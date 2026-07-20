@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   // Strict mode for React — catches potential issues early
   reactStrictMode: true,
 
+  // Disable floating N dev indicator that obstructs UI
+  devIndicators: false,
+
   // Output standalone for Docker / production deployments
   // output: 'standalone',
 
