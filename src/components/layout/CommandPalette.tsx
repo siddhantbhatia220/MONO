@@ -3,14 +3,19 @@
 /**
  * MONO — Command Palette
  * Universal search and action launcher. Opens with Ctrl+K / Cmd+K.
- * The single most important interaction surface in the application.
+ * Searches both commands AND items from IndexedDB in real-time.
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, CornerDownLeft } from 'lucide-react'
+import { Search, CornerDownLeft, CheckCircle2, Circle } from 'lucide-react'
 import { useUIStore } from '@/lib/store/uiStore'
+import { useItemStore } from '@/lib/store/itemStore'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
+import { searchItems } from '@/lib/db/items'
+import { useAppStore } from '@/lib/store/appStore'
+import type { Item } from '@/lib/types/item'
+import { ItemStatus } from '@/lib/types/item'
 
 interface CommandItem {
   id: string
@@ -36,7 +41,6 @@ function useCommandItems(): CommandItem[] {
       icon: <span className="text-base">+</span>,
       action: () => {
         closeCommandPalette()
-        // Trigger quick capture via keyboard event
         document.dispatchEvent(new CustomEvent('mono:new-item'))
       },
       keywords: ['add', 'create', 'task', 'note', 'new'],
@@ -119,23 +123,49 @@ function highlightMatch(text: string, query: string): React.ReactNode {
 }
 
 export function CommandPalette() {
-  const { commandPaletteOpen, commandPaletteQuery, closeCommandPalette, setCommandPaletteQuery } =
+  const { commandPaletteOpen, commandPaletteQuery, closeCommandPalette, setCommandPaletteQuery, openItemDetail } =
     useUIStore()
+  const { activeWorkspace } = useAppStore()
 
   const [selectedIndex, setSelectedIndex] = useState(0)
-  // Sync selectedIndex to 0 when query changes — this is the React-recommended pattern
-  // for derived state resets without an effect (ref tracks previous value)
+  const [itemResults, setItemResults] = useState<Item[]>([])
+  const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Sync selectedIndex to 0 when query changes
   const prevQueryRef = useRef(commandPaletteQuery)
-  // eslint-disable-next-line react-hooks/refs
   if (prevQueryRef.current !== commandPaletteQuery) {
-    // eslint-disable-next-line react-hooks/refs
     prevQueryRef.current = commandPaletteQuery
     if (selectedIndex !== 0) setSelectedIndex(0)
   }
   const inputRef = useRef<HTMLInputElement>(null)
   const allCommands = useCommandItems()
 
-  const filtered = commandPaletteQuery
+  // Search items from IndexedDB when query changes
+  const doSearch = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setItemResults([])
+      return
+    }
+    try {
+      const results = await searchItems(query, activeWorkspace?.id)
+      setItemResults(results.slice(0, 8))
+    } catch {
+      setItemResults([])
+    }
+  }, [activeWorkspace?.id])
+
+  useEffect(() => {
+    if (searchTimerRef.current) clearTimeout(searchTimerRef.current)
+    searchTimerRef.current = setTimeout(() => {
+      void doSearch(commandPaletteQuery)
+    }, 100)
+    return () => {
+      if (searchTimerRef.current) clearTimeout(searchTimerRef.current)
+    }
+  }, [commandPaletteQuery, doSearch])
+
+  // Filter commands
+  const filteredCommands = commandPaletteQuery
     ? allCommands.filter((cmd) => {
         const q = commandPaletteQuery.toLowerCase()
         return (
@@ -146,23 +176,44 @@ export function CommandPalette() {
       })
     : allCommands
 
+  // Convert item results to CommandItem format
+  const itemCommands: CommandItem[] = itemResults.map((item) => ({
+    id: `item-${item.id}`,
+    label: item.title,
+    description: item.tags.length > 0 ? item.tags.map(t => `#${t}`).join(' ') : undefined,
+    category: 'Items',
+    icon: item.status === ItemStatus.Completed
+      ? <CheckCircle2 size={14} className="text-zinc-400" />
+      : <Circle size={14} className="text-zinc-400" />,
+    action: () => {
+      closeCommandPalette()
+      openItemDetail(item.id)
+    },
+    keywords: [],
+  }))
+
+  // Combine: items first (when searching), then commands
+  const allResults = commandPaletteQuery.trim()
+    ? [...itemCommands, ...filteredCommands]
+    : filteredCommands
+
   // Group by category
-  const grouped = filtered.reduce<Record<string, CommandItem[]>>((acc, item) => {
+  const grouped = allResults.reduce<Record<string, CommandItem[]>>((acc, item) => {
     if (!acc[item.category]) acc[item.category] = []
     acc[item.category].push(item)
     return acc
   }, {})
 
-  // Flat list for keyboard nav — ref updated during render is the recommended React pattern
-  // for values that need to be stable in effects without being deps
+  // Flat list for keyboard nav
   const flatList = Object.values(grouped).flat()
   const flatListRef = useRef(flatList)
-  // eslint-disable-next-line react-hooks/refs
   flatListRef.current = flatList
 
   useEffect(() => {
     if (commandPaletteOpen) {
       requestAnimationFrame(() => inputRef.current?.focus())
+    } else {
+      setItemResults([])
     }
   }, [commandPaletteOpen])
 
@@ -195,6 +246,7 @@ export function CommandPalette() {
     <AnimatePresence>
       {commandPaletteOpen && (
         <div
+          key="command-palette-container"
           className="fixed inset-0 z-[500] flex items-start justify-center pt-0 px-0 md:pt-[15vh] md:px-4"
           role="dialog"
           aria-modal="true"
@@ -227,11 +279,11 @@ export function CommandPalette() {
           >
             {/* Search Input */}
             <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800">
-              <Search size={16} className="text-zinc-400 dark:text-zinc-650 flex-shrink-0" aria-hidden="true" />
+              <Search size={16} className="text-zinc-400 dark:text-zinc-600 flex-shrink-0" aria-hidden="true" />
               <input
                 ref={inputRef}
                 type="text"
-                placeholder="Search or type a command..."
+                placeholder="Search items or type a command..."
                 value={commandPaletteQuery}
                 onChange={(e) => setCommandPaletteQuery(e.target.value)}
                 className="
@@ -264,15 +316,15 @@ export function CommandPalette() {
                   <p className="text-sm text-zinc-400 dark:text-zinc-600">No results for &ldquo;{commandPaletteQuery}&rdquo;</p>
                 </div>
               ) : (
-                Object.entries(grouped).map(([category, items]) => (
+                Object.entries(grouped).map(([category, categoryItems]) => (
                   <div key={category} className="mb-1">
                     <div className="px-4 py-1">
-                      <span className="text-[10px] font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-650">
+                      <span className="text-[10px] font-semibold tracking-widest uppercase text-zinc-400 dark:text-zinc-600">
                         {category}
                       </span>
                     </div>
 
-                    {items.map((item) => {
+                    {categoryItems.map((item) => {
                       const currentIndex = flatIndex++
                       const isSelected = currentIndex === selectedIndex
 
@@ -286,7 +338,7 @@ export function CommandPalette() {
                           whileTap={{ scale: 0.99 }}
                           className={`
                             w-full flex items-center gap-3 px-4 py-2.5 text-left
-                            transition-colors duration-75
+                            transition-colors duration-75 cursor-pointer
                             ${isSelected
                               ? 'bg-zinc-100 dark:bg-zinc-900'
                               : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
@@ -294,13 +346,13 @@ export function CommandPalette() {
                           `}
                         >
                           {item.icon && (
-                            <span className="text-zinc-400 dark:text-zinc-650 w-4 text-center flex-shrink-0">
+                            <span className="text-zinc-400 dark:text-zinc-600 w-4 text-center flex-shrink-0">
                               {item.icon}
                             </span>
                           )}
 
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100 truncate">
+                            <p className="text-sm font-medium text-zinc-800 dark:text-zinc-100 truncate">
                               {highlightMatch(item.label, commandPaletteQuery)}
                             </p>
                             {item.description && (
@@ -323,7 +375,7 @@ export function CommandPalette() {
                           )}
 
                           {isSelected && (
-                            <CornerDownLeft size={12} className="text-zinc-400 dark:text-zinc-650 flex-shrink-0" />
+                            <CornerDownLeft size={12} className="text-zinc-400 dark:text-zinc-600 flex-shrink-0" />
                           )}
                         </motion.button>
                       )
