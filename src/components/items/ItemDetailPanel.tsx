@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Trash2, Calendar, AlertCircle, Tag, Plus, Check } from 'lucide-react'
+import { X, Trash2, Calendar, AlertCircle, Tag } from 'lucide-react'
 import { useUIStore } from '@/lib/store/uiStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import {
@@ -14,10 +14,9 @@ import {
   updateSubItem,
   deleteSubItem,
 } from '@/lib/db/items'
-import { Priority, ItemStatus, type Item, type SubItem } from '@/lib/types/item'
+import { Priority, type Item, type SubItem } from '@/lib/types/item'
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
-import { formatDueDate } from '@/lib/utils/date'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
