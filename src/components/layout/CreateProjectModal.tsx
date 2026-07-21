@@ -22,8 +22,9 @@ export function CreateProjectModal() {
   // Reset fields when opening modal
   useEffect(() => {
     if (activeModal === 'create-project') {
-      setName('') // eslint-disable-line react-hooks/set-state-in-effect
-      setIcon('Folder') // eslint-disable-line react-hooks/set-state-in-effect
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setName('')
+      setIcon('Folder')
     }
   }, [activeModal])
 
