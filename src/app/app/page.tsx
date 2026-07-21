@@ -31,6 +31,7 @@ import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
+import { ProjectIcon } from '@/components/ui/ProjectIcon'
 import { ListView } from '@/components/views/ListView'
 
 const CommandPalette = dynamic(
@@ -92,10 +93,21 @@ function CreateWorkspaceModal() {
   const { activeModal, closeModal } = useUIStore()
   const { setActiveWorkspace } = useAppStore()
   const [name, setName] = useState('')
-  const [icon, setIcon] = useState('📁')
+  const [icon, setIcon] = useState('Folder')
   const [loading, setLoading] = useState(false)
 
-  const ICON_OPTIONS = ['📁', '⚡', '🎯', '💡', '📝', '🚀', '🌿', '🔬', '🎨', '📊']
+  const ICON_OPTIONS = [
+    'Folder',
+    'Zap',
+    'Target',
+    'Lightbulb',
+    'FileText',
+    'Rocket',
+    'Leaf',
+    'FlaskConical',
+    'Palette',
+    'BarChart3',
+  ]
 
   const handleCreate = async () => {
     if (!name.trim()) return
@@ -105,7 +117,7 @@ function CreateWorkspaceModal() {
       setActiveWorkspace(workspace)
       closeModal()
       setName('')
-      setIcon('📁')
+      setIcon('Folder')
     } finally {
       setLoading(false)
     }
@@ -124,23 +136,23 @@ function CreateWorkspaceModal() {
         <div>
           <p className="text-xs font-medium tracking-wide text-[#777] uppercase mb-2">Icon</p>
           <div className="flex flex-wrap gap-2">
-            {ICON_OPTIONS.map((emoji) => (
+            {ICON_OPTIONS.map((iconName) => (
               <button
-                key={emoji}
-                onClick={() => setIcon(emoji)}
+                key={iconName}
+                onClick={() => setIcon(iconName)}
                 className={`
-                  w-9 h-9 rounded-lg text-lg flex items-center justify-center
-                  border-2 transition-all duration-100
+                  w-9 h-9 rounded-lg flex items-center justify-center
+                  border transition-all duration-100 cursor-pointer
                   ${
-                    icon === emoji
-                      ? 'border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-900'
-                      : 'border-transparent hover:border-zinc-200 dark:hover:border-zinc-800'
+                    icon === iconName
+                      ? 'border-zinc-900 dark:border-zinc-100 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
+                      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
                   }
                 `}
-                aria-label={`Select ${emoji} as workspace icon`}
-                aria-pressed={icon === emoji}
+                aria-label={`Select ${iconName} as workspace icon`}
+                aria-pressed={icon === iconName}
               >
-                {emoji}
+                <ProjectIcon name={iconName} className="h-4.5 w-4.5" />
               </button>
             ))}
           </div>
