@@ -170,7 +170,7 @@ export function QuickCapture() {
           placeholder={isMobile ? 'New task...' : 'New task...  #tag  !priority'}
           className="
             flex-1 bg-transparent text-[14px] text-zinc-900 dark:text-zinc-100
-            placeholder:text-zinc-400 dark:placeholder:text-zinc-600
+            placeholder:text-zinc-500 dark:placeholder:text-zinc-400
             outline-none min-w-0 font-medium
           "
           aria-label="Quick capture — press Enter to create"
