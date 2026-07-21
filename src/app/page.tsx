@@ -29,12 +29,11 @@ function Typewriter({ text, speed = 60, delay = 0 }: { text: string; speed?: num
   const [displayedText, setDisplayedText] = useState('')
 
   useEffect(() => {
-    setDisplayedText('')
     let index = 0
     let timer: NodeJS.Timeout
     const startTyping = () => {
       timer = setInterval(() => {
-        setDisplayedText((prev) => prev + text.charAt(index))
+        setDisplayedText(text.slice(0, index + 1))
         index++
         if (index >= text.length) {
           clearInterval(timer)
