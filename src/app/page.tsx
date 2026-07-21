@@ -622,7 +622,7 @@ export default function MarketingPage() {
 
       {/* Footer */}
       <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 py-8 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-450 dark:text-zinc-500">
-        <p>© 2026 MONO. Built with Next.js & IndexedDB by Siddhant Bhatia.</p>
+        <p>© 2026 MONO. Powered by Ares.</p>
         <div className="flex gap-6">
           <a
             href="https://github.com/siddhantbhatia220/MONO/blob/main/LICENSE"
