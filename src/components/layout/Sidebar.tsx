@@ -17,6 +17,7 @@ import { useUIStore } from '@/lib/store/uiStore'
 import type { Project } from '@/lib/types/workspace'
 
 import { Button } from '@/components/ui/Button'
+import { ProjectIcon } from '@/components/ui/ProjectIcon'
 import { Tooltip } from '@/components/ui/Tooltip'
 
 import { WorkspaceSwitcher } from './WorkspaceSwitcher'
@@ -195,9 +196,10 @@ export function Sidebar() {
                       `}
                       aria-label={project.name}
                     >
-                      <span className="text-sm flex-shrink-0 text-zinc-400 dark:text-zinc-500">
-                        {project.icon ?? '📂'}
-                      </span>
+                      <ProjectIcon
+                        name={project.icon ?? 'Folder'}
+                        className="w-3.5 h-3.5 flex-shrink-0 text-zinc-400 dark:text-zinc-500"
+                      />
                       <span className="truncate flex-1">{project.name}</span>
                     </button>
                   )
