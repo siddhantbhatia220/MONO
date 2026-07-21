@@ -10,7 +10,6 @@ import React, { useEffect, useRef, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, CornerDownLeft, CheckCircle2, Circle } from 'lucide-react'
 import { useUIStore } from '@/lib/store/uiStore'
-import { useItemStore } from '@/lib/store/itemStore'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
 import { searchItems } from '@/lib/db/items'
 import { useAppStore } from '@/lib/store/appStore'
@@ -131,12 +130,13 @@ export function CommandPalette() {
   const [itemResults, setItemResults] = useState<Item[]>([])
   const searchTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  // Sync selectedIndex to 0 when query changes
-  const prevQueryRef = useRef(commandPaletteQuery)
-  if (prevQueryRef.current !== commandPaletteQuery) {
-    prevQueryRef.current = commandPaletteQuery
-    if (selectedIndex !== 0) setSelectedIndex(0)
+  // Reset selectedIndex when query changes
+  const [prevQuery, setPrevQuery] = useState(commandPaletteQuery)
+  if (commandPaletteQuery !== prevQuery) {
+    setPrevQuery(commandPaletteQuery)
+    setSelectedIndex(0)
   }
+
   const inputRef = useRef<HTMLInputElement>(null)
   const allCommands = useCommandItems()
 
@@ -152,7 +152,7 @@ export function CommandPalette() {
     } catch {
       setItemResults([])
     }
-  }, [activeWorkspace?.id])
+  }, [activeWorkspace])
 
   useEffect(() => {
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current)
@@ -207,13 +207,14 @@ export function CommandPalette() {
   // Flat list for keyboard nav
   const flatList = Object.values(grouped).flat()
   const flatListRef = useRef(flatList)
-  flatListRef.current = flatList
+
+  useEffect(() => {
+    flatListRef.current = flatList
+  }, [flatList])
 
   useEffect(() => {
     if (commandPaletteOpen) {
       requestAnimationFrame(() => inputRef.current?.focus())
-    } else {
-      setItemResults([])
     }
   }, [commandPaletteOpen])
 
