@@ -14,6 +14,7 @@ export function ProjectIcon({ name, className = 'h-4 w-4' }: ProjectIconProps) {
   }
 
   // Find dynamic lucide icon or fallback to Folder
-  const IconComponent = (Icons as any)[name] || Icons.Folder
+  const iconMap = Icons as unknown as Record<string, React.ComponentType<{ className?: string }>>
+  const IconComponent = iconMap[name] || Icons.Folder
   return <IconComponent className={className} aria-hidden="true" />
 }
