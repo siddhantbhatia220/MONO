@@ -66,3 +66,7 @@ src/
 
 - **Turbopack Root**: `next.config.ts` explicitly sets `turbopack.root: path.resolve(__dirname)` to eliminate multi-lockfile root warnings.
 - **CI Lockfile Alignment**: `package-lock.json` must remain strictly aligned with `package.json` to pass GitHub Actions `npm ci`.
+- **React Compiler & ESLint Rules**:
+  - Do not mutate or access `useRef.current` during component render; assign in `useEffect`.
+  - Use state transition checks (`if (prop !== prevProp) setPrevProp(prop)`) instead of resetting state inside `useEffect`.
+  - Remove all unused imports to keep ESLint passing with zero warnings.
