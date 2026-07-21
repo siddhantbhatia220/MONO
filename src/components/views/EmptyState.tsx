@@ -91,7 +91,7 @@ export function EmptyState({
           bg-zinc-100 dark:bg-zinc-900
           border border-zinc-200 dark:border-zinc-800
           flex items-center justify-center
-          text-zinc-400 dark:text-zinc-500
+          text-zinc-500 dark:text-zinc-400
         "
       >
         {icon}
@@ -101,7 +101,7 @@ export function EmptyState({
         <h2 className="text-[15px] font-semibold text-zinc-900 dark:text-zinc-100 mb-1 tracking-tight">
           {title ?? defaultTitle}
         </h2>
-        <p className="text-[13px] leading-relaxed text-zinc-500 dark:text-zinc-500">
+        <p className="text-[13px] leading-relaxed text-zinc-650 dark:text-zinc-400">
           {description ?? defaultDescription}
         </p>
       </div>
