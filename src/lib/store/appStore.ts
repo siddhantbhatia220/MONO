@@ -6,10 +6,10 @@
  *
  * Persisted to localStorage for session continuity.
  */
-
 import { create } from 'zustand'
-import { persist, devtools } from 'zustand/middleware'
-import type { Workspace, Project, UserPreferences } from '@/lib/types/workspace'
+import { devtools, persist } from 'zustand/middleware'
+
+import type { Project, UserPreferences, Workspace } from '@/lib/types/workspace'
 import { DEFAULT_PREFERENCES } from '@/lib/types/workspace'
 
 interface AppState {
@@ -42,8 +42,7 @@ export const useAppStore = create<AppState>()(
         setActiveWorkspace: (workspace) =>
           set({ activeWorkspace: workspace, activeProject: null }, false, 'setActiveWorkspace'),
 
-        setActiveProject: (project) =>
-          set({ activeProject: project }, false, 'setActiveProject'),
+        setActiveProject: (project) => set({ activeProject: project }, false, 'setActiveProject'),
 
         updatePreferences: (partial) =>
           set(
@@ -52,8 +51,7 @@ export const useAppStore = create<AppState>()(
             'updatePreferences'
           ),
 
-        setResolvedTheme: (theme) =>
-          set({ resolvedTheme: theme }, false, 'setResolvedTheme'),
+        setResolvedTheme: (theme) => set({ resolvedTheme: theme }, false, 'setResolvedTheme'),
       }),
       {
         name: 'mono-app-store',

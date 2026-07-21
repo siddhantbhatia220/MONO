@@ -6,17 +6,37 @@
  * Features cinematic title reveals, organic backdrop glows, a simulated live app walkthrough,
  * and clear call-to-actions to launch the local workspace.
  */
+import React, { useEffect, useState } from 'react'
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { Inbox, Search, Calendar, Folder, MousePointer, ArrowRight, Monitor, Key, ShieldCheck, Sparkles } from 'lucide-react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import {
+  ArrowRight,
+  Calendar,
+  Folder,
+  Inbox,
+  Key,
+  Monitor,
+  MousePointer,
+  Search,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react'
 
 // ============================
 // Custom Github Icon SVG
 // ============================
-const GithubIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+const GithubIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
     <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
     <path d="M9 18c-4.51 2-5-2-7-2" />
   </svg>
@@ -25,7 +45,15 @@ const GithubIcon = ({ className = "w-4 h-4" }: { className?: string }) => (
 // ============================
 // Typewriter Helper Component
 // ============================
-function Typewriter({ text, speed = 60, delay = 0 }: { text: string; speed?: number; delay?: number }) {
+function Typewriter({
+  text,
+  speed = 60,
+  delay = 0,
+}: {
+  text: string
+  speed?: number
+  delay?: number
+}) {
   const [displayedText, setDisplayedText] = useState('')
 
   useEffect(() => {
@@ -74,7 +102,7 @@ function ProductTourMockup() {
     const runNext = () => {
       const current = sequence[seqIndex]
       setCurrentStep(current.step)
-      
+
       if (current.step === 5) {
         const t1 = setTimeout(() => setMockTheme('light'), 800)
         const t2 = setTimeout(() => setMockTheme('dark'), 2400)
@@ -111,25 +139,30 @@ function ProductTourMockup() {
   const activeCursor = cursorCoords[currentStep] || { x: '80%', y: '80%' }
 
   return (
-    <div className={`
+    <div
+      className={`
       relative w-full aspect-[16/10] rounded-2xl border transition-colors duration-500 overflow-hidden shadow-2xl flex text-left select-none
-      ${mockTheme === 'dark'
-        ? 'bg-[#09090b] border-zinc-850 text-zinc-100'
-        : 'bg-white border-zinc-200 text-zinc-900'
+      ${
+        mockTheme === 'dark'
+          ? 'bg-[#09090b] border-zinc-850 text-zinc-100'
+          : 'bg-white border-zinc-200 text-zinc-900'
       }
-    `}>
+    `}
+    >
       {/* Mock Sidebar */}
-      <div className={`
+      <div
+        className={`
         w-[30%] border-r p-3 flex flex-col gap-4 transition-colors duration-500
         ${mockTheme === 'dark' ? 'bg-[#0f0f11] border-zinc-850' : 'bg-zinc-50 border-zinc-200'}
-      `}>
+      `}
+      >
         {/* Mock window dots */}
         <div className="flex gap-1.5 mb-1">
           <div className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           <div className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-700" />
           <div className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-700" />
         </div>
-        
+
         <div className="flex items-center gap-1.5 font-bold text-xs">
           <span>⚡</span>
           <span>Work</span>
@@ -144,9 +177,12 @@ function ProductTourMockup() {
               key={item.label}
               className={`
                 flex items-center gap-2 px-2 py-1.5 rounded-lg text-[11px] font-medium transition-colors
-                ${item.active
-                  ? (mockTheme === 'dark' ? 'bg-zinc-800 text-white' : 'bg-zinc-200/60 text-zinc-900')
-                  : 'text-zinc-400 dark:text-zinc-500'
+                ${
+                  item.active
+                    ? mockTheme === 'dark'
+                      ? 'bg-zinc-800 text-white'
+                      : 'bg-zinc-200/60 text-zinc-900'
+                    : 'text-zinc-400 dark:text-zinc-500'
                 }
               `}
             >
@@ -157,7 +193,9 @@ function ProductTourMockup() {
         </div>
 
         <div>
-          <p className="text-[9px] font-bold tracking-widest text-zinc-400 dark:text-zinc-650 uppercase mb-1.5 px-2">Projects</p>
+          <p className="text-[9px] font-bold tracking-widest text-zinc-400 dark:text-zinc-650 uppercase mb-1.5 px-2">
+            Projects
+          </p>
           <div className="flex items-center gap-1.5 px-2 py-1 text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
             <Folder size={11} />
             <span>docs</span>
@@ -172,10 +210,12 @@ function ProductTourMockup() {
           <div className="flex items-center justify-between pb-3 border-b border-zinc-200 dark:border-zinc-800 mb-3">
             <div className="flex items-center gap-2">
               <h3 className="text-xs font-bold">⚡ Work</h3>
-              <span className={`
+              <span
+                className={`
                 text-[9px] font-semibold px-1.5 py-0.5 rounded-full
                 ${mockTheme === 'dark' ? 'bg-zinc-800 text-zinc-450' : 'bg-zinc-100 text-zinc-500'}
-              `}>
+              `}
+              >
                 {currentStep >= 3 ? '3 items' : '2 items'}
               </span>
             </div>
@@ -184,12 +224,16 @@ function ProductTourMockup() {
           {/* List */}
           <div className="flex flex-col gap-1.5">
             <div className="flex items-center gap-2 py-1.5 px-2 rounded-lg bg-transparent">
-              <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-800' : 'border-zinc-300'}`} />
+              <div
+                className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-800' : 'border-zinc-300'}`}
+              />
               <span className="text-[11px] font-medium">Buy groceries</span>
             </div>
 
             <div className="flex items-center gap-2 py-1.5 px-2 rounded-lg bg-transparent">
-              <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-800' : 'border-zinc-300'}`} />
+              <div
+                className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-800' : 'border-zinc-300'}`}
+              />
               <span className="text-[11px] font-medium">Design UI tokens</span>
             </div>
 
@@ -204,11 +248,13 @@ function ProductTourMockup() {
                   transition={{ type: 'spring', damping: 20, stiffness: 200 }}
                   className="overflow-hidden"
                 >
-                  <div className={`
+                  <div
+                    className={`
                     flex items-center justify-between py-1.5 px-2 rounded-lg transition-colors
                     ${currentStep === 4 ? 'opacity-40' : ''}
                     ${mockTheme === 'dark' ? 'bg-zinc-900/50' : 'bg-zinc-50'}
-                  `}>
+                  `}
+                  >
                     <div className="flex items-center gap-2 min-w-0">
                       <div className="flex-shrink-0 flex items-center justify-center">
                         {currentStep >= 4 ? (
@@ -223,22 +269,30 @@ function ProductTourMockup() {
                             ✓
                           </motion.div>
                         ) : (
-                          <div className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-700' : 'border-zinc-300'}`} />
+                          <div
+                            className={`w-3.5 h-3.5 rounded border ${mockTheme === 'dark' ? 'border-zinc-700' : 'border-zinc-300'}`}
+                          />
                         )}
                       </div>
-                      <span className={`text-[11px] font-medium truncate ${currentStep >= 4 ? 'line-through' : ''}`}>
+                      <span
+                        className={`text-[11px] font-medium truncate ${currentStep >= 4 ? 'line-through' : ''}`}
+                      >
                         Prepare release notes
                       </span>
                     </div>
 
                     <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <span className={`
+                      <span
+                        className={`
                         px-1 py-0.5 text-[8px] font-bold rounded
                         ${mockTheme === 'dark' ? 'bg-zinc-800 text-zinc-400' : 'bg-zinc-150 text-zinc-500'}
-                      `}>
+                      `}
+                      >
                         #docs
                       </span>
-                      <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-550">!</span>
+                      <span className="text-[9px] font-bold text-zinc-400 dark:text-zinc-550">
+                        !
+                      </span>
                     </div>
                   </div>
                 </motion.div>
@@ -248,19 +302,26 @@ function ProductTourMockup() {
         </div>
 
         {/* Mock Quick Capture Input */}
-        <div className={`
+        <div
+          className={`
           flex items-center gap-2 rounded-lg p-2 border transition-all duration-150
-          ${currentStep === 2
-            ? (mockTheme === 'dark' ? 'border-zinc-400 bg-zinc-900' : 'border-zinc-400 bg-zinc-50')
-            : (mockTheme === 'dark' ? 'border-zinc-800 bg-zinc-900/40' : 'border-zinc-200 bg-zinc-50/40')
+          ${
+            currentStep === 2
+              ? mockTheme === 'dark'
+                ? 'border-zinc-400 bg-zinc-900'
+                : 'border-zinc-400 bg-zinc-50'
+              : mockTheme === 'dark'
+                ? 'border-zinc-800 bg-zinc-900/40'
+                : 'border-zinc-200 bg-zinc-50/40'
           }
-        `}>
+        `}
+        >
           <span className="text-zinc-400 dark:text-zinc-600 text-[10px]">+</span>
           <div className="text-[10px] font-medium text-zinc-450 dark:text-zinc-550 flex-1">
             {currentStep === 2 ? (
               <Typewriter text="Prepare release notes #docs !high" speed={50} />
             ) : (
-              "New task... #tag !priority"
+              'New task... #tag !priority'
             )}
           </div>
         </div>
@@ -291,9 +352,12 @@ function ProductTourMockup() {
                     key={cmd.label}
                     className={`
                       p-1.5 rounded-lg text-left flex flex-col gap-0.5
-                      ${cmd.active
-                        ? (mockTheme === 'dark' ? 'bg-zinc-850 text-white' : 'bg-zinc-100 text-zinc-900')
-                        : 'opacity-55'
+                      ${
+                        cmd.active
+                          ? mockTheme === 'dark'
+                            ? 'bg-zinc-850 text-white'
+                            : 'bg-zinc-100 text-zinc-900'
+                          : 'opacity-55'
                       }
                     `}
                   >
@@ -318,7 +382,10 @@ function ProductTourMockup() {
             >
               <div className="flex gap-2 p-3 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-2xl">
                 <motion.kbd
-                  animate={{ scale: [1, 0.9, 1], backgroundColor: ['#18181b', '#27272a', '#18181b'] }}
+                  animate={{
+                    scale: [1, 0.9, 1],
+                    backgroundColor: ['#18181b', '#27272a', '#18181b'],
+                  }}
                   transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 1 }}
                   className="px-3 py-2 text-xs font-bold text-zinc-300 bg-zinc-900 border border-zinc-700 rounded-lg shadow-inner"
                 >
@@ -326,7 +393,10 @@ function ProductTourMockup() {
                 </motion.kbd>
                 <span className="text-zinc-500 self-center">+</span>
                 <motion.kbd
-                  animate={{ scale: [1, 0.9, 1], backgroundColor: ['#18181b', '#27272a', '#18181b'] }}
+                  animate={{
+                    scale: [1, 0.9, 1],
+                    backgroundColor: ['#18181b', '#27272a', '#18181b'],
+                  }}
                   transition={{ duration: 1.2, delay: 0.3, repeat: Infinity, repeatDelay: 1 }}
                   className="px-3 py-2 text-xs font-bold text-zinc-300 bg-zinc-900 border border-zinc-700 rounded-lg shadow-inner"
                 >
@@ -340,12 +410,12 @@ function ProductTourMockup() {
         {/* Simulated Cursor */}
         <motion.div
           animate={{ x: activeCursor.x, y: activeCursor.y }}
-          transition={{ duration: 1.2, ease: "easeInOut" }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
           className="absolute z-50 pointer-events-none text-zinc-400 dark:text-zinc-600"
           style={{ left: 0, top: 0 }}
         >
           <MousePointer size={14} fill="currentColor" />
-          
+
           {/* Clicks visual ripple */}
           {currentStep === 4 && (
             <motion.div
@@ -378,7 +448,7 @@ export default function MarketingPage() {
           transition={{
             duration: 20,
             repeat: Infinity,
-            ease: "easeInOut"
+            ease: 'easeInOut',
           }}
           className="absolute top-[10%] left-[20%] w-[80%] h-[80%] opacity-30 dark:opacity-10 blur-[130px] bg-gradient-to-tr from-zinc-300 via-zinc-150 to-zinc-400 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-950"
         />
@@ -415,7 +485,6 @@ export default function MarketingPage() {
 
       {/* Main Content */}
       <main className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 py-12 lg:py-24 flex flex-col gap-20">
-        
         {/* Hero Section */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-5 flex flex-col text-center lg:text-left">
@@ -432,7 +501,7 @@ export default function MarketingPage() {
 
               {/* Title Character Reveal */}
               <h1 className="text-5xl sm:text-6xl font-black text-black dark:text-white mb-4 tracking-tight flex items-center justify-center lg:justify-start gap-1.5 overflow-hidden">
-                {"MONO".split("").map((char, index) => (
+                {'MONO'.split('').map((char, index) => (
                   <motion.span
                     key={index}
                     initial={{ opacity: 0, y: 24 }}
@@ -441,7 +510,7 @@ export default function MarketingPage() {
                       delay: 0.15 + index * 0.08,
                       type: 'spring',
                       stiffness: 150,
-                      damping: 13
+                      damping: 13,
                     }}
                   >
                     {char}
@@ -454,7 +523,8 @@ export default function MarketingPage() {
               </p>
 
               <p className="text-zinc-500 dark:text-zinc-450 leading-relaxed text-sm sm:text-base max-w-md mx-auto lg:mx-0 mb-8">
-                Unify your to-do lists, daily tasks, notes, projects, and life goals in a visually silent, keyboard-first workspace that adapts to your thinking.
+                Unify your to-do lists, daily tasks, notes, projects, and life goals in a visually
+                silent, keyboard-first workspace that adapts to your thinking.
               </p>
 
               {/* Action Buttons */}
@@ -464,7 +534,10 @@ export default function MarketingPage() {
                   className="w-full sm:w-auto px-8 py-3.5 bg-black hover:bg-zinc-800 text-white dark:bg-white dark:hover:bg-zinc-150 dark:text-black rounded-2xl text-base font-black shadow-xl hover:shadow-2xl flex items-center justify-center gap-2 group transition-all duration-150"
                 >
                   <span>Launch Workspace</span>
-                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight
+                    size={16}
+                    className="group-hover:translate-x-1 transition-transform"
+                  />
                 </Link>
                 <a
                   href="https://github.com/siddhantbhatia220/MONO"
@@ -495,19 +568,19 @@ export default function MarketingPage() {
           {[
             {
               icon: <Monitor size={22} className="text-zinc-800 dark:text-zinc-200" />,
-              title: "Local-First & Offline",
-              desc: "MONO operates 100% locally on your browser. Runs instantly offline using IndexedDB database wrappers. Your data never leaves your device."
+              title: 'Local-First & Offline',
+              desc: 'MONO operates 100% locally on your browser. Runs instantly offline using IndexedDB database wrappers. Your data never leaves your device.',
             },
             {
               icon: <Key size={22} className="text-zinc-800 dark:text-zinc-200" />,
-              title: "Keyboard-First Control",
-              desc: "Navigate faster without touching your mouse. Execute shortcuts and access commands instantly with the global Ctrl+K / ⌘K command launcher."
+              title: 'Keyboard-First Control',
+              desc: 'Navigate faster without touching your mouse. Execute shortcuts and access commands instantly with the global Ctrl+K / ⌘K command launcher.',
             },
             {
               icon: <ShieldCheck size={22} className="text-zinc-800 dark:text-zinc-200" />,
-              title: "Visually Silent System",
-              desc: "A strictly monochrome gray-scale color palette that recedes into the background, prioritizing content structure over visual noise."
-            }
+              title: 'Visually Silent System',
+              desc: 'A strictly monochrome gray-scale color palette that recedes into the background, prioritizing content structure over visual noise.',
+            },
           ].map((pillar, idx) => (
             <motion.div
               key={pillar.title}
@@ -520,8 +593,12 @@ export default function MarketingPage() {
               <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-850 flex items-center justify-center mb-4">
                 {pillar.icon}
               </div>
-              <h3 className="font-bold text-sm text-zinc-950 dark:text-zinc-50 mb-2">{pillar.title}</h3>
-              <p className="text-xs text-zinc-500 dark:text-zinc-450 leading-relaxed">{pillar.desc}</p>
+              <h3 className="font-bold text-sm text-zinc-950 dark:text-zinc-50 mb-2">
+                {pillar.title}
+              </h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-450 leading-relaxed">
+                {pillar.desc}
+              </p>
             </motion.div>
           ))}
         </section>
@@ -530,7 +607,9 @@ export default function MarketingPage() {
         <section className="text-center py-12 border-t border-zinc-200/50 dark:border-zinc-800/50 max-w-2xl mx-auto">
           <h2 className="text-2xl font-black tracking-tight mb-3">100% Open Source.</h2>
           <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-450 leading-relaxed mb-6">
-            MONO is developed as an open source project to provide a high-performance local operating system tool for developers and creators. No premium plans, no advertisements, no tracking cookies.
+            MONO is developed as an open source project to provide a high-performance local
+            operating system tool for developers and creators. No premium plans, no advertisements,
+            no tracking cookies.
           </p>
           <Link
             href="/app"
@@ -545,8 +624,22 @@ export default function MarketingPage() {
       <footer className="relative z-10 w-full max-w-7xl mx-auto px-6 py-8 border-t border-zinc-200/50 dark:border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-450 dark:text-zinc-500">
         <p>© 2026 MONO. Built with Next.js & IndexedDB by Siddhant Bhatia.</p>
         <div className="flex gap-6">
-          <a href="https://github.com/siddhantbhatia220/MONO/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors">License</a>
-          <a href="https://github.com/siddhantbhatia220/MONO/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors">Contributing</a>
+          <a
+            href="https://github.com/siddhantbhatia220/MONO/blob/main/LICENSE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+          >
+            License
+          </a>
+          <a
+            href="https://github.com/siddhantbhatia220/MONO/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+          >
+            Contributing
+          </a>
         </div>
       </footer>
     </div>

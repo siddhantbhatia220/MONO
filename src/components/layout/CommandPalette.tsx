@@ -5,14 +5,15 @@
  * Universal search and action launcher. Opens with Ctrl+K / Cmd+K.
  * Searches both commands AND items from IndexedDB in real-time.
  */
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import React, { useEffect, useRef, useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Search, CornerDownLeft, CheckCircle2, Circle } from 'lucide-react'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useIsMobile } from '@/lib/hooks/useIsMobile'
+import { AnimatePresence, motion } from 'framer-motion'
+import { CheckCircle2, Circle, CornerDownLeft, Search } from 'lucide-react'
+
 import { searchItems } from '@/lib/db/items'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 import { useAppStore } from '@/lib/store/appStore'
+import { useUIStore } from '@/lib/store/uiStore'
 import type { Item } from '@/lib/types/item'
 import { ItemStatus } from '@/lib/types/item'
 
@@ -115,15 +116,22 @@ function highlightMatch(text: string, query: string): React.ReactNode {
   return (
     <>
       {text.slice(0, idx)}
-      <span className="font-semibold text-black dark:text-white">{text.slice(idx, idx + query.length)}</span>
+      <span className="font-semibold text-black dark:text-white">
+        {text.slice(idx, idx + query.length)}
+      </span>
       {text.slice(idx + query.length)}
     </>
   )
 }
 
 export function CommandPalette() {
-  const { commandPaletteOpen, commandPaletteQuery, closeCommandPalette, setCommandPaletteQuery, openItemDetail } =
-    useUIStore()
+  const {
+    commandPaletteOpen,
+    commandPaletteQuery,
+    closeCommandPalette,
+    setCommandPaletteQuery,
+    openItemDetail,
+  } = useUIStore()
   const { activeWorkspace } = useAppStore()
 
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -141,18 +149,21 @@ export function CommandPalette() {
   const allCommands = useCommandItems()
 
   // Search items from IndexedDB when query changes
-  const doSearch = useCallback(async (query: string) => {
-    if (!query.trim()) {
-      setItemResults([])
-      return
-    }
-    try {
-      const results = await searchItems(query, activeWorkspace?.id)
-      setItemResults(results.slice(0, 8))
-    } catch {
-      setItemResults([])
-    }
-  }, [activeWorkspace])
+  const doSearch = useCallback(
+    async (query: string) => {
+      if (!query.trim()) {
+        setItemResults([])
+        return
+      }
+      try {
+        const results = await searchItems(query, activeWorkspace?.id)
+        setItemResults(results.slice(0, 8))
+      } catch {
+        setItemResults([])
+      }
+    },
+    [activeWorkspace]
+  )
 
   useEffect(() => {
     if (searchTimerRef.current) clearTimeout(searchTimerRef.current)
@@ -180,11 +191,14 @@ export function CommandPalette() {
   const itemCommands: CommandItem[] = itemResults.map((item) => ({
     id: `item-${item.id}`,
     label: item.title,
-    description: item.tags.length > 0 ? item.tags.map(t => `#${t}`).join(' ') : undefined,
+    description: item.tags.length > 0 ? item.tags.map((t) => `#${t}`).join(' ') : undefined,
     category: 'Items',
-    icon: item.status === ItemStatus.Completed
-      ? <CheckCircle2 size={14} className="text-zinc-400" />
-      : <Circle size={14} className="text-zinc-400" />,
+    icon:
+      item.status === ItemStatus.Completed ? (
+        <CheckCircle2 size={14} className="text-zinc-400" />
+      ) : (
+        <Circle size={14} className="text-zinc-400" />
+      ),
     action: () => {
       closeCommandPalette()
       openItemDetail(item.id)
@@ -280,7 +294,11 @@ export function CommandPalette() {
           >
             {/* Search Input */}
             <div className="flex items-center gap-3 px-4 py-3.5 border-b border-zinc-200 dark:border-zinc-800">
-              <Search size={16} className="text-zinc-400 dark:text-zinc-600 flex-shrink-0" aria-hidden="true" />
+              <Search
+                size={16}
+                className="text-zinc-400 dark:text-zinc-600 flex-shrink-0"
+                aria-hidden="true"
+              />
               <input
                 ref={inputRef}
                 type="text"
@@ -295,13 +313,15 @@ export function CommandPalette() {
                 aria-autocomplete="list"
                 aria-controls="command-list"
               />
-              <kbd className="
+              <kbd
+                className="
                 px-1.5 py-0.5 text-[10px] font-mono
                 bg-zinc-50 dark:bg-zinc-900
                 text-zinc-400 dark:text-zinc-500
                 border border-zinc-200 dark:border-zinc-800
                 rounded
-              ">
+              "
+              >
                 esc
               </kbd>
             </div>
@@ -314,7 +334,9 @@ export function CommandPalette() {
             >
               {Object.entries(grouped).length === 0 ? (
                 <div className="px-4 py-8 text-center">
-                  <p className="text-sm text-zinc-400 dark:text-zinc-600">No results for &ldquo;{commandPaletteQuery}&rdquo;</p>
+                  <p className="text-sm text-zinc-400 dark:text-zinc-600">
+                    No results for &ldquo;{commandPaletteQuery}&rdquo;
+                  </p>
                 </div>
               ) : (
                 Object.entries(grouped).map(([category, categoryItems]) => (
@@ -340,9 +362,10 @@ export function CommandPalette() {
                           className={`
                             w-full flex items-center gap-3 px-4 py-2.5 text-left
                             transition-colors duration-75 cursor-pointer
-                            ${isSelected
-                              ? 'bg-zinc-100 dark:bg-zinc-900'
-                              : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
+                            ${
+                              isSelected
+                                ? 'bg-zinc-100 dark:bg-zinc-900'
+                                : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
                             }
                           `}
                         >
@@ -364,19 +387,24 @@ export function CommandPalette() {
                           </div>
 
                           {item.shortcut && (
-                            <kbd className="
+                            <kbd
+                              className="
                               px-1.5 py-0.5 text-[10px] font-mono flex-shrink-0
                               bg-zinc-100 dark:bg-zinc-900
                               text-zinc-500 dark:text-zinc-400
                               border border-zinc-200 dark:border-zinc-800
                               rounded
-                            ">
+                            "
+                            >
                               {item.shortcut}
                             </kbd>
                           )}
 
                           {isSelected && (
-                            <CornerDownLeft size={12} className="text-zinc-400 dark:text-zinc-600 flex-shrink-0" />
+                            <CornerDownLeft
+                              size={12}
+                              className="text-zinc-400 dark:text-zinc-600 flex-shrink-0"
+                            />
                           )}
                         </motion.button>
                       )

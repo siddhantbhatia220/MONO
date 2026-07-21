@@ -6,9 +6,9 @@
  * Custom animated checkbox — the SVG checkmark draws itself on check.
  * This is the most used interaction in the entire app.
  */
-
 import React, { useId } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+
+import { AnimatePresence, motion } from 'framer-motion'
 
 interface CheckboxProps {
   checked: boolean
@@ -61,9 +61,10 @@ export function Checkbox({
           rounded-sm border border-zinc-200 transition-colors
           cursor-pointer focus-visible:outline-none focus-visible:ring-1
           focus-visible:ring-zinc-950 dark:focus-visible:ring-zinc-300
-          ${checked
-            ? 'bg-zinc-900 border-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:border-zinc-50 dark:text-zinc-900'
-            : 'bg-transparent dark:border-zinc-800'
+          ${
+            checked
+              ? 'bg-zinc-900 border-zinc-900 text-zinc-50 dark:bg-zinc-50 dark:border-zinc-50 dark:text-zinc-900'
+              : 'bg-transparent dark:border-zinc-800'
           }
           disabled:opacity-50 disabled:cursor-not-allowed
         `}

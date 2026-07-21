@@ -29,27 +29,33 @@ npm run dev
 These are non-negotiable for all contributions:
 
 ### 1. No placeholder code
+
 Never submit `// TODO`, fake implementations, or `coming soon` stubs. Every piece of code must compile, run, and be production-ready.
 
 ### 2. TypeScript strict
+
 No `any` types. No `@ts-ignore`. All types must be explicit and correct.
 
 ### 3. Accessibility first
+
 Every interactive element must be keyboard navigable and ARIA-annotated.
 
 ### 4. Monochrome only
+
 No colors outside the design token system. The palette is black, white, and grayscale — no exceptions.
 
 ### 5. Test your changes
+
 Verify your changes work in both light and dark mode, on mobile (375px) and desktop (1440px).
 
 ---
 
 ## Commit Convention
 
-Each commit must represent exactly one logical change. Write commit messages as a complete sentence describing *what* the change achieves, not *what files were changed*.
+Each commit must represent exactly one logical change. Write commit messages as a complete sentence describing _what_ the change achieves, not _what files were changed_.
 
 **Good:**
+
 ```
 Implement full-text search across items, notes, and tags with fuzzy matching
 Add keyboard shortcut overlay with categorized shortcut list and search
@@ -57,6 +63,7 @@ Fix CheckBox path animation not completing on rapid toggle
 ```
 
 **Bad:**
+
 ```
 feat: add search
 fix stuff

@@ -3,8 +3,8 @@
 ## Supported Versions
 
 | Version | Supported |
-|---|---|
-| 0.1.x | ✅ Yes |
+| ------- | --------- |
+| 0.1.x   | ✅ Yes    |
 
 ---
 
@@ -15,6 +15,7 @@
 Please report security issues privately by emailing the repository maintainer or using GitHub's private vulnerability reporting feature.
 
 Include:
+
 - A clear description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -40,6 +41,7 @@ MONO is built with a zero-trust mindset:
 ## Phase 3 Security (When Backend is Added)
 
 When the NestJS backend lands:
+
 - JWT with short expiry + refresh token rotation
 - Argon2 password hashing (never bcrypt, never MD5)
 - Rate limiting on all auth endpoints

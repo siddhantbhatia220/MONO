@@ -127,13 +127,9 @@ export interface SubItem {
 // ============================
 
 export type CreateItemInput = Pick<Item, 'title' | 'workspaceId'> &
-  Partial<
-    Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'status' | 'sortOrder' | 'pinned'>
-  >
+  Partial<Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'status' | 'sortOrder' | 'pinned'>>
 
-export type UpdateItemInput = Partial<
-  Omit<Item, 'id' | 'createdAt' | 'workspaceId' | 'createdBy'>
->
+export type UpdateItemInput = Partial<Omit<Item, 'id' | 'createdAt' | 'workspaceId' | 'createdBy'>>
 
 // ============================
 // Query / Filter Types

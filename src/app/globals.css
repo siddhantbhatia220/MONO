@@ -2,7 +2,6 @@
 @variant dark (&:where(.dark, .dark *));
 @import '../styles/tokens.css';
 
-
 @layer base {
   /* ============================
      Base Reset
@@ -37,7 +36,9 @@
     background-color: var(--bg-primary);
     min-height: 100dvh;
     overflow-x: hidden;
-    transition: background-color var(--transition-base), color var(--transition-base);
+    transition:
+      background-color var(--transition-base),
+      color var(--transition-base);
   }
 
   /* ============================
@@ -99,19 +100,36 @@
      Typography Defaults
      ============================ */
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: var(--font-bold);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
     color: var(--text-primary);
   }
 
-  h1 { font-size: var(--text-4xl); }
-  h2 { font-size: var(--text-3xl); }
-  h3 { font-size: var(--text-2xl); }
-  h4 { font-size: var(--text-xl); }
-  h5 { font-size: var(--text-lg); }
-  h6 { font-size: var(--text-md); }
+  h1 {
+    font-size: var(--text-4xl);
+  }
+  h2 {
+    font-size: var(--text-3xl);
+  }
+  h3 {
+    font-size: var(--text-2xl);
+  }
+  h4 {
+    font-size: var(--text-xl);
+  }
+  h5 {
+    font-size: var(--text-lg);
+  }
+  h6 {
+    font-size: var(--text-md);
+  }
 
   p {
     line-height: var(--leading-relaxed);
@@ -205,4 +223,3 @@
     padding-right: var(--space-4);
   }
 }
-

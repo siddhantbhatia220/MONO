@@ -47,6 +47,7 @@ graph TD
 ```
 
 ### Core Architecture Decoupling:
+
 1. **Zustand State Store**: Synchronizes runtime components. State updates are optimistic to deliver sub-50ms user action response times.
 2. **IndexedDB Layer**: Direct asynchronous background writing via the `idb` wrapper. Guarantees complete data persistence without network reliance.
 3. **Universal Item Model**: A unified model design where every data block has an `itemType` (task, note, goal) and a dynamic tag list.
@@ -80,6 +81,7 @@ graph TD
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js ≥ 18
 - npm ≥ 9
 
@@ -99,14 +101,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Keyboard Shortcuts
 
-| Shortcut | Action |
-|---|---|
-| `Ctrl+K` / `⌘K` | Open Command Palette |
-| `N` | New item (focuses quick capture) |
-| `?` | Show keyboard shortcuts overlay |
-| `Ctrl+B` | Toggle collapsible sidebar |
-| `Escape` | Close modals / cancel inputs |
-| `Enter` | Complete selection / open item |
+| Shortcut        | Action                           |
+| --------------- | -------------------------------- |
+| `Ctrl+K` / `⌘K` | Open Command Palette             |
+| `N`             | New item (focuses quick capture) |
+| `?`             | Show keyboard shortcuts overlay  |
+| `Ctrl+B`        | Toggle collapsible sidebar       |
+| `Escape`        | Close modals / cancel inputs     |
+| `Enter`         | Complete selection / open item   |
 
 ---
 
@@ -135,12 +137,15 @@ src/
 ## FAQ
 
 #### Q: Why is MONO strictly monochrome?
+
 A: Color is often used as a crutch in modern software, causing visual distraction. By limiting MONO to pure monochrome (black, white, and grayscales), we create a high-contrast environment where visual hierarchy is driven by typography, weight, and size.
 
 #### Q: Where is my data stored?
+
 A: In Phase 1, 100% of your data remains locally on your device in IndexedDB. No remote servers are contacted, guaranteeing absolute privacy and instantaneous offline usability.
 
 #### Q: Why Zustand instead of Redux or React Context?
+
 A: Zustand offers a highly performant, boilerplate-free state model. It supports selectors to prevent unnecessary component re-renders, combines easily with IndexedDB callbacks, and offers persistent middleware options.
 
 ---

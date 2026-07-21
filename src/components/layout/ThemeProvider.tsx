@@ -4,8 +4,8 @@
  * MONO — Theme Provider
  * Handles system/light/dark theme with no flash on load.
  */
-
 import React, { useEffect } from 'react'
+
 import { useAppStore } from '@/lib/store/appStore'
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {

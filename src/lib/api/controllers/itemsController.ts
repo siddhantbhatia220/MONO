@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getMockItems } from '../services/itemsService'
 
 export async function getItems() {

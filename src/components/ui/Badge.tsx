@@ -4,9 +4,9 @@
  * MONO — Badge Component
  * Priority, status, and tag badges. Always monochrome.
  */
-
 import React from 'react'
-import { Priority, ItemStatus } from '@/lib/types/item'
+
+import { ItemStatus, Priority } from '@/lib/types/item'
 
 type BadgeVariant = 'priority' | 'status' | 'tag' | 'default'
 

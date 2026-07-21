@@ -73,11 +73,11 @@ app/page.tsx (Client)
 
 Three Zustand stores, each with a single responsibility:
 
-| Store | Responsibility | Persisted? |
-|---|---|---|
-| `appStore` | Active workspace/project, user preferences, resolved theme | ✅ localStorage |
+| Store       | Responsibility                                              | Persisted?      |
+| ----------- | ----------------------------------------------------------- | --------------- |
+| `appStore`  | Active workspace/project, user preferences, resolved theme  | ✅ localStorage |
 | `itemStore` | In-memory item cache, optimistic updates, undo/redo history | ❌ Session only |
-| `uiStore` | Command palette, modals, toasts, sidebar state | ❌ Session only |
+| `uiStore`   | Command palette, modals, toasts, sidebar state              | ❌ Session only |
 
 ## Phase 3 Target Architecture (Backend)
 

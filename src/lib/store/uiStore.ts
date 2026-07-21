@@ -4,17 +4,11 @@
  * UI-only state: modals, panels, command palette, toasts.
  * Never persisted — resets on page load.
  */
-
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 type ModalId =
-  | 'create-workspace'
-  | 'create-project'
-  | 'item-detail'
-  | 'settings'
-  | 'keyboard-shortcuts'
-  | null
+  'create-workspace' | 'create-project' | 'item-detail' | 'settings' | 'keyboard-shortcuts' | null
 
 interface Toast {
   id: string
@@ -102,25 +96,17 @@ export const useUIStore = create<UIState>()(
 
       setSidebarOpen: (open) => set({ sidebarOpen: open }, false, 'setSidebarOpen'),
 
-      openModal: (id, data = {}) =>
-        set({ activeModal: id, modalData: data }, false, 'openModal'),
+      openModal: (id, data = {}) => set({ activeModal: id, modalData: data }, false, 'openModal'),
 
-      closeModal: () =>
-        set({ activeModal: null, modalData: {} }, false, 'closeModal'),
+      closeModal: () => set({ activeModal: null, modalData: {} }, false, 'closeModal'),
 
-      openItemDetail: (itemId) =>
-        set({ detailItemId: itemId }, false, 'openItemDetail'),
+      openItemDetail: (itemId) => set({ detailItemId: itemId }, false, 'openItemDetail'),
 
-      closeItemDetail: () =>
-        set({ detailItemId: null }, false, 'closeItemDetail'),
+      closeItemDetail: () => set({ detailItemId: null }, false, 'closeItemDetail'),
 
       addToast: (toast) => {
         const id = `toast-${++toastCounter}`
-        set(
-          (state) => ({ toasts: [...state.toasts, { ...toast, id }] }),
-          false,
-          'addToast'
-        )
+        set((state) => ({ toasts: [...state.toasts, { ...toast, id }] }), false, 'addToast')
 
         // Auto-remove after duration
         const duration = toast.duration ?? 4000
@@ -130,11 +116,7 @@ export const useUIStore = create<UIState>()(
       },
 
       removeToast: (id) =>
-        set(
-          (state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }),
-          false,
-          'removeToast'
-        ),
+        set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) }), false, 'removeToast'),
 
       setLoading: (loading) => set({ isLoading: loading }, false, 'setLoading'),
     }),

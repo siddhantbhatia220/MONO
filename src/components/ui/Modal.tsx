@@ -4,13 +4,14 @@
  * MONO — Modal Component
  * Focus-trapped, accessible modal with backdrop blur and spring animation.
  */
-
 import React, { useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+
+import { AnimatePresence, motion } from 'framer-motion'
 import { X } from 'lucide-react'
-import { Button } from './Button'
 
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
+
+import { Button } from './Button'
 
 interface ModalProps {
   open: boolean

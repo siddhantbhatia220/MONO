@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+
 import { getWorkspaceTemplates } from '../services/workspacesService'
 
 export async function getWorkspaces() {

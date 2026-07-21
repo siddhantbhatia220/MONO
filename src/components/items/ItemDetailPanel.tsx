@@ -1,27 +1,30 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { X, Trash2, Calendar, AlertCircle, Tag } from 'lucide-react'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useItemStore } from '@/lib/store/itemStore'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertCircle, Calendar, Tag, Trash2, X } from 'lucide-react'
+
 import {
-  getItem,
-  updateItem,
-  deleteItem,
-  listSubItems,
   createSubItem,
-  updateSubItem,
+  deleteItem,
   deleteSubItem,
+  getItem,
+  listSubItems,
+  updateItem,
+  updateSubItem,
 } from '@/lib/db/items'
-import { Priority, type Item, type SubItem } from '@/lib/types/item'
+import { useItemStore } from '@/lib/store/itemStore'
+import { useUIStore } from '@/lib/store/uiStore'
+import { type Item, Priority, type SubItem } from '@/lib/types/item'
+
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
   const { items, upsertItem, removeItem } = useItemStore()
-  
+
   const [item, setItem] = useState<Item | null>(null)
   const [notes, setNotes] = useState('')
   const [newTag, setNewTag] = useState('')
@@ -352,7 +355,7 @@ export function ItemDetailPanel() {
                 <label className="text-[10px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-505 flex items-center gap-1.5">
                   <Tag size={11} /> Tags
                 </label>
-                
+
                 {/* Tag chips */}
                 <div className="flex flex-wrap gap-1.5 mb-1">
                   {item.tags.map((t) => (
@@ -424,9 +427,10 @@ export function ItemDetailPanel() {
                         <span
                           className={`
                             text-xs font-medium truncate
-                            ${si.completed
-                              ? 'line-through text-zinc-400 dark:text-zinc-650'
-                              : 'text-zinc-800 dark:text-zinc-200'
+                            ${
+                              si.completed
+                                ? 'line-through text-zinc-400 dark:text-zinc-650'
+                                : 'text-zinc-800 dark:text-zinc-200'
                             }
                           `}
                         >
@@ -446,7 +450,9 @@ export function ItemDetailPanel() {
                     </div>
                   ))}
                   {subItems.length === 0 && (
-                    <span className="text-xs text-zinc-400 dark:text-zinc-650 italic px-2">No sub-items yet</span>
+                    <span className="text-xs text-zinc-400 dark:text-zinc-650 italic px-2">
+                      No sub-items yet
+                    </span>
                   )}
                 </div>
 
