@@ -10,6 +10,8 @@ import { useAppStore } from '@/lib/store/appStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import type { Workspace } from '@/lib/types/workspace'
 
+import { ProjectIcon } from '@/components/ui/ProjectIcon'
+
 interface WorkspaceSwitcherProps {
   align?: 'left' | 'right'
   collapsed?: boolean
@@ -69,9 +71,10 @@ export function WorkspaceSwitcher({ align = 'left', collapsed = false }: Workspa
         aria-expanded={isOpen}
         aria-label="Switch workspace"
       >
-        <span className="text-base flex-shrink-0" aria-hidden="true">
-          {activeWorkspace.icon}
-        </span>
+        <ProjectIcon
+          name={activeWorkspace.icon ?? 'Folder'}
+          className="w-4 h-4 flex-shrink-0 text-zinc-800 dark:text-zinc-200"
+        />
         {!collapsed && (
           <>
             <span className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 max-w-[120px] md:max-w-[180px] truncate">
@@ -138,9 +141,10 @@ export function WorkspaceSwitcher({ align = 'left', collapsed = false }: Workspa
                       `}
                     >
                       <div className="flex items-center gap-2.5 truncate">
-                        <span className="text-sm flex-shrink-0" aria-hidden="true">
-                          {w.icon}
-                        </span>
+                        <ProjectIcon
+                          name={w.icon ?? 'Folder'}
+                          className="w-4 h-4 flex-shrink-0 text-zinc-500 dark:text-zinc-400"
+                        />
                         <span className="truncate">{w.name}</span>
                       </div>
                       {isActive && (
