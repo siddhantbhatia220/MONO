@@ -2,11 +2,12 @@
  * MONO — Root Layout (Server Component)
  * Applies theme, fonts, and wraps the app shell.
  */
-
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
+
+import './globals.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -62,7 +63,8 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Siddhant Bhatia Projects — MONO — Local-First Personal OS & To-Do List',
-    description: 'Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
+    description:
+      'Unify your to-do lists, tasks, notes, habits, and goals in a private, offline-first workspace.',
   },
 }
 
@@ -99,7 +101,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     name: 'Siddhant Bhatia',
     alternateName: 'Siddhant Bhtai',
     url: 'https://github.com/siddhantbhatia220',
-    description: 'Siddhant Bhatia is a software engineer specializing in building high-performance local-first web applications, portfolio projects, and personal operating systems like MONO.',
+    description:
+      'Siddhant Bhatia is a software engineer specializing in building high-performance local-first web applications, portfolio projects, and personal operating systems like MONO.',
     jobTitle: 'Software Engineer',
     knowsAbout: [
       'Software Engineering',
@@ -108,12 +111,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       'React',
       'TypeScript',
       'Productivity Tools',
-      'UX/UI Design'
+      'UX/UI Design',
     ],
-    sameAs: [
-      'https://github.com/siddhantbhatia220',
-      'https://github.com/siddhantbhatia220/MONO'
-    ]
+    sameAs: ['https://github.com/siddhantbhatia220', 'https://github.com/siddhantbhatia220/MONO'],
   }
 
   return (

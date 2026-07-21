@@ -7,6 +7,7 @@ We are committed to making participation in MONO a respectful experience for eve
 ## Our Standards
 
 **Encouraged behavior:**
+
 - Using welcoming and inclusive language
 - Being respectful of differing viewpoints and experiences
 - Gracefully accepting constructive criticism
@@ -14,6 +15,7 @@ We are committed to making participation in MONO a respectful experience for eve
 - Showing empathy towards other community members
 
 **Unacceptable behavior:**
+
 - Trolling, insulting or derogatory comments, and personal or political attacks
 - Public or private harassment
 - Publishing others' private information without explicit permission

@@ -4,8 +4,8 @@
  * MONO — Input Component
  * Accessible text input with label, error state, and clear button.
  */
+import React, { forwardRef, useId } from 'react'
 
-import React, { useId, forwardRef } from 'react'
 import { X } from 'lucide-react'
 
 interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
@@ -61,7 +61,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative flex items-center">
           {leftIcon && (
-            <span className="absolute left-3 text-zinc-400 dark:text-zinc-500 pointer-events-none" aria-hidden="true">
+            <span
+              className="absolute left-3 text-zinc-400 dark:text-zinc-500 pointer-events-none"
+              aria-hidden="true"
+            >
               {leftIcon}
             </span>
           )}
@@ -82,7 +85,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               dark:border-zinc-800 dark:placeholder:text-zinc-400 dark:focus-visible:ring-zinc-300
               ${error ? 'border-red-500 focus-visible:ring-red-500 dark:border-red-900 dark:focus-visible:ring-red-900' : ''}
               ${leftIcon ? 'pl-10' : ''}
-              ${(rightIcon || (onClear && hasValue)) ? 'pr-10' : ''}
+              ${rightIcon || (onClear && hasValue) ? 'pr-10' : ''}
               ${sizeStyles[size]}
               ${className}
             `}
@@ -101,14 +104,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
 
           {rightIcon && !onClear && (
-            <span className="absolute right-3 text-zinc-400 dark:text-zinc-500 pointer-events-none" aria-hidden="true">
+            <span
+              className="absolute right-3 text-zinc-400 dark:text-zinc-500 pointer-events-none"
+              aria-hidden="true"
+            >
               {rightIcon}
             </span>
           )}
         </div>
 
         {error && (
-          <p id={errorId} role="alert" className="text-xs text-zinc-600 font-semibold dark:text-zinc-400">
+          <p
+            id={errorId}
+            role="alert"
+            className="text-xs text-zinc-600 font-semibold dark:text-zinc-400"
+          >
             {error}
           </p>
         )}

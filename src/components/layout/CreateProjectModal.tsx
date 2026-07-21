@@ -1,13 +1,14 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { Modal } from '@/components/ui/Modal'
-import { Input } from '@/components/ui/Input'
-import { Button } from '@/components/ui/Button'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useAppStore } from '@/lib/store/appStore'
-import { createProject } from '@/lib/db/workspaces'
+import React, { useEffect, useState } from 'react'
 
+import { createProject } from '@/lib/db/workspaces'
+import { useAppStore } from '@/lib/store/appStore'
+import { useUIStore } from '@/lib/store/uiStore'
+
+import { Button } from '@/components/ui/Button'
+import { Input } from '@/components/ui/Input'
+import { Modal } from '@/components/ui/Modal'
 import { ProjectIcon } from '@/components/ui/ProjectIcon'
 
 export function CreateProjectModal() {
@@ -17,7 +18,18 @@ export function CreateProjectModal() {
   const [icon, setIcon] = useState('Folder')
   const [loading, setLoading] = useState(false)
 
-  const ICON_OPTIONS = ['Folder', 'Zap', 'Target', 'Lightbulb', 'FileText', 'Rocket', 'Leaf', 'FlaskConical', 'Palette', 'BarChart3']
+  const ICON_OPTIONS = [
+    'Folder',
+    'Zap',
+    'Target',
+    'Lightbulb',
+    'FileText',
+    'Rocket',
+    'Leaf',
+    'FlaskConical',
+    'Palette',
+    'BarChart3',
+  ]
 
   // Reset fields when opening modal
   useEffect(() => {
@@ -37,10 +49,10 @@ export function CreateProjectModal() {
         icon,
         workspaceId: activeWorkspace.id,
       })
-      
+
       // Dispatch custom event to notify Sidebar to re-fetch projects
       document.dispatchEvent(new CustomEvent('mono:projects-updated'))
-      
+
       setActiveProject(project)
       addToast({ message: 'Project created', type: 'success', duration: 2000 })
       closeModal()
@@ -63,7 +75,9 @@ export function CreateProjectModal() {
       <div className="flex flex-col gap-4">
         {/* Icon picker */}
         <div>
-          <p className="text-xs font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 uppercase mb-2">Icon</p>
+          <p className="text-xs font-semibold tracking-wider text-zinc-500 dark:text-zinc-400 uppercase mb-2">
+            Icon
+          </p>
           <div className="flex flex-wrap gap-2">
             {ICON_OPTIONS.map((iconName) => (
               <button
@@ -71,9 +85,10 @@ export function CreateProjectModal() {
                 onClick={() => setIcon(iconName)}
                 className={`
                   w-9 h-9 rounded-lg flex items-center justify-center border transition-all duration-100 cursor-pointer
-                  ${icon === iconName
-                    ? 'border-zinc-900 dark:border-zinc-150 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
-                    : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
+                  ${
+                    icon === iconName
+                      ? 'border-zinc-900 dark:border-zinc-150 bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
+                      : 'border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
                   }
                 `}
                 aria-label={`Select ${iconName} as project icon`}

@@ -1,10 +1,12 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Modal } from '@/components/ui/Modal'
-import { Button } from '@/components/ui/Button'
-import { useUIStore } from '@/lib/store/uiStore'
+
 import { useAppStore } from '@/lib/store/appStore'
+import { useUIStore } from '@/lib/store/uiStore'
+
+import { Button } from '@/components/ui/Button'
+import { Modal } from '@/components/ui/Modal'
 
 export function SettingsModal() {
   const { activeModal, closeModal, addToast } = useUIStore()
@@ -24,14 +26,18 @@ export function SettingsModal() {
   const handleShowCompletedToggle = () => {
     const newVal = !preferences.showCompleted
     updatePreferences({ showCompleted: newVal })
-    addToast({ message: newVal ? 'Showing completed tasks' : 'Hiding completed tasks', type: 'info', duration: 1500 })
+    addToast({
+      message: newVal ? 'Showing completed tasks' : 'Hiding completed tasks',
+      type: 'info',
+      duration: 1500,
+    })
   }
 
   const handleFactoryReset = async () => {
     try {
       // Clear localStorage
       localStorage.clear()
-      
+
       // Delete IndexedDB database
       const req = window.indexedDB.deleteDatabase('mono-os')
       req.onsuccess = () => {
@@ -108,8 +114,12 @@ export function SettingsModal() {
           </h3>
           <div className="flex items-center justify-between p-3 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30">
             <div>
-              <p className="text-xs font-semibold text-zinc-850 dark:text-zinc-200">Show Completed Items</p>
-              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">Show completed items in lists and projects.</p>
+              <p className="text-xs font-semibold text-zinc-850 dark:text-zinc-200">
+                Show Completed Items
+              </p>
+              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+                Show completed items in lists and projects.
+              </p>
             </div>
             <Button
               variant={preferences.showCompleted ? 'default' : 'outline'}
@@ -127,11 +137,14 @@ export function SettingsModal() {
             Danger Zone
           </h3>
           <div className="p-3.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30">
-            <p className="text-xs font-semibold text-zinc-850 dark:text-zinc-200">Factory Reset Application</p>
-            <p className="text-[11px] text-zinc-450 dark:text-zinc-550 mb-3.5 leading-relaxed">
-              This will permanently delete all workspaces, projects, items, and settings from this device. This operation cannot be undone.
+            <p className="text-xs font-semibold text-zinc-850 dark:text-zinc-200">
+              Factory Reset Application
             </p>
-            
+            <p className="text-[11px] text-zinc-450 dark:text-zinc-550 mb-3.5 leading-relaxed">
+              This will permanently delete all workspaces, projects, items, and settings from this
+              device. This operation cannot be undone.
+            </p>
+
             {!confirmReset ? (
               <Button
                 variant="outline"

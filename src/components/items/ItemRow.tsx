@@ -4,19 +4,21 @@
  * MONO — Item Row Component
  * A single item in the list view. Animated, accessible, keyboard navigable.
  */
+import React, { useCallback, useState } from 'react'
 
-import React, { useState, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { MoreHorizontal, Trash2, Calendar, Tag, ChevronRight } from 'lucide-react'
-import { Checkbox, PriorityBadge } from '@/components/ui'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useItemStore } from '@/lib/store/itemStore'
-import { useAppStore } from '@/lib/store/appStore'
-import { completeItem, restoreItem, deleteItem } from '@/lib/db/items'
-import { formatDueDate, isOverdue } from '@/lib/utils/date'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Calendar, ChevronRight, MoreHorizontal, Tag, Trash2 } from 'lucide-react'
+
+import { completeItem, deleteItem, restoreItem } from '@/lib/db/items'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
+import { useAppStore } from '@/lib/store/appStore'
+import { useItemStore } from '@/lib/store/itemStore'
+import { useUIStore } from '@/lib/store/uiStore'
 import type { Item } from '@/lib/types/item'
 import { ItemStatus, Priority } from '@/lib/types/item'
+import { formatDueDate, isOverdue } from '@/lib/utils/date'
+
+import { Checkbox, PriorityBadge } from '@/components/ui'
 
 interface ItemRowProps {
   item: Item
@@ -85,13 +87,10 @@ export function ItemRow({
         group relative flex items-start gap-2 px-2.5 rounded-lg
         cursor-pointer transition-all duration-100
         ${isCompact ? 'py-1' : 'py-2'}
-        ${isSelected
-          ? 'bg-zinc-100 dark:bg-zinc-900'
-          : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'
-        }
+        ${isSelected ? 'bg-zinc-100 dark:bg-zinc-900' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'}
         ${isCompleted ? 'opacity-40' : ''}
       `}
-      style={{ paddingLeft: `${(depth * 20) + 8}px` }}
+      style={{ paddingLeft: `${depth * 20 + 8}px` }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       role="listitem"
@@ -133,9 +132,10 @@ export function ItemRow({
             <span
               className={`
                 text-sm leading-snug font-medium break-words
-                ${isCompleted
-                  ? 'line-through text-zinc-400 dark:text-zinc-650'
-                  : 'text-zinc-800 dark:text-zinc-200'
+                ${
+                  isCompleted
+                    ? 'line-through text-zinc-400 dark:text-zinc-650'
+                    : 'text-zinc-800 dark:text-zinc-200'
                 }
               `}
             >
@@ -146,16 +146,20 @@ export function ItemRow({
             {(item.priority !== Priority.None || item.dueDate || item.tags.length > 0) && (
               <div className="flex items-center gap-2 flex-wrap mt-0.5">
                 {item.priority !== Priority.None && (
-                  <PriorityBadge priority={item.priority} className="text-[10px] scale-90 origin-left" />
+                  <PriorityBadge
+                    priority={item.priority}
+                    className="text-[10px] scale-90 origin-left"
+                  />
                 )}
 
                 {item.dueDate && (
                   <span
                     className={`
                       flex items-center gap-0.5 text-[10px]
-                      ${overdue
-                        ? 'text-black dark:text-white font-semibold'
-                        : 'text-zinc-500 dark:text-zinc-450'
+                      ${
+                        overdue
+                          ? 'text-black dark:text-white font-semibold'
+                          : 'text-zinc-500 dark:text-zinc-450'
                       }
                     `}
                   >
@@ -180,9 +184,10 @@ export function ItemRow({
             <span
               className={`
                 text-sm leading-snug flex-1 min-w-0
-                ${isCompleted
-                  ? 'line-through text-zinc-400 dark:text-zinc-600'
-                  : 'text-zinc-800 dark:text-zinc-200'
+                ${
+                  isCompleted
+                    ? 'line-through text-zinc-400 dark:text-zinc-600'
+                    : 'text-zinc-800 dark:text-zinc-200'
                 }
               `}
             >
@@ -199,9 +204,10 @@ export function ItemRow({
               <span
                 className={`
                   flex items-center gap-1 text-xs flex-shrink-0
-                  ${overdue
-                    ? 'text-zinc-800 dark:text-zinc-200 font-medium'
-                    : 'text-zinc-550 dark:text-zinc-450'
+                  ${
+                    overdue
+                      ? 'text-zinc-800 dark:text-zinc-200 font-medium'
+                      : 'text-zinc-550 dark:text-zinc-450'
                   }
                 `}
               >
@@ -223,9 +229,7 @@ export function ItemRow({
 
         {/* Notes preview */}
         {item.notes && !isCompleted && (
-          <p className="text-xs text-zinc-500 dark:text-zinc-450 mt-1 truncate">
-            {item.notes}
-          </p>
+          <p className="text-xs text-zinc-500 dark:text-zinc-450 mt-1 truncate">{item.notes}</p>
         )}
       </div>
 

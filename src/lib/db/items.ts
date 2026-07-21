@@ -4,20 +4,21 @@
  * Full CRUD for Items with filtering, sorting, and search.
  * All operations are optimistic — they update local DB immediately.
  */
-
 import { nanoid } from 'nanoid'
-import { getDB } from './index'
+
 import {
-  type Item,
-  type SubItem,
   type CreateItemInput,
-  type UpdateItemInput,
+  type Item,
   type ItemFilter,
   type ItemSort,
   ItemStatus,
-  Priority,
   ItemType,
+  Priority,
+  type SubItem,
+  type UpdateItemInput,
 } from '@/lib/types/item'
+
+import { getDB } from './index'
 
 // ============================
 // Create
@@ -83,10 +84,7 @@ export async function getItem(id: string): Promise<Item | null> {
  * List items with optional filtering and sorting.
  * Designed to be the single query API for all views.
  */
-export async function listItems(
-  filter: ItemFilter = {},
-  sort?: ItemSort
-): Promise<Item[]> {
+export async function listItems(filter: ItemFilter = {}, sort?: ItemSort): Promise<Item[]> {
   const db = await getDB()
   let items: Item[]
 
@@ -286,10 +284,7 @@ export async function archiveItem(id: string): Promise<Item | null> {
 export async function searchItems(query: string, workspaceId?: string): Promise<Item[]> {
   if (!query.trim()) return []
 
-  return listItems(
-    { workspaceId, search: query },
-    { field: 'updatedAt', direction: 'desc' }
-  )
+  return listItems({ workspaceId, search: query }, { field: 'updatedAt', direction: 'desc' })
 }
 
 // ============================
@@ -307,7 +302,7 @@ export async function createSubItem(parentId: string, title: string): Promise<Su
   const siblings = await listSubItems(parentId)
   const maxOrder = siblings.reduce((max, si) => Math.max(max, si.sortOrder), -1)
   const now = new Date().toISOString()
-  
+
   const subItem: SubItem = {
     id: nanoid(),
     parentId,
@@ -317,7 +312,7 @@ export async function createSubItem(parentId: string, title: string): Promise<Su
     createdAt: now,
     updatedAt: now,
   }
-  
+
   await db.put('subItems', subItem)
   return subItem
 }
@@ -329,13 +324,13 @@ export async function updateSubItem(
   const db = await getDB()
   const existing = await db.get('subItems', id)
   if (!existing) return null
-  
+
   const updated: SubItem = {
     ...existing,
     ...updates,
     updatedAt: new Date().toISOString(),
   }
-  
+
   await db.put('subItems', updated)
   return updated
 }

@@ -6,9 +6,9 @@
  * Accessible, animated button matching Shadcn UI design specs.
  * Every variant uses the monochrome (Zinc/Black/White) scale.
  */
-
 import React from 'react'
-import { motion, type HTMLMotionProps } from 'framer-motion'
+
+import { type HTMLMotionProps, motion } from 'framer-motion'
 
 type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive' | 'link'
 type ButtonSize = 'default' | 'sm' | 'lg' | 'icon'
@@ -47,7 +47,7 @@ const variantStyles: Record<ButtonVariant, string> = {
   link: `
     text-zinc-900 underline-offset-4 hover:underline
     dark:text-zinc-50
-  `
+  `,
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -92,7 +92,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           ${sizeStyles[size]}
           ${fullWidth ? 'w-full' : ''}
           ${className}
-        `.replace(/\s+/g, ' ').trim()}
+        `
+          .replace(/\s+/g, ' ')
+          .trim()}
         {...props}
       >
         {loading && (
@@ -119,15 +121,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           </svg>
         )}
 
-        {!loading && icon && iconPosition === 'left' && (
-          <span aria-hidden="true">{icon}</span>
-        )}
+        {!loading && icon && iconPosition === 'left' && <span aria-hidden="true">{icon}</span>}
 
         {children && <span>{children}</span>}
 
-        {!loading && icon && iconPosition === 'right' && (
-          <span aria-hidden="true">{icon}</span>
-        )}
+        {!loading && icon && iconPosition === 'right' && <span aria-hidden="true">{icon}</span>}
       </motion.button>
     )
   }

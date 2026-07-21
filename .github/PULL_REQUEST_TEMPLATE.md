@@ -6,9 +6,9 @@
 
 <!-- Steps to verify the change works correctly -->
 
-1. 
-2. 
-3. 
+1.
+2.
+3.
 
 ## Checklist
 

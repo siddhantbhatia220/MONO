@@ -4,9 +4,9 @@
  * Manages in-memory item cache with optimistic updates.
  * The DB is the source of truth; this store is the fast read layer.
  */
-
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+
 import type { Item } from '@/lib/types/item'
 
 interface ItemState {
@@ -42,11 +42,7 @@ export const useItemStore = create<ItemState>()(
       },
 
       upsertItem: (item) =>
-        set(
-          (state) => ({ items: { ...state.items, [item.id]: item } }),
-          false,
-          'upsertItem'
-        ),
+        set((state) => ({ items: { ...state.items, [item.id]: item } }), false, 'upsertItem'),
 
       removeItem: (id) =>
         set(
@@ -68,11 +64,7 @@ export const useItemStore = create<ItemState>()(
         // Cap history at 50 states
         if (newHistory.length > 50) newHistory.shift()
 
-        set(
-          { history: newHistory, historyIndex: newHistory.length - 1 },
-          false,
-          'pushHistory'
-        )
+        set({ history: newHistory, historyIndex: newHistory.length - 1 }, false, 'pushHistory')
       },
 
       undo: () => {

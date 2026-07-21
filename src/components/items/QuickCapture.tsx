@@ -5,16 +5,17 @@
  * Native-like bottom input for instant item creation.
  * Supports #tag, !priority, and @date inline syntax.
  */
+import React, { useEffect, useRef, useState } from 'react'
 
-import React, { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Plus, Hash, AlertCircle, Calendar, CornerDownLeft } from 'lucide-react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertCircle, Calendar, CornerDownLeft, Hash, Plus } from 'lucide-react'
+
 import { createItem } from '@/lib/db/items'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
-import { Priority, ItemType } from '@/lib/types/item'
-import { useIsMobile } from '@/lib/hooks/useIsMobile'
+import { ItemType, Priority } from '@/lib/types/item'
 
 const PRIORITY_MAP: Record<string, Priority> = {
   '!low': Priority.Low,
@@ -136,9 +137,10 @@ export function QuickCapture() {
           rounded-xl px-3.5 py-3
           bg-zinc-100 dark:bg-zinc-900
           border transition-all duration-150
-          ${focused
-            ? 'border-zinc-400 dark:border-zinc-500 ring-2 ring-zinc-300/50 dark:ring-zinc-600/30'
-            : 'border-zinc-200 dark:border-zinc-800'
+          ${
+            focused
+              ? 'border-zinc-400 dark:border-zinc-500 ring-2 ring-zinc-300/50 dark:ring-zinc-600/30'
+              : 'border-zinc-200 dark:border-zinc-800'
           }
         `}
       >
@@ -225,19 +227,23 @@ export function QuickCapture() {
               exit={{ opacity: 0 }}
               className="flex items-center gap-1 flex-shrink-0"
             >
-              <kbd className="
+              <kbd
+                className="
                 inline-flex items-center gap-0.5 px-1.5 py-0.5
                 text-[10px] font-medium text-zinc-400 dark:text-zinc-500
                 bg-zinc-200/70 dark:bg-zinc-800 rounded
                 border border-zinc-300/50 dark:border-zinc-700/50
-              ">
+              "
+              >
                 <CornerDownLeft size={9} />
               </kbd>
             </motion.div>
           )}
         </AnimatePresence>
 
-        <button type="submit" className="sr-only">Create item</button>
+        <button type="submit" className="sr-only">
+          Create item
+        </button>
       </div>
 
       {/* Syntax hints — only on desktop when focused */}

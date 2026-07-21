@@ -25,6 +25,7 @@ Mockups, references, or other relevant information.
 ## Phase
 
 Which roadmap phase does this belong to?
+
 - [ ] Phase 1 — Foundation
 - [ ] Phase 2 — Views & Search
 - [ ] Phase 3 — Collaboration

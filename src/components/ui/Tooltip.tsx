@@ -4,9 +4,9 @@
  * MONO — Tooltip Component
  * Accessible tooltip triggered on hover and focus.
  */
-
 import React, { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+
+import { AnimatePresence, motion } from 'framer-motion'
 
 type TooltipPosition = 'top' | 'bottom' | 'left' | 'right'
 
@@ -78,9 +78,7 @@ export function Tooltip({
               "
             >
               <span>{content}</span>
-              {shortcut && (
-                <span className="opacity-60 text-[10px] font-mono">{shortcut}</span>
-              )}
+              {shortcut && <span className="opacity-60 text-[10px] font-mono">{shortcut}</span>}
             </div>
           </motion.div>
         )}

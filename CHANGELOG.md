@@ -18,6 +18,7 @@ Changes staged for the next release.
 Initial Phase 1 release — Foundation.
 
 ### Added
+
 - **Onboarding flow** — three-step workspace setup with template selection and icon picker
 - **Universal Command Palette** — `Ctrl+K` / `⌘K` with grouped results, keyboard navigation, and fuzzy search highlighting
 - **Quick Capture bar** — always-visible item creation with `#tag` and `!priority` inline syntax
@@ -37,6 +38,7 @@ Initial Phase 1 release — Foundation.
 - **Production build** — zero errors, optimized output
 
 ### Architecture
+
 - Next.js 16 App Router (Turbopack)
 - Framer Motion for spring physics animations
 - `nanoid` for URL-safe unique IDs

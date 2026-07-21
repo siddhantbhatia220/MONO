@@ -1,11 +1,13 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Plus, Check } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { Check, ChevronDown, Plus } from 'lucide-react'
+
+import { listWorkspaces } from '@/lib/db/workspaces'
 import { useAppStore } from '@/lib/store/appStore'
 import { useUIStore } from '@/lib/store/uiStore'
-import { listWorkspaces } from '@/lib/db/workspaces'
 import type { Workspace } from '@/lib/types/workspace'
 
 interface WorkspaceSwitcherProps {
@@ -75,7 +77,10 @@ export function WorkspaceSwitcher({ align = 'left', collapsed = false }: Workspa
             <span className="text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 max-w-[120px] md:max-w-[180px] truncate">
               {activeWorkspace.name}
             </span>
-            <ChevronDown size={14} className={`text-zinc-400 dark:text-zinc-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            <ChevronDown
+              size={14}
+              className={`text-zinc-400 dark:text-zinc-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+            />
           </>
         )}
       </button>
@@ -125,9 +130,10 @@ export function WorkspaceSwitcher({ align = 'left', collapsed = false }: Workspa
                       className={`
                         w-full flex items-center justify-between px-3.5 py-2 text-left
                         text-xs font-medium cursor-pointer transition-colors duration-75
-                        ${isActive
-                          ? 'bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
-                          : 'text-zinc-600 hover:bg-zinc-50 dark:text-zinc-450 dark:hover:bg-zinc-900/50'
+                        ${
+                          isActive
+                            ? 'bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100'
+                            : 'text-zinc-600 hover:bg-zinc-50 dark:text-zinc-450 dark:hover:bg-zinc-900/50'
                         }
                       `}
                     >
@@ -138,7 +144,10 @@ export function WorkspaceSwitcher({ align = 'left', collapsed = false }: Workspa
                         <span className="truncate">{w.name}</span>
                       </div>
                       {isActive && (
-                        <Check size={14} className="text-zinc-900 dark:text-zinc-150 flex-shrink-0" />
+                        <Check
+                          size={14}
+                          className="text-zinc-900 dark:text-zinc-150 flex-shrink-0"
+                        />
                       )}
                     </button>
                   )

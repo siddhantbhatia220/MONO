@@ -6,10 +6,10 @@
  *
  * Schema versioning ensures safe migrations as the app evolves.
  */
+import { type DBSchema, type IDBPDatabase, openDB } from 'idb'
 
-import { openDB, type DBSchema, type IDBPDatabase } from 'idb'
 import type { Item, SubItem } from '@/lib/types/item'
-import type { Workspace, Project, UserPreferences } from '@/lib/types/workspace'
+import type { Project, UserPreferences, Workspace } from '@/lib/types/workspace'
 import { DEFAULT_PREFERENCES } from '@/lib/types/workspace'
 
 // ============================

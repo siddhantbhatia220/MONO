@@ -5,28 +5,21 @@
  * Premium collapsible navigation with workspace nav, project list, and keyboard shortcuts.
  * Supports desktop collapsible sidebar and mobile overlay sliding drawer.
  */
+import React, { useCallback, useEffect, useState } from 'react'
 
-import React, { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import {
-  PanelLeft,
-  Search,
-  Inbox,
-  Calendar,
-  Star,
-  Plus,
-  Settings,
-  Keyboard,
-  X,
-} from 'lucide-react'
-import { useUIStore } from '@/lib/store/uiStore'
+import { AnimatePresence, motion } from 'framer-motion'
+import { Calendar, Inbox, Keyboard, PanelLeft, Plus, Search, Settings, Star, X } from 'lucide-react'
+
+import { listProjects } from '@/lib/db/workspaces'
+import { useIsMobile } from '@/lib/hooks/useIsMobile'
 import { useAppStore } from '@/lib/store/appStore'
+import { useUIStore } from '@/lib/store/uiStore'
+import type { Project } from '@/lib/types/workspace'
+
 import { Button } from '@/components/ui/Button'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { useIsMobile } from '@/lib/hooks/useIsMobile'
+
 import { WorkspaceSwitcher } from './WorkspaceSwitcher'
-import { listProjects } from '@/lib/db/workspaces'
-import type { Project } from '@/lib/types/workspace'
 
 interface NavItem {
   id: string
@@ -111,16 +104,14 @@ export function Sidebar() {
   const navContent = (
     <>
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3" aria-label="Primary navigation">
+      <nav
+        className="flex-1 overflow-y-auto overflow-x-hidden px-3 py-3"
+        aria-label="Primary navigation"
+      >
         {/* Main nav items */}
         <div className="flex flex-col gap-0.5 mb-6">
           {navItems.map((item) => (
-            <Tooltip
-              key={item.id}
-              content={item.label}
-              shortcut={item.shortcut}
-              position="right"
-            >
+            <Tooltip key={item.id} content={item.label} shortcut={item.shortcut} position="right">
               <button
                 onClick={item.action}
                 className={`
@@ -131,7 +122,7 @@ export function Sidebar() {
                   dark:hover:bg-zinc-800/60 dark:hover:text-zinc-100
                   active:bg-zinc-200 dark:active:bg-zinc-800
                   transition-colors duration-75
-                  ${(!sidebarOpen && !isMobile) ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
+                  ${!sidebarOpen && !isMobile ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
                 `}
                 aria-label={item.label}
               >
@@ -196,9 +187,10 @@ export function Sidebar() {
                       className={`
                         flex items-center gap-3 w-full rounded-lg text-left px-2.5 py-1.5
                         text-[12px] font-medium cursor-pointer transition-colors duration-75
-                        ${isActive
-                          ? 'bg-zinc-150/70 text-zinc-900 dark:bg-zinc-800/70 dark:text-zinc-100'
-                          : 'text-zinc-550 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-450 dark:hover:bg-zinc-900/40 dark:hover:text-zinc-200'
+                        ${
+                          isActive
+                            ? 'bg-zinc-150/70 text-zinc-900 dark:bg-zinc-800/70 dark:text-zinc-100'
+                            : 'text-zinc-550 hover:bg-zinc-100 hover:text-zinc-800 dark:text-zinc-450 dark:hover:bg-zinc-900/40 dark:hover:text-zinc-200'
                         }
                       `}
                       aria-label={project.name}
@@ -229,7 +221,7 @@ export function Sidebar() {
               dark:hover:bg-zinc-800/60 dark:hover:text-zinc-100
               active:bg-zinc-200 dark:active:bg-zinc-800
               transition-colors duration-75
-              ${(!sidebarOpen && !isMobile) ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
+              ${!sidebarOpen && !isMobile ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
             `}
             aria-label="Settings"
           >
@@ -260,7 +252,7 @@ export function Sidebar() {
               dark:hover:bg-zinc-800/60 dark:hover:text-zinc-100
               active:bg-zinc-200 dark:active:bg-zinc-800
               transition-colors duration-75
-              ${(!sidebarOpen && !isMobile) ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
+              ${!sidebarOpen && !isMobile ? 'justify-center px-2 py-2.5' : 'px-3 py-2.5'}
             `}
             aria-label="Keyboard shortcuts"
           >
@@ -350,7 +342,9 @@ export function Sidebar() {
       aria-label="Sidebar navigation"
     >
       {/* Header */}
-      <div className={`flex items-center pt-4 pb-2 min-h-[56px] border-b border-zinc-200/60 dark:border-zinc-800/60 ${sidebarOpen ? 'justify-between px-3' : 'flex-col gap-2 px-1'}`}>
+      <div
+        className={`flex items-center pt-4 pb-2 min-h-[56px] border-b border-zinc-200/60 dark:border-zinc-800/60 ${sidebarOpen ? 'justify-between px-3' : 'flex-col gap-2 px-1'}`}
+      >
         <WorkspaceSwitcher align="left" collapsed={!sidebarOpen} />
         <Tooltip content={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'} shortcut="Ctrl+B">
           <Button
@@ -361,7 +355,10 @@ export function Sidebar() {
             aria-expanded={sidebarOpen}
             className="h-8 w-8"
           >
-            <PanelLeft size={16} className={`transition-transform duration-200 ${sidebarOpen ? '' : 'rotate-180'}`} />
+            <PanelLeft
+              size={16}
+              className={`transition-transform duration-200 ${sidebarOpen ? '' : 'rotate-180'}`}
+            />
           </Button>
         </Tooltip>
       </div>

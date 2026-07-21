@@ -5,17 +5,14 @@
  * Minimal, premium empty states with subtle icon containers.
  * Used when there's no data to show — makes first impressions memorable.
  */
-
 import React from 'react'
-import { motion } from 'framer-motion'
-import { Button } from '@/components/ui/Button'
-import { Inbox, FolderOpen, SearchX, Sparkles } from 'lucide-react'
 
-type EmptyStateVariant =
-  | 'no-items'
-  | 'no-workspace'
-  | 'no-results'
-  | 'first-launch'
+import { motion } from 'framer-motion'
+import { FolderOpen, Inbox, SearchX, Sparkles } from 'lucide-react'
+
+import { Button } from '@/components/ui/Button'
+
+type EmptyStateVariant = 'no-items' | 'no-workspace' | 'no-results' | 'first-launch'
 
 interface EmptyStateProps {
   variant?: EmptyStateVariant
@@ -32,11 +29,14 @@ interface EmptyStateProps {
   className?: string
 }
 
-const variants: Record<EmptyStateVariant, {
-  icon: React.ReactNode
-  defaultTitle: string
-  defaultDescription: string
-}> = {
+const variants: Record<
+  EmptyStateVariant,
+  {
+    icon: React.ReactNode
+    defaultTitle: string
+    defaultDescription: string
+  }
+> = {
   'no-items': {
     icon: <Inbox size={24} strokeWidth={1.5} />,
     defaultTitle: 'No items yet',
