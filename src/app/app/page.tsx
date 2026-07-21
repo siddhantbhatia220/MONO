@@ -30,7 +30,7 @@ import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { listWorkspaces, createWorkspace } from '@/lib/db/workspaces'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
-import { Menu, Plus, Inbox, Search, Calendar, Folder, MousePointer } from 'lucide-react'
+import { Menu, Inbox, Search, Calendar, Folder, MousePointer } from 'lucide-react'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
 
 // ============================
@@ -300,12 +300,11 @@ function Typewriter({ text, speed = 60, delay = 0 }: { text: string; speed?: num
   const [displayedText, setDisplayedText] = useState('')
 
   useEffect(() => {
-    setDisplayedText('')
     let index = 0
     let timer: NodeJS.Timeout
     const startTyping = () => {
       timer = setInterval(() => {
-        setDisplayedText((prev) => prev + text.charAt(index))
+        setDisplayedText(text.slice(0, index + 1))
         index++
         if (index >= text.length) {
           clearInterval(timer)
