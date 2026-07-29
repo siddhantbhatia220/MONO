@@ -23,6 +23,7 @@ import { Checkbox } from '@/components/ui/Checkbox'
 import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
 import { ChecklistManager } from '@/components/items/ChecklistManager'
 import { AttachmentManager } from '@/components/items/AttachmentManager'
+import { ActivityFeed } from '@/components/items/ActivityFeed'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
@@ -411,6 +412,9 @@ export function ItemDetailPanel() {
 
               {/* Attachment Manager */}
               <AttachmentManager item={item} />
+
+              {/* Activity Feed & Discussion */}
+              <ActivityFeed item={item} />
             </div>
           </motion.div>
         </div>
