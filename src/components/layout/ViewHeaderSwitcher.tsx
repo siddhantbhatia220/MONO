@@ -7,7 +7,7 @@
  * List, Board (Kanban), and Calendar views.
  */
 import React from 'react'
-import { Calendar, LayoutGrid, List } from 'lucide-react'
+import { Calendar, GanttChart, LayoutGrid, List } from 'lucide-react'
 import { ViewMode } from '@/lib/types/view'
 import { useAppStore } from '@/lib/store/appStore'
 
@@ -15,6 +15,7 @@ const VIEW_OPTIONS = [
   { id: ViewMode.List, label: 'List', icon: List },
   { id: ViewMode.Board, label: 'Board', icon: LayoutGrid },
   { id: ViewMode.Calendar, label: 'Calendar', icon: Calendar },
+  { id: ViewMode.Timeline, label: 'Timeline', icon: GanttChart },
 ]
 
 export function ViewHeaderSwitcher() {
