@@ -271,6 +271,8 @@ export function QuickCapture() {
             ))}
           </motion.div>
         )}
+      </AnimatePresence>
+
       <SmartSuggestionsWidget
         input={value}
         onApplyTag={(tag) => setValue((prev) => `${prev} #${tag}`)}

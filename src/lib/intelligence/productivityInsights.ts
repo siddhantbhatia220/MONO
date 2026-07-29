@@ -90,8 +90,9 @@ export function calculateProductivityInsights(items: Item[]): ProductivityStats 
     recommendations.push('You have multiple critical priority items. Focus on clearing one before taking new tasks.')
   }
 
-  if (topTag) {
-    recommendations.push(`Most of your productivity centers around #${topTag.tag}. Consider scheduling dedicated focus blocks for it.`)
+  const activeTopTag = topTag as { tag: string; count: number } | null
+  if (activeTopTag) {
+    recommendations.push(`Most of your productivity centers around #${activeTopTag.tag}. Consider scheduling dedicated focus blocks for it.`)
   }
 
   if (recommendations.length === 0) {
