@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
 import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
 import { ChecklistManager } from '@/components/items/ChecklistManager'
+import { AttachmentManager } from '@/components/items/AttachmentManager'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
@@ -407,6 +408,9 @@ export function ItemDetailPanel() {
                 onToggleSubItem={handleToggleSubItem}
                 onDeleteSubItem={handleDeleteSubItem}
               />
+
+              {/* Attachment Manager */}
+              <AttachmentManager item={item} />
             </div>
           </motion.div>
         </div>
