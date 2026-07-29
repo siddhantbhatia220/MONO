@@ -28,6 +28,7 @@ import { filterItems } from '@/lib/search/fuzzySearch'
 import { ViewMode } from '@/lib/types/view'
 
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
+import { AuthModal } from '@/components/layout/AuthModal'
 import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
@@ -1138,6 +1139,7 @@ export default function Home() {
       <SettingsModal />
       <ItemDetailPanel />
       <TagManagerModal />
+      <AuthModal />
       <ShortcutsModal />
       <Toasts />
     </>
