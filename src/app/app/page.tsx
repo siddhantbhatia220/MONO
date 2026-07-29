@@ -29,6 +29,7 @@ import { ViewMode } from '@/lib/types/view'
 
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
 import { AuthModal } from '@/components/layout/AuthModal'
+import { InviteMemberModal } from '@/components/layout/InviteMemberModal'
 import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
@@ -1140,6 +1141,7 @@ export default function Home() {
       <ItemDetailPanel />
       <TagManagerModal />
       <AuthModal />
+      <InviteMemberModal />
       <ShortcutsModal />
       <Toasts />
     </>
