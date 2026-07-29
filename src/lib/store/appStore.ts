@@ -9,9 +9,11 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
+import { nanoid } from 'nanoid'
 import type { Project, UserPreferences, Workspace } from '@/lib/types/workspace'
 import { DEFAULT_PREFERENCES } from '@/lib/types/workspace'
 import { DEFAULT_FILTER_CRITERIA, FilterCriteria, ViewMode } from '@/lib/types/view'
+import { SavedFilter } from '@/lib/types/filterPreset'
 
 interface AppState {
   // ---- Active Context ----
@@ -21,6 +23,7 @@ interface AppState {
   // ---- View & Filter State ----
   activeViewMode: ViewMode
   activeFilterCriteria: FilterCriteria
+  savedFilters: SavedFilter[]
 
   // ---- User Preferences ----
   preferences: UserPreferences
@@ -34,6 +37,8 @@ interface AppState {
   setActiveViewMode: (viewMode: ViewMode) => void
   setActiveFilterCriteria: (filter: Partial<FilterCriteria>) => void
   resetFilterCriteria: () => void
+  addSavedFilter: (name: string, criteria: FilterCriteria) => void
+  removeSavedFilter: (id: string) => void
   updatePreferences: (partial: Partial<UserPreferences>) => void
   setResolvedTheme: (theme: 'light' | 'dark') => void
 }
@@ -46,6 +51,7 @@ export const useAppStore = create<AppState>()(
         activeProject: null,
         activeViewMode: ViewMode.List,
         activeFilterCriteria: DEFAULT_FILTER_CRITERIA,
+        savedFilters: [],
         preferences: DEFAULT_PREFERENCES,
         resolvedTheme: 'light',
 
@@ -68,6 +74,27 @@ export const useAppStore = create<AppState>()(
         resetFilterCriteria: () =>
           set({ activeFilterCriteria: DEFAULT_FILTER_CRITERIA }, false, 'resetFilterCriteria'),
 
+        addSavedFilter: (name, criteria) =>
+          set(
+            (state) => ({
+              savedFilters: [
+                ...state.savedFilters,
+                { id: nanoid(), name, criteria, createdAt: new Date().toISOString() },
+              ],
+            }),
+            false,
+            'addSavedFilter'
+          ),
+
+        removeSavedFilter: (id) =>
+          set(
+            (state) => ({
+              savedFilters: state.savedFilters.filter((f) => f.id !== id),
+            }),
+            false,
+            'removeSavedFilter'
+          ),
+
         updatePreferences: (partial) =>
           set(
             (state) => ({ preferences: { ...state.preferences, ...partial } }),
@@ -82,6 +109,7 @@ export const useAppStore = create<AppState>()(
         partialize: (state) => ({
           preferences: state.preferences,
           activeViewMode: state.activeViewMode,
+          savedFilters: state.savedFilters,
         }),
       }
     ),
