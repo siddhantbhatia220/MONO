@@ -116,9 +116,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     sameAs: ['https://github.com/siddhantbhatia220', 'https://github.com/siddhantbhatia220/MONO'],
   }
 
+  const jsonLdWebSite = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'MONO Personal OS by Siddhant Bhatia',
+    alternateName: 'MONO',
+    url: 'https://github.com/siddhantbhatia220/MONO',
+    publisher: {
+      '@type': 'Person',
+      name: 'Siddhant Bhatia',
+    },
+  }
+
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -126,6 +140,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdPerson) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdWebSite) }}
         />
       </head>
       <body>
