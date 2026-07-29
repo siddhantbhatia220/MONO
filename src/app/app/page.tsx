@@ -23,16 +23,24 @@ import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
 
+import { listItems } from '@/lib/db/items'
+import { filterItems } from '@/lib/search/fuzzySearch'
+import { ViewMode } from '@/lib/types/view'
+
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
 import { ProjectIcon } from '@/components/ui/ProjectIcon'
+import { BoardView } from '@/components/views/BoardView/BoardView'
+import { CalendarView } from '@/components/views/CalendarView/CalendarView'
 import { ListView } from '@/components/views/ListView'
+import { SmartFilterBar } from '@/components/views/SearchView/SmartFilterBar'
 
 const CommandPalette = dynamic(
   () => import('@/components/layout/CommandPalette').then((mod) => mod.CommandPalette),
@@ -320,6 +328,8 @@ function WorkspaceHeader() {
           )}
         </div>
       </div>
+
+      <ViewHeaderSwitcher />
     </header>
   )
 }
@@ -962,7 +972,11 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 // ============================
 function AppShell() {
   const { toggleSidebar, openCommandPalette, openModal, setSidebarOpen } = useUIStore()
+  const { activeViewMode, activeFilterCriteria, activeWorkspace, activeProject } = useAppStore()
+  const { items } = useItemStore()
   const isMobile = useIsMobile()
+
+  const allItems = filterItems(Object.values(items), activeFilterCriteria)
 
   // Auto-close sidebar on mobile devices on initial render
   useEffect(() => {
@@ -1021,11 +1035,18 @@ function AppShell() {
       {/* Main content */}
       <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0f0f0f]">
         <WorkspaceHeader />
+        <SmartFilterBar />
 
-        <div className="flex-1 overflow-y-auto px-4 md:px-8 pt-2 pb-4">
-          <div className="max-w-3xl mx-auto w-full">
-            <ListView />
-          </div>
+        <div className="flex-1 overflow-y-auto flex flex-col">
+          {activeViewMode === ViewMode.List && (
+            <div className="px-4 md:px-8 pt-2 pb-4 max-w-3xl mx-auto w-full">
+              <ListView />
+            </div>
+          )}
+
+          {activeViewMode === ViewMode.Board && <BoardView items={allItems} />}
+
+          {activeViewMode === ViewMode.Calendar && <CalendarView items={allItems} />}
         </div>
 
         {/* Quick Capture Bar — always visible at bottom */}
