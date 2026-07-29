@@ -36,7 +36,10 @@ import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TagManagerModal } from '@/components/layout/TagManagerModal'
-import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
+import { PluginStore } from '@/components/plugins/PluginStore'
+import { PluginList } from '@/components/plugins/PluginList'
+import { ImportDialog } from '@/components/ImportExport/ImportDialog'
+import { ExportButton } from '@/components/ImportExport/ExportButton'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -264,7 +267,49 @@ function ShortcutsModal() {
               })}
             </div>
           </div>
-        ))}
+    </Modal>
+  )
+}
+
+// ============================
+// Plugins Modal
+// ============================
+function PluginsModal() {
+  const { activeModal, closeModal } = useUIStore()
+  const [tab, setTab] = useState<'marketplace' | 'installed'>('marketplace')
+
+  return (
+    <Modal
+      open={activeModal === 'plugins'}
+      onClose={closeModal}
+      title="Plugins & Extensibility"
+      size="lg"
+    >
+      <div className="space-y-4">
+        <div className="flex items-center space-x-2 border-b border-neutral-200 dark:border-neutral-800 pb-2">
+          <button
+            onClick={() => setTab('marketplace')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+              tab === 'marketplace'
+                ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900'
+                : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+            }`}
+          >
+            Marketplace
+          </button>
+          <button
+            onClick={() => setTab('installed')}
+            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+              tab === 'installed'
+                ? 'bg-neutral-900 text-white dark:bg-white dark:text-neutral-900'
+                : 'text-neutral-500 hover:text-neutral-900 dark:hover:text-white'
+            }`}
+          >
+            Installed Plugins
+          </button>
+        </div>
+
+        {tab === 'marketplace' ? <PluginStore /> : <PluginList />}
       </div>
     </Modal>
   )
@@ -335,7 +380,10 @@ function WorkspaceHeader() {
         </div>
       </div>
 
-      <ViewHeaderSwitcher />
+      <div className="flex items-center space-x-3">
+        <ExportButton size="xs" variant="outline" />
+        <ViewHeaderSwitcher />
+      </div>
     </header>
   )
 }
@@ -1086,6 +1134,7 @@ export default function Home() {
   const [initialized, setInitialized] = useState(false)
   const [hasWorkspace, setHasWorkspace] = useState<boolean | null>(null)
   const { setActiveWorkspace } = useAppStore()
+  const { activeModal, closeModal } = useUIStore()
 
   useEffect(() => {
     async function init() {
@@ -1143,6 +1192,8 @@ export default function Home() {
       <AuthModal />
       <InviteMemberModal />
       <ShortcutsModal />
+      <PluginsModal />
+      <ImportDialog isOpen={activeModal === 'import-data'} onClose={closeModal} />
       <Toasts />
     </>
   )

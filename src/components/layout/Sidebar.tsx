@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Search, Settings, Star, X } from 'lucide-react'
+import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Puzzle, Search, Settings, Star, UploadCloud, X } from 'lucide-react'
 
 import { listProjects } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
@@ -102,6 +102,24 @@ export function Sidebar() {
       label: 'Favorites',
       icon: <Star size={16} strokeWidth={1.8} />,
       action: () => {
+        if (isMobile) toggleSidebar()
+      },
+    },
+    {
+      id: 'plugins',
+      label: 'Plugins',
+      icon: <Puzzle size={16} strokeWidth={1.8} />,
+      action: () => {
+        openModal('plugins')
+        if (isMobile) toggleSidebar()
+      },
+    },
+    {
+      id: 'import-data',
+      label: 'Import Data',
+      icon: <UploadCloud size={16} strokeWidth={1.8} />,
+      action: () => {
+        openModal('import-data')
         if (isMobile) toggleSidebar()
       },
     },
