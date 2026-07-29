@@ -1,0 +1,7 @@
+{
+  "id": "markdown-exporter",
+  "name": "Markdown Exporter Plugin",
+  "description": "Exports items and notes to Markdown format for easy sharing.",
+  "entry": "../plugins/markdown-exporter/index.js",
+  "version": "1.0.0"
+}

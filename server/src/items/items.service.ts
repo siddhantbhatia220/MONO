@@ -10,7 +10,7 @@ export class ItemsService {
   constructor(private readonly prisma: PrismaService) {}
 
   /**
-   * Sync Hydration: Get all items for a workspace.
+   * Sync Hydration / List: Get all items for a workspace.
    */
   async syncWorkspaceItems(workspaceId: string) {
     return this.prisma.item.findMany({
@@ -19,10 +19,23 @@ export class ItemsService {
     })
   }
 
+  async listByWorkspace(workspaceId: string) {
+    return this.syncWorkspaceItems(workspaceId)
+  }
+
+  /**
+   * Get single item by ID.
+   */
+  async getById(id: string) {
+    const item = await this.prisma.item.findUnique({ where: { id } })
+    if (!item) throw new NotFoundException('Item not found')
+    return item
+  }
+
   /**
    * Create item in server database.
    */
-  async create(dto: CreateItemDto, userId: string) {
+  async create(dto: CreateItemDto, userId?: string) {
     const item = await this.prisma.item.create({
       data: {
         title: dto.title,
@@ -35,15 +48,16 @@ export class ItemsService {
       },
     })
 
-    // Log audit action
-    await this.prisma.auditLog.create({
-      data: {
-        itemId: item.id,
-        userId,
-        action: 'CREATE_ITEM',
-        payload: { title: item.title },
-      },
-    })
+    if (userId) {
+      await this.prisma.auditLog.create({
+        data: {
+          itemId: item.id,
+          userId,
+          action: 'CREATE_ITEM',
+          payload: { title: item.title },
+        },
+      })
+    }
 
     return item
   }

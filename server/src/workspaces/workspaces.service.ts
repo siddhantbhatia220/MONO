@@ -5,10 +5,35 @@
  */
 import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common'
 import { PrismaService } from '../prisma/prisma.service'
+import { CreateWorkspaceDto } from './dto/create-workspace.dto'
 
 @Injectable()
 export class WorkspacesService {
   constructor(private readonly prisma: PrismaService) {}
+
+  /**
+   * Create a new workspace.
+   */
+  async create(dto: CreateWorkspaceDto, ownerId?: string) {
+    const workspace = await this.prisma.workspace.create({
+      data: {
+        name: dto.name,
+        slug: dto.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'workspace',
+      },
+    })
+
+    if (ownerId) {
+      await this.prisma.workspaceMember.create({
+        data: {
+          workspaceId: workspace.id,
+          userId: ownerId,
+          role: 'OWNER',
+        },
+      })
+    }
+
+    return workspace
+  }
 
   /**
    * List all workspaces the user is a member of.
