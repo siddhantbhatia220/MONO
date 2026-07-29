@@ -18,6 +18,8 @@ import type { Item } from '@/lib/types/item'
 import { ItemRow } from '@/components/items/ItemRow'
 import { EmptyState } from '@/components/views/EmptyState'
 
+import { filterItems } from '@/lib/search/fuzzySearch'
+
 const SKELETON_WIDTHS = ['45%', '72%', '38%', '60%', '55%']
 
 // Loading skeleton
@@ -34,16 +36,16 @@ function ItemSkeleton({ index }: { index: number }) {
 }
 
 export function ListView() {
-  const [items, setItems] = useState<Item[]>([])
+  const [rawItems, setRawItems] = useState<Item[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const { activeWorkspace, activeProject, preferences } = useAppStore()
+  const { activeWorkspace, activeProject, preferences, activeFilterCriteria } = useAppStore()
   const { openModal } = useUIStore()
 
   const loadItems = useCallback(async () => {
     if (!activeWorkspace) {
-      setItems([])
+      setRawItems([])
       setLoading(false)
       return
     }
@@ -56,7 +58,7 @@ export function ListView() {
         parentId: null, // Only top-level items
         ...(preferences.showCompleted ? {} : { status: ItemStatus.Active }),
       })
-      setItems(fetched)
+      setRawItems(fetched)
     } finally {
       setLoading(false)
     }
@@ -75,6 +77,8 @@ export function ListView() {
     })
     return unsubscribe
   }, [loadItems])
+
+  const items = filterItems(rawItems, activeFilterCriteria)
 
   if (!activeWorkspace) {
     return (
