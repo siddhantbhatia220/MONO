@@ -1,0 +1,32 @@
+# MONO — Docker Compose for Development
+# Spins up PostgreSQL and the NestJS backend server.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mono_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - mono_pgdata:/var/lib/postgresql/data
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/mono_db?schema=public"
+      JWT_SECRET: "mono-dev-secret-key"
+      PORT: "4000"
+    ports:
+      - "4000:4000"
+
+volumes:
+  mono_pgdata:
