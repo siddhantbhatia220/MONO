@@ -59,24 +59,25 @@ Product vision, design philosophy, tech stack selection, architecture decisions.
 
 ---
 
-## Phase 3 — Collaboration & Sync (FUTURE)
+## Phase 3 — Collaboration & Sync (COMPLETE v0.3.0 — 100%)
 
-### Priority: HIGH (after Phase 2)
-### Target: v0.3.0
+### Status: SHIPPED
 
 | Feature | Priority | Complexity | Status |
 |---|---|---|---|
-| NestJS backend (REST API) | High | High | Future |
-| PostgreSQL database | High | Medium | Future |
-| JWT authentication with refresh rotation | High | High | Future |
-| User registration / login | High | Medium | Future |
-| Real-time sync (Yjs CRDT over WebSocket) | High | Very High | Future |
+| NestJS Server Foundation & Config | High | High | Done |
+| PostgreSQL Prisma Database Schema | High | High | Done |
+| User Authentication & JWT Rotation (Argon2) | High | Medium | Done |
+| REST Sync API (Hydration & Delta) | High | Medium | Done |
+| Real-time Yjs CRDT over WebSockets Gateway | High | High | Done |
+| BitChat Offline Local P2P Wireless Mesh Sync | High | High | Done |
+| Workspace Sharing & Member Roles UI | Medium | Medium | Done |
+| Item Activity Audit Feed & Discussion | Medium | Low | Done |
 | Offline-first with conflict resolution | High | Very High | Future |
 | Workspace sharing and permissions | High | High | Future |
 | Comments and reactions on items | Medium | Medium | Future |
 | Activity history / audit log | Medium | Medium | Future |
 | @mentions and notifications | Medium | High | Future |
-| Team workspaces | Medium | High | Future |
 | Guest access (view-only links) | Low | Medium | Future |
 
 ---
