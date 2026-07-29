@@ -38,6 +38,9 @@ interface UIState {
   // ---- Multi-Select ----
   selectedItemIds: Set<string>
 
+  // ---- Focus Mode ----
+  focusMode: boolean
+
   // ---- Loading States ----
   isLoading: boolean
 
@@ -49,6 +52,8 @@ interface UIState {
 
   toggleSidebar: () => void
   setSidebarOpen: (open: boolean) => void
+
+  toggleFocusMode: () => void
 
   openModal: (id: ModalId, data?: Record<string, unknown>) => void
   closeModal: () => void
@@ -78,8 +83,12 @@ export const useUIStore = create<UIState>()(
       modalData: {},
       detailItemId: null,
       selectedItemIds: new Set<string>(),
+      focusMode: false,
       toasts: [],
       isLoading: false,
+
+      toggleFocusMode: () =>
+        set((state) => ({ focusMode: !state.focusMode }), false, 'toggleFocusMode'),
 
       toggleItemSelection: (id) =>
         set(
