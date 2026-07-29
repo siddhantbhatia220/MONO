@@ -6,27 +6,35 @@
  * Triggers JSON or Markdown exports of workspace data with direct browser download.
  */
 import React, { useState } from 'react'
-import { Download, FileJson, FileText } from 'lucide-react'
+import { FileJson, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
+import type { Item } from '@/lib/types/item'
 
 interface ExportButtonProps {
-  variant?: 'default' | 'outline' | 'ghost'
-  size?: 'default' | 'sm' | 'xs'
+  variant?: 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
 }
 
-export function ExportButton({ variant = 'outline', size = 'xs' }: ExportButtonProps) {
+export function ExportButton({ variant = 'outline', size = 'sm' }: ExportButtonProps) {
   const [exporting, setExporting] = useState(false)
-  const { currentWorkspaceId } = useAppStore()
+  const { activeWorkspace } = useAppStore()
   const { items } = useItemStore()
+
+  const currentWorkspaceId = activeWorkspace?.id
+
+  const getWorkspaceItems = (): Item[] => {
+    const allItems = Object.values(items)
+    return allItems.filter(
+      (item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId
+    )
+  }
 
   const exportAsJson = () => {
     setExporting(true)
     try {
-      const workspaceItems = items.filter(
-        (item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId
-      )
+      const workspaceItems = getWorkspaceItems()
 
       const payload = {
         version: '1.0.0',
@@ -55,13 +63,11 @@ export function ExportButton({ variant = 'outline', size = 'xs' }: ExportButtonP
   const exportAsMarkdown = () => {
     setExporting(true)
     try {
-      const workspaceItems = items.filter(
-        (item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId
-      )
+      const workspaceItems = getWorkspaceItems()
 
       let mdContent = `# MONO Workspace Export\nExported: ${new Date().toLocaleString()}\nTotal Items: ${workspaceItems.length}\n\n---\n\n`
 
-      workspaceItems.forEach((item, index) => {
+      workspaceItems.forEach((item: Item, index: number) => {
         const checkmark = item.status === 'completed' ? '[x]' : '[ ]'
         mdContent += `### ${index + 1}. ${checkmark} ${item.title}\n`
         mdContent += `- **Type**: ${item.type}\n`

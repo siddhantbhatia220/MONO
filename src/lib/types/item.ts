@@ -109,6 +109,9 @@ export interface Item {
 
   /** Local file and image attachments */
   attachments?: Attachment[]
+
+  /** Plugin or custom extension metadata */
+  metadata?: Record<string, unknown>
 }
 
 // ============================
@@ -143,7 +146,7 @@ export interface SubItem {
 // ============================
 
 export type CreateItemInput = Pick<Item, 'title' | 'workspaceId'> &
-  Partial<Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'status' | 'sortOrder' | 'pinned'>>
+  Partial<Omit<Item, 'id' | 'createdAt' | 'updatedAt' | 'sortOrder' | 'pinned'>>
 
 export type UpdateItemInput = Partial<Omit<Item, 'id' | 'createdAt' | 'workspaceId' | 'createdBy'>>
 

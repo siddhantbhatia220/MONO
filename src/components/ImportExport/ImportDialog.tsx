@@ -9,6 +9,7 @@ import React, { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { UploadCloud, FileJson, X, CheckCircle2, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { createItem } from '@/lib/db/items'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useAppStore } from '@/lib/store/appStore'
 
@@ -24,8 +25,10 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
   const [successCount, setSuccessCount] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const { createItem } = useItemStore()
-  const { currentWorkspaceId } = useAppStore()
+  const { upsertItem } = useItemStore()
+  const { activeWorkspace } = useAppStore()
+
+  const currentWorkspaceId = activeWorkspace?.id
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selected = e.target.files?.[0]
@@ -63,7 +66,7 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
       let count = 0
       for (const itemData of itemsToImport) {
         if (itemData.title) {
-          await createItem({
+          const newItem = await createItem({
             title: itemData.title,
             workspaceId: currentWorkspaceId || itemData.workspaceId || 'default-workspace',
             notes: itemData.notes,
@@ -72,14 +75,16 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
             priority: itemData.priority || 'none',
             tags: itemData.tags || [],
           })
+          upsertItem(newItem)
           count++
         }
       }
 
       setSuccessCount(count)
       setFile(null)
-    } catch (err: any) {
-      setError(err.message || 'Failed to parse and import JSON file')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to parse and import JSON file'
+      setError(msg)
     } finally {
       setImporting(false)
     }

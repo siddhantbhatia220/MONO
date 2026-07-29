@@ -40,6 +40,7 @@ import { PluginStore } from '@/components/plugins/PluginStore'
 import { PluginList } from '@/components/plugins/PluginList'
 import { ImportDialog } from '@/components/ImportExport/ImportDialog'
 import { ExportButton } from '@/components/ImportExport/ExportButton'
+import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -267,6 +268,8 @@ function ShortcutsModal() {
               })}
             </div>
           </div>
+        ))}
+      </div>
     </Modal>
   )
 }
@@ -381,7 +384,7 @@ function WorkspaceHeader() {
       </div>
 
       <div className="flex items-center space-x-3">
-        <ExportButton size="xs" variant="outline" />
+        <ExportButton size="sm" variant="outline" />
         <ViewHeaderSwitcher />
       </div>
     </header>

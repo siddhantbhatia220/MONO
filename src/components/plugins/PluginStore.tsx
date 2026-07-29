@@ -182,7 +182,7 @@ export function PluginStore() {
                 </span>
 
                 <Button
-                  size="xs"
+                  size="sm"
                   variant={isInstalled ? 'outline' : 'default'}
                   disabled={isInstalled || isInstalling}
                   onClick={() => handleInstall(plugin)}

@@ -22,7 +22,8 @@ export interface PluginManifest {
 }
 
 export function PluginList() {
-  const { currentWorkspaceId } = useAppStore()
+  const { activeWorkspace } = useAppStore()
+  const currentWorkspaceId = activeWorkspace?.id || ''
   const [plugins, setPlugins] = useState<PluginManifest[]>([])
   const [activePluginIds, setActivePluginIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
@@ -148,7 +149,7 @@ export function PluginList() {
 
               <div className="flex items-center space-x-2">
                 <Button
-                  size="xs"
+                  size="sm"
                   variant={isActive ? 'default' : 'outline'}
                   onClick={() => toggleActivation(plugin.id)}
                   className="flex items-center space-x-1"
@@ -158,7 +159,7 @@ export function PluginList() {
                 </Button>
 
                 <Button
-                  size="xs"
+                  size="sm"
                   variant="ghost"
                   onClick={() => handleUninstall(plugin.id)}
                   className="text-neutral-400 hover:text-neutral-900 dark:hover:text-white"
