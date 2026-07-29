@@ -1,0 +1,7 @@
+{
+  "id": "sample-plugin",
+  "name": "Sample Plugin",
+  "description": "A minimal demo plugin that adds a widget to the sidebar.",
+  "entry": "../sample-plugin/dist/index.js",
+  "version": "0.1.0"
+}

@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-07-29T05:01:40.162Z",
+  "status": "OPTIMAL",
+  "targetKeywords": [
+    "MONO",
+    "MONO Personal OS",
+    "Siddhant Bhatia",
+    "Siddhant Bhatia MONO",
+    "Siddhant Bhatia Projects",
+    "Siddhant Bhatia Developer",
+    "Local-First To Do List App",
+    "Offline Task Manager",
+    "Keyboard-Driven Productivity Workspace",
+    "Privacy Focused Personal Operating System",
+    "Minimalist Markdown Notes Organizer"
+  ],
+  "pageMetadata": {
+    "title": "Siddhant Bhatia Projects — MONO — Local-First Personal OS & To-Do List",
+    "descriptionLength": 172,
+    "keywordsCount": 11,
+    "jsonLdSchemas": [
+      "WebApplication",
+      "Person",
+      "WebSite"
+    ]
+  }
+}
