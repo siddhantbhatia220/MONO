@@ -20,6 +20,8 @@ import { type Item, Priority, type SubItem } from '@/lib/types/item'
 
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
+import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
+import { ChecklistManager } from '@/components/items/ChecklistManager'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
@@ -334,19 +336,12 @@ export function ItemDetailPanel() {
               {/* Description / Notes */}
               <div className="flex flex-col gap-2">
                 <label className="text-[10px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-505">
-                  Notes
+                  Notes & Markdown
                 </label>
-                <textarea
+                <MarkdownEditor
                   value={notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  onChange={(val) => setNotes(val)}
                   onBlur={handleNotesBlur}
-                  placeholder="Write a description or detail notes here..."
-                  className="
-                    w-full min-h-[100px] p-3 rounded-xl border border-zinc-200 dark:border-zinc-800
-                    bg-transparent text-sm leading-relaxed text-zinc-800 dark:text-zinc-200 outline-none
-                    resize-y placeholder:text-zinc-300 dark:placeholder:text-zinc-700
-                  "
-                  aria-label="Item notes"
                 />
               </div>
 
@@ -401,80 +396,17 @@ export function ItemDetailPanel() {
                 </form>
               </div>
 
-              {/* Sub-items / Checklist */}
-              <div className="flex flex-col gap-2 border-t border-zinc-100 dark:border-zinc-800/60 pt-4">
-                <label className="text-[10px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-505">
-                  Checklist
-                </label>
-
-                {/* Checklist list */}
-                <div className="flex flex-col gap-1.5 my-1">
-                  {subItems.map((si) => (
-                    <div
-                      key={si.id}
-                      className="
-                        group/sub flex items-center justify-between px-2.5 py-2 rounded-lg
-                        hover:bg-zinc-50 dark:hover:bg-zinc-900/40 transition-all duration-75
-                      "
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <Checkbox
-                          checked={si.completed}
-                          onChange={(checked) => handleToggleSubItem(si.id, checked)}
-                          size="sm"
-                          aria-label={`Mark subtask "${si.title}" as completed`}
-                        />
-                        <span
-                          className={`
-                            text-xs font-medium truncate
-                            ${
-                              si.completed
-                                ? 'line-through text-zinc-400 dark:text-zinc-650'
-                                : 'text-zinc-800 dark:text-zinc-200'
-                            }
-                          `}
-                        >
-                          {si.title}
-                        </span>
-                      </div>
-                      <button
-                        onClick={() => handleDeleteSubItem(si.id)}
-                        className="
-                          opacity-0 group-hover/sub:opacity-100 p-1 rounded hover:bg-zinc-200 dark:hover:bg-zinc-800
-                          text-zinc-400 hover:text-zinc-805 dark:hover:text-zinc-200 transition-all cursor-pointer
-                        "
-                        aria-label="Delete subtask"
-                      >
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-                  ))}
-                  {subItems.length === 0 && (
-                    <span className="text-xs text-zinc-400 dark:text-zinc-650 italic px-2">
-                      No sub-items yet
-                    </span>
-                  )}
-                </div>
-
-                {/* Add SubItem input */}
-                <form onSubmit={handleAddSubItem} className="flex gap-2">
-                  <input
-                    type="text"
-                    placeholder="Add checklist item..."
-                    value={newSubTitle}
-                    onChange={(e) => setNewSubTitle(e.target.value)}
-                    className="
-                      flex-1 bg-transparent border border-zinc-200 dark:border-zinc-800
-                      rounded-lg px-2.5 py-1.5 text-xs outline-none text-zinc-850 dark:text-zinc-100
-                      placeholder:text-zinc-300 dark:placeholder:text-zinc-700
-                    "
-                    aria-label="Add new subtask"
-                  />
-                  <Button type="submit" variant="outline" size="sm" className="h-8 cursor-pointer">
-                    Add
-                  </Button>
-                </form>
-              </div>
+              {/* Checklist Manager */}
+              <ChecklistManager
+                subItems={subItems}
+                onAddSubItem={async (title) => {
+                  if (!item) return
+                  const sub = await createSubItem(item.id, title)
+                  setSubItems((prev) => [...prev, sub])
+                }}
+                onToggleSubItem={handleToggleSubItem}
+                onDeleteSubItem={handleDeleteSubItem}
+              />
             </div>
           </motion.div>
         </div>
