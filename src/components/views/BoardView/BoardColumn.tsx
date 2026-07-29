@@ -46,7 +46,7 @@ export function BoardColumn({ column, items, onStatusChange, onQuickAdd }: Board
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       className={`
-        flex flex-col flex-1 min-w-[280px] max-w-[340px] h-full
+        flex flex-col flex-1 min-w-[85vw] sm:min-w-[280px] max-w-[340px] h-full snap-center
         bg-zinc-50/70 dark:bg-zinc-900/40
         border rounded-2xl p-3
         transition-colors duration-150
