@@ -30,8 +30,10 @@ import { ViewMode } from '@/lib/types/view'
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
 import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
+import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
+import { TagManagerModal } from '@/components/layout/TagManagerModal'
 import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
@@ -973,7 +975,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 // App Shell
 // ============================
 function AppShell() {
-  const { toggleSidebar, openCommandPalette, openModal, setSidebarOpen } = useUIStore()
+  const { toggleSidebar, openCommandPalette, openModal, setSidebarOpen, focusMode } = useUIStore()
   const { activeViewMode, activeFilterCriteria, activeWorkspace, activeProject } = useAppStore()
   const { items } = useItemStore()
   const isMobile = useIsMobile()
@@ -1030,39 +1032,47 @@ function AppShell() {
   }, [openCommandPalette, toggleSidebar, openModal])
 
   return (
-    <div className="app-shell flex h-dvh overflow-hidden">
-      {/* Sidebar */}
-      <Sidebar />
+    <div className="app-shell flex h-dvh overflow-hidden flex-col">
+      <FocusModeHeader />
 
-      {/* Main content */}
-      <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0f0f0f]">
-        <WorkspaceHeader />
-        <SmartFilterBar />
+      <div className="flex flex-1 h-full overflow-hidden">
+        {/* Sidebar */}
+        {!focusMode && <Sidebar />}
 
-        <div className="flex-1 overflow-y-auto flex flex-col">
-          {activeViewMode === ViewMode.List && (
-            <div className="px-4 md:px-8 pt-2 pb-4 max-w-3xl mx-auto w-full">
-              <ListView />
-            </div>
+        {/* Main content */}
+        <main className="app-main flex-1 flex flex-col h-full overflow-hidden bg-white dark:bg-[#0f0f0f]">
+          {!focusMode && (
+            <>
+              <WorkspaceHeader />
+              <SmartFilterBar />
+            </>
           )}
 
-          {activeViewMode === ViewMode.Board && <BoardView items={allItems} />}
+          <div className="flex-1 overflow-y-auto flex flex-col">
+            {activeViewMode === ViewMode.List && (
+              <div className="px-4 md:px-8 pt-2 pb-4 max-w-3xl mx-auto w-full">
+                <ListView />
+              </div>
+            )}
 
-          {activeViewMode === ViewMode.Calendar && <CalendarView items={allItems} />}
+            {activeViewMode === ViewMode.Board && <BoardView items={allItems} />}
 
-          {activeViewMode === ViewMode.Timeline && <TimelineView items={allItems} />}
-        </div>
+            {activeViewMode === ViewMode.Calendar && <CalendarView items={allItems} />}
 
-        {/* Floating Batch Action Bar */}
-        <BatchActionBar />
-
-        {/* Quick Capture Bar — always visible at bottom */}
-        <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4">
-          <div className="max-w-3xl mx-auto w-full">
-            <QuickCapture />
+            {activeViewMode === ViewMode.Timeline && <TimelineView items={allItems} />}
           </div>
-        </div>
-      </main>
+
+          {/* Floating Batch Action Bar */}
+          <BatchActionBar />
+
+          {/* Quick Capture Bar — always visible at bottom */}
+          <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4">
+            <div className="max-w-3xl mx-auto w-full">
+              <QuickCapture />
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
   )
 }
@@ -1127,6 +1137,7 @@ export default function Home() {
       <CreateProjectModal />
       <SettingsModal />
       <ItemDetailPanel />
+      <TagManagerModal />
       <ShortcutsModal />
       <Toasts />
     </>
