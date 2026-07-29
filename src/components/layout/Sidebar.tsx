@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Puzzle, Search, Settings, Star, UploadCloud, X } from 'lucide-react'
+import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Puzzle, Search, Settings, Star, TrendingUp, UploadCloud, X } from 'lucide-react'
 
 import { listProjects } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
@@ -120,6 +120,15 @@ export function Sidebar() {
       icon: <UploadCloud size={16} strokeWidth={1.8} />,
       action: () => {
         openModal('import-data')
+        if (isMobile) toggleSidebar()
+      },
+    },
+    {
+      id: 'insights',
+      label: 'Insights',
+      icon: <TrendingUp size={16} strokeWidth={1.8} />,
+      action: () => {
+        openModal('insights')
         if (isMobile) toggleSidebar()
       },
     },

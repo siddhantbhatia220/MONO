@@ -8,7 +8,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 type ModalId =
-  'create-workspace' | 'create-project' | 'item-detail' | 'settings' | 'keyboard-shortcuts' | 'plugins' | 'import-data' | null
+  'create-workspace' | 'create-project' | 'item-detail' | 'settings' | 'keyboard-shortcuts' | 'plugins' | 'import-data' | 'insights' | null
 
 interface Toast {
   id: string

@@ -40,6 +40,7 @@ import { PluginStore } from '@/components/plugins/PluginStore'
 import { PluginList } from '@/components/plugins/PluginList'
 import { ImportDialog } from '@/components/ImportExport/ImportDialog'
 import { ExportButton } from '@/components/ImportExport/ExportButton'
+import { InsightsDashboardModal } from '@/components/intelligence/InsightsDashboardModal'
 import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
 import { Button } from '@/components/ui/Button'
@@ -1197,6 +1198,7 @@ export default function Home() {
       <ShortcutsModal />
       <PluginsModal />
       <ImportDialog isOpen={activeModal === 'import-data'} onClose={closeModal} />
+      <InsightsDashboardModal />
       <Toasts />
     </>
   )
