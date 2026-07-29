@@ -7,12 +7,24 @@
  * and status filtering controls across active workspace items.
  */
 import React from 'react'
-import { FilterX, Search, SlidersHorizontal } from 'lucide-react'
+import { Bookmark, FilterX, Search, SlidersHorizontal } from 'lucide-react'
 import { ItemStatus, Priority } from '@/lib/types/item'
 import { useAppStore } from '@/lib/store/appStore'
 
 export function SmartFilterBar() {
-  const { activeFilterCriteria, setActiveFilterCriteria, resetFilterCriteria } = useAppStore()
+  const {
+    activeFilterCriteria,
+    setActiveFilterCriteria,
+    resetFilterCriteria,
+    addSavedFilter,
+  } = useAppStore()
+
+  const handleSaveFilter = () => {
+    const name = prompt('Enter a name for this saved filter (e.g. Urgent Work):')
+    if (name && name.trim()) {
+      addSavedFilter(name.trim(), activeFilterCriteria)
+    }
+  }
 
   const isFiltered =
     activeFilterCriteria.searchQuery.trim() !== '' ||
@@ -78,21 +90,37 @@ export function SmartFilterBar() {
         <option value={Priority.Low}>Low</option>
       </select>
 
-      {/* Reset Filter Button */}
+      {/* Save & Reset Filter Buttons */}
       {isFiltered && (
-        <button
-          type="button"
-          onClick={resetFilterCriteria}
-          className="
-            flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium
-            text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100
-            bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800
-            rounded-lg transition-colors cursor-pointer
-          "
-        >
-          <FilterX className="w-3.5 h-3.5" />
-          <span>Reset</span>
-        </button>
+        <div className="flex items-center gap-1.5 ml-auto">
+          <button
+            type="button"
+            onClick={handleSaveFilter}
+            className="
+              flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium
+              text-zinc-900 dark:text-zinc-100 bg-zinc-200 dark:bg-zinc-800
+              hover:bg-zinc-300 dark:hover:bg-zinc-700
+              rounded-lg transition-colors cursor-pointer font-semibold
+            "
+          >
+            <Bookmark className="w-3.5 h-3.5" />
+            <span>Save Filter</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={resetFilterCriteria}
+            className="
+              flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium
+              text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100
+              bg-zinc-200/60 dark:bg-zinc-800/60 hover:bg-zinc-200 dark:hover:bg-zinc-800
+              rounded-lg transition-colors cursor-pointer
+            "
+          >
+            <FilterX className="w-3.5 h-3.5" />
+            <span>Reset</span>
+          </button>
+        </div>
       )}
     </div>
   )
