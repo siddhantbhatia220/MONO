@@ -5,6 +5,7 @@
  * priority distribution, and actionable recommendations.
  */
 import type { Item } from '@/lib/types/item'
+
 import { analyzeCompletionDays } from './patternRecognition'
 
 export interface ProductivityStats {
@@ -87,16 +88,22 @@ export function calculateProductivityInsights(items: Item[]): ProductivityStats 
   }
 
   if (priorityBreakdown.critical > 3) {
-    recommendations.push('You have multiple critical priority items. Focus on clearing one before taking new tasks.')
+    recommendations.push(
+      'You have multiple critical priority items. Focus on clearing one before taking new tasks.'
+    )
   }
 
   const activeTopTag = topTag as { tag: string; count: number } | null
   if (activeTopTag) {
-    recommendations.push(`Most of your productivity centers around #${activeTopTag.tag}. Consider scheduling dedicated focus blocks for it.`)
+    recommendations.push(
+      `Most of your productivity centers around #${activeTopTag.tag}. Consider scheduling dedicated focus blocks for it.`
+    )
   }
 
   if (recommendations.length === 0) {
-    recommendations.push('Great job maintaining a steady flow! Keep up your consistent task completion rhythm.')
+    recommendations.push(
+      'Great job maintaining a steady flow! Keep up your consistent task completion rhythm.'
+    )
   }
 
   return {

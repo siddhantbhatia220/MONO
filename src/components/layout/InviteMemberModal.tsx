@@ -7,12 +7,15 @@
  * (Owner, Editor, Viewer), and generate shareable access links.
  */
 import React, { useState } from 'react'
-import { Check, Copy, Shield, UserPlus, Users } from 'lucide-react'
-import { Modal } from '@/components/ui/Modal'
+
+import { Check, Copy, Users } from 'lucide-react'
+
+import { useAppStore } from '@/lib/store/appStore'
+import { useUIStore } from '@/lib/store/uiStore'
+
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useAppStore } from '@/lib/store/appStore'
+import { Modal } from '@/components/ui/Modal'
 
 export function InviteMemberModal() {
   const { activeModal, closeModal, addToast } = useUIStore()
@@ -22,9 +25,10 @@ export function InviteMemberModal() {
   const [role, setRole] = useState<'EDITOR' | 'VIEWER'>('EDITOR')
   const [copied, setCopied] = useState(false)
 
-  const shareUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/app?invite=${activeWorkspace?.id || 'ws_default'}`
-    : ''
+  const shareUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/app?invite=${activeWorkspace?.id || 'ws_default'}`
+      : ''
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl)
@@ -46,7 +50,7 @@ export function InviteMemberModal() {
 
   return (
     <Modal
-      open={activeModal === ('invite-member' as any)}
+      open={activeModal === ('invite-member' as unknown as string)}
       onClose={closeModal}
       title="Share Workspace"
       description={`Invite members to collaborate on ${activeWorkspace?.name || 'Workspace'}`}
@@ -97,7 +101,11 @@ export function InviteMemberModal() {
               onClick={handleCopyLink}
               className="flex items-center gap-1 cursor-pointer"
             >
-              {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
+              {copied ? (
+                <Check className="w-3.5 h-3.5 text-green-500" />
+              ) : (
+                <Copy className="w-3.5 h-3.5" />
+              )}
               <span>{copied ? 'Copied' : 'Copy'}</span>
             </Button>
           </div>

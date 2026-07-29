@@ -8,7 +8,15 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 type ModalId =
-  'create-workspace' | 'create-project' | 'item-detail' | 'settings' | 'keyboard-shortcuts' | 'plugins' | 'import-data' | 'insights' | null
+  | 'create-workspace'
+  | 'create-project'
+  | 'item-detail'
+  | 'settings'
+  | 'keyboard-shortcuts'
+  | 'plugins'
+  | 'import-data'
+  | 'insights'
+  | null
 
 interface Toast {
   id: string
@@ -102,11 +110,9 @@ export const useUIStore = create<UIState>()(
           'toggleItemSelection'
         ),
 
-      clearSelection: () =>
-        set({ selectedItemIds: new Set<string>() }, false, 'clearSelection'),
+      clearSelection: () => set({ selectedItemIds: new Set<string>() }, false, 'clearSelection'),
 
-      setSelectedItems: (ids) =>
-        set({ selectedItemIds: new Set(ids) }, false, 'setSelectedItems'),
+      setSelectedItems: (ids) => set({ selectedItemIds: new Set(ids) }, false, 'setSelectedItems'),
 
       openCommandPalette: (query = '') =>
         set({ commandPaletteOpen: true, commandPaletteQuery: query }, false, 'openCommandPalette'),

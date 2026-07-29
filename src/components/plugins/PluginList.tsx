@@ -6,12 +6,15 @@
  * Displays all plugins currently installed in the system, with toggle controls
  * for workspace activation and uninstallation.
  */
-import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Puzzle, CheckCircle2, XCircle, Trash2, Power } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import React, { useCallback, useEffect, useState } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { Power, Puzzle, Trash2 } from 'lucide-react'
+
 import { apiClient } from '@/lib/api/apiClient'
 import { useAppStore } from '@/lib/store/appStore'
+
+import { Button } from '@/components/ui/Button'
 
 export interface PluginManifest {
   id: string
@@ -28,9 +31,8 @@ export function PluginList() {
   const [activePluginIds, setActivePluginIds] = useState<Set<string>>(new Set())
   const [loading, setLoading] = useState(true)
 
-  const fetchInstalledPlugins = async () => {
+  const fetchInstalledPlugins = useCallback(async () => {
     try {
-      setLoading(true)
       const data = await apiClient.get<PluginManifest[]>('/plugins')
       setPlugins(data || [])
     } catch {
@@ -54,33 +56,43 @@ export function PluginList() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
   useEffect(() => {
-    fetchInstalledPlugins()
-  }, [])
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void fetchInstalledPlugins()
+  }, [fetchInstalledPlugins])
 
   const toggleActivation = async (pluginId: string) => {
     const isCurrentlyActive = activePluginIds.has(pluginId)
-    const next = new Set(activePluginIds)
 
     try {
       if (isCurrentlyActive) {
         await apiClient.post(`/plugins/${pluginId}/deactivate`, { workspaceId: currentWorkspaceId })
-        next.delete(pluginId)
+        setActivePluginIds((prev) => {
+          const next = new Set(prev)
+          next.delete(pluginId)
+          return next
+        })
       } else {
         await apiClient.post(`/plugins/${pluginId}/activate`, { workspaceId: currentWorkspaceId })
-        next.add(pluginId)
+        setActivePluginIds((prev) => {
+          const next = new Set(prev)
+          next.add(pluginId)
+          return next
+        })
       }
-      setActivePluginIds(next)
     } catch {
       // Toggle locally for local offline experience
-      if (isCurrentlyActive) {
-        next.delete(pluginId)
-      } else {
-        next.add(pluginId)
-      }
-      setActivePluginIds(next)
+      setActivePluginIds((prev) => {
+        const next = new Set(prev)
+        if (isCurrentlyActive) {
+          next.delete(pluginId)
+        } else {
+          next.add(pluginId)
+        }
+        return next
+      })
     }
   }
 
@@ -95,9 +107,7 @@ export function PluginList() {
 
   if (loading) {
     return (
-      <div className="p-6 text-center text-xs text-neutral-400">
-        Loading installed plugins...
-      </div>
+      <div className="p-6 text-center text-xs text-neutral-400">Loading installed plugins...</div>
     )
   }
 
@@ -109,7 +119,7 @@ export function PluginList() {
           No plugins installed yet
         </p>
         <p className="text-xs text-neutral-500 mt-1">
-          Explore the Plugin Store to extend MONO's functionality.
+          Explore the Plugin Store to extend MONO&apos;s functionality.
         </p>
       </div>
     )
@@ -141,9 +151,7 @@ export function PluginList() {
                       v{plugin.version || '1.0.0'}
                     </span>
                   </div>
-                  <p className="text-xs text-neutral-500 mt-0.5 max-w-md">
-                    {plugin.description}
-                  </p>
+                  <p className="text-xs text-neutral-500 mt-0.5 max-w-md">{plugin.description}</p>
                 </div>
               </div>
 

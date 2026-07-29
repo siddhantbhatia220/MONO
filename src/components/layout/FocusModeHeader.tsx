@@ -6,7 +6,9 @@
  * Minimalist top banner displayed when distraction-free Focus Mode is active.
  */
 import React from 'react'
+
 import { Minimize2, Sparkles } from 'lucide-react'
+
 import { useUIStore } from '@/lib/store/uiStore'
 
 export function FocusModeHeader() {

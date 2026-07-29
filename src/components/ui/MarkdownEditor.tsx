@@ -7,7 +7,8 @@
  * with a monochrome formatting toolbar (Bold, Italic, Code, Heading, List, Quote).
  */
 import React, { useState } from 'react'
-import { Bold, Code, Eye, Edit3, Heading, Italic, List, Quote } from 'lucide-react'
+
+import { Bold, Code, Edit3, Eye, Heading, Italic, List, Quote } from 'lucide-react'
 
 interface MarkdownEditorProps {
   value: string

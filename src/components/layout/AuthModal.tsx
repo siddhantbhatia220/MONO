@@ -7,16 +7,17 @@
  * and NestJS server JWT authentication.
  */
 import React, { useState } from 'react'
-import { Lock, LogIn, UserPlus } from 'lucide-react'
-import { Modal } from '@/components/ui/Modal'
+
+import { useAuthStore } from '@/lib/store/authStore'
+import { useUIStore } from '@/lib/store/uiStore'
+
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useAuthStore } from '@/lib/store/authStore'
+import { Modal } from '@/components/ui/Modal'
 
 export function AuthModal() {
   const { activeModal, closeModal, addToast } = useUIStore()
-  const { setAuth } = useAuthStore()
+  const { login, register } = useAuthStore()
 
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
@@ -31,15 +32,11 @@ export function AuthModal() {
 
     setLoading(true)
     try {
-      // Simulate auth or connect to server
-      const fakeUser = {
-        id: `usr_${Math.random().toString(36).substring(2, 9)}`,
-        email: email.trim(),
-        name: mode === 'register' ? name.trim() : email.split('@')[0],
+      if (mode === 'register') {
+        await register(email, password, name)
+      } else {
+        await login(email, password)
       }
-      const fakeToken = `jwt_${Math.random().toString(36).substring(2, 15)}`
-
-      setAuth(fakeUser, fakeToken)
       addToast({
         message: mode === 'register' ? 'Account created successfully!' : 'Signed in successfully!',
         type: 'success',
@@ -55,7 +52,7 @@ export function AuthModal() {
 
   return (
     <Modal
-      open={activeModal === ('auth' as any)}
+      open={activeModal === ('auth' as unknown as string)}
       onClose={closeModal}
       title={mode === 'login' ? 'Sign In to MONO' : 'Create Account'}
       description="Connect to your MONO account for multi-user collaboration and cloud sync."

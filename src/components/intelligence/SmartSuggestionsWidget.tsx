@@ -7,8 +7,10 @@
  * suggestions based on user input.
  */
 import React, { useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Sparkles, Tag, AlertCircle } from 'lucide-react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertCircle, Sparkles, Tag } from 'lucide-react'
+
 import { classifyInput } from '@/lib/intelligence/autoCategorizer'
 
 interface SmartSuggestionsWidgetProps {

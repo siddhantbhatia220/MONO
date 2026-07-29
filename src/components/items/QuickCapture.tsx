@@ -16,6 +16,7 @@ import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import { ItemType, Priority } from '@/lib/types/item'
+
 import { SmartSuggestionsWidget } from '@/components/intelligence/SmartSuggestionsWidget'
 
 const PRIORITY_MAP: Record<string, Priority> = {

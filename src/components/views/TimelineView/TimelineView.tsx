@@ -7,16 +7,11 @@
  * items along a date axis with status badges and item detail triggers.
  */
 import React from 'react'
-import {
-  addDays,
-  eachDayOfInterval,
-  format,
-  isSameDay,
-  isToday,
-  startOfWeek,
-} from 'date-fns'
-import { Item, ItemStatus } from '@/lib/types/item'
+
+import { addDays, eachDayOfInterval, format, isSameDay, isToday, startOfWeek } from 'date-fns'
+
 import { useUIStore } from '@/lib/store/uiStore'
+import { Item, ItemStatus } from '@/lib/types/item'
 
 interface TimelineViewProps {
   items: Item[]

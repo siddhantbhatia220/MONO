@@ -6,7 +6,8 @@
  * Dynamically renders widget cards contributed by active plugins.
  */
 import React from 'react'
-import { Puzzle, ExternalLink } from 'lucide-react'
+
+import { Puzzle } from 'lucide-react'
 
 interface PluginWidgetHostProps {
   pluginId: string
@@ -22,16 +23,12 @@ export function PluginWidgetHost({ pluginId, title, children }: PluginWidgetHost
           <Puzzle className="w-3.5 h-3.5 text-neutral-500" />
           <span>{title}</span>
         </div>
-        <span className="text-[10px] text-neutral-400 font-mono">
-          {pluginId}
-        </span>
+        <span className="text-[10px] text-neutral-400 font-mono">{pluginId}</span>
       </div>
 
       <div className="text-xs text-neutral-600 dark:text-neutral-400">
         {children || (
-          <div className="py-2 text-center text-neutral-400 text-[11px] italic">
-            Widget active
-          </div>
+          <div className="py-2 text-center text-neutral-400 text-[11px] italic">Widget active</div>
         )}
       </div>
     </div>

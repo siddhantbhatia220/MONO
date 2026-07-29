@@ -8,7 +8,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Puzzle, Search, Settings, Star, TrendingUp, UploadCloud, X } from 'lucide-react'
+import {
+  Bookmark,
+  Calendar,
+  Inbox,
+  Keyboard,
+  PanelLeft,
+  Plus,
+  Puzzle,
+  Search,
+  Settings,
+  Star,
+  TrendingUp,
+  UploadCloud,
+  X,
+} from 'lucide-react'
 
 import { listProjects } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'

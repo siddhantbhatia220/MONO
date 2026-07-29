@@ -7,10 +7,12 @@
  * column layout, and optimistic IndexedDB sync.
  */
 import React from 'react'
-import { Item, ItemStatus } from '@/lib/types/item'
-import { DEFAULT_BOARD_COLUMNS } from '@/lib/types/view'
+
 import { updateItem } from '@/lib/db/items'
 import { useItemStore } from '@/lib/store/itemStore'
+import { Item, ItemStatus } from '@/lib/types/item'
+import { DEFAULT_BOARD_COLUMNS } from '@/lib/types/view'
+
 import { BoardColumn } from './BoardColumn'
 
 interface BoardViewProps {

@@ -5,13 +5,16 @@
  *
  * Allows users to upload a JSON backup file to restore or add workspace items.
  */
-import React, { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { UploadCloud, FileJson, X, CheckCircle2, AlertCircle } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+import React, { useRef, useState } from 'react'
+
+import { AnimatePresence, motion } from 'framer-motion'
+import { AlertCircle, CheckCircle2, FileJson, UploadCloud, X } from 'lucide-react'
+
 import { createItem } from '@/lib/db/items'
-import { useItemStore } from '@/lib/store/itemStore'
 import { useAppStore } from '@/lib/store/appStore'
+import { useItemStore } from '@/lib/store/itemStore'
+
+import { Button } from '@/components/ui/Button'
 
 interface ImportDialogProps {
   isOpen: boolean
@@ -56,8 +59,8 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
       const itemsToImport = Array.isArray(parsed)
         ? parsed
         : Array.isArray(parsed.items)
-        ? parsed.items
-        : null
+          ? parsed.items
+          : null
 
       if (!itemsToImport) {
         throw new Error('Invalid backup file structure. Expected an array of items.')
@@ -134,7 +137,8 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
               </p>
             ) : (
               <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                Click to browse or drop your <span className="font-mono text-neutral-900 dark:text-white">.json</span> file here
+                Click to browse or drop your{' '}
+                <span className="font-mono text-neutral-900 dark:text-white">.json</span> file here
               </p>
             )}
           </div>
@@ -157,11 +161,7 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
             <Button size="sm" variant="ghost" onClick={onClose}>
               Cancel
             </Button>
-            <Button
-              size="sm"
-              disabled={!file || importing}
-              onClick={handleImport}
-            >
+            <Button size="sm" disabled={!file || importing} onClick={handleImport}>
               {importing ? 'Importing...' : 'Import Data'}
             </Button>
           </div>

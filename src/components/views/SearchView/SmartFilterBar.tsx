@@ -7,17 +7,15 @@
  * and status filtering controls across active workspace items.
  */
 import React from 'react'
-import { Bookmark, FilterX, Search, SlidersHorizontal } from 'lucide-react'
-import { ItemStatus, Priority } from '@/lib/types/item'
+
+import { Bookmark, FilterX, Search } from 'lucide-react'
+
 import { useAppStore } from '@/lib/store/appStore'
+import { ItemStatus, Priority } from '@/lib/types/item'
 
 export function SmartFilterBar() {
-  const {
-    activeFilterCriteria,
-    setActiveFilterCriteria,
-    resetFilterCriteria,
-    addSavedFilter,
-  } = useAppStore()
+  const { activeFilterCriteria, setActiveFilterCriteria, resetFilterCriteria, addSavedFilter } =
+    useAppStore()
 
   const handleSaveFilter = () => {
     const name = prompt('Enter a name for this saved filter (e.g. Urgent Work):')

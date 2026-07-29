@@ -4,7 +4,7 @@
  * Queues mutations made while offline in IndexedDB.
  * Automatically replays them against the server when connectivity returns.
  */
-import { openDB, IDBPDatabase } from 'idb'
+import { IDBPDatabase, openDB } from 'idb'
 
 export interface QueuedMutation {
   id: string

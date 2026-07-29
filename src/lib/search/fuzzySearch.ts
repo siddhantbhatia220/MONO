@@ -4,7 +4,7 @@
  * Perform fast, in-memory filtering and full-text matching
  * over Universal Items based on query text, tags, status, and priority.
  */
-import { Item, ItemStatus, Priority } from '@/lib/types/item'
+import { Item } from '@/lib/types/item'
 import { FilterCriteria } from '@/lib/types/view'
 
 /**

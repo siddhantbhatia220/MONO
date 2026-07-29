@@ -6,17 +6,11 @@
  * Provides quick date presets (Today, Tomorrow, Next Week)
  * and an explicit calendar grid for item scheduling.
  */
-import React, { useState } from 'react'
-import {
-  addDays,
-  addWeeks,
-  format,
-  isSameDay,
-  isToday,
-  startOfToday,
-  startOfWeek,
-} from 'date-fns'
+import React from 'react'
+
+import { addDays, addWeeks, format, startOfToday } from 'date-fns'
 import { Calendar, Clock, X } from 'lucide-react'
+
 import { Modal } from './Modal'
 
 interface DatePickerModalProps {
@@ -29,7 +23,7 @@ interface DatePickerModalProps {
 export function DatePickerModal({
   open,
   onClose,
-  selectedDate,
+  selectedDate: _selectedDate,
   onSelectDate,
 }: DatePickerModalProps) {
   const today = startOfToday()
@@ -83,7 +77,9 @@ export function DatePickerModal({
           >
             <Calendar className="w-4 h-4 text-zinc-500" />
             <div>
-              <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">Next Week</div>
+              <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100">
+                Next Week
+              </div>
               <div className="text-[10px] text-zinc-400">{format(nextWeek, 'MMM d')}</div>
             </div>
           </button>

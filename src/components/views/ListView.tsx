@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 
 import { listItems } from '@/lib/db/items'
+import { filterItems } from '@/lib/search/fuzzySearch'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
@@ -17,8 +18,6 @@ import type { Item } from '@/lib/types/item'
 
 import { ItemRow } from '@/components/items/ItemRow'
 import { EmptyState } from '@/components/views/EmptyState'
-
-import { filterItems } from '@/lib/search/fuzzySearch'
 
 const SKELETON_WIDTHS = ['45%', '72%', '38%', '60%', '55%']
 

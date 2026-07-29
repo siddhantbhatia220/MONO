@@ -6,12 +6,15 @@
  * Manage, rename, and merge tags across all items in the workspace.
  */
 import React, { useState } from 'react'
-import { Edit2, GitMerge, Tag } from 'lucide-react'
-import { Modal } from '@/components/ui/Modal'
+
+import { Edit2, Tag } from 'lucide-react'
+
+import { renameTagInWorkspace } from '@/lib/db/tags'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
-import { renameTagInWorkspace } from '@/lib/db/tags'
+
+import { Modal } from '@/components/ui/Modal'
 
 export function TagManagerModal() {
   const { activeModal, closeModal, addToast } = useUIStore()
@@ -47,7 +50,7 @@ export function TagManagerModal() {
 
   return (
     <Modal
-      open={activeModal === ('manage-tags' as any)}
+      open={activeModal === ('manage-tags' as unknown as string)}
       onClose={closeModal}
       title="Manage Tags"
       description="Rename or organize tags across your workspace."
@@ -61,9 +64,7 @@ export function TagManagerModal() {
           >
             <div className="flex items-center gap-2">
               <Tag className="w-3.5 h-3.5 text-zinc-400" />
-              <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
-                #{tag}
-              </span>
+              <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">#{tag}</span>
               <span className="text-[11px] font-medium text-zinc-400 bg-zinc-200/60 dark:bg-zinc-800 px-2 py-0.5 rounded-full tabular-nums">
                 {count} {count === 1 ? 'item' : 'items'}
               </span>

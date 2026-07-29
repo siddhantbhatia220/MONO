@@ -7,9 +7,12 @@
  * comment threads for collaboration.
  */
 import React, { useState } from 'react'
+
 import { formatDistanceToNow } from 'date-fns'
-import { Clock, MessageSquare, Send, User } from 'lucide-react'
+import { MessageSquare, Send } from 'lucide-react'
+
 import { Item } from '@/lib/types/item'
+
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 

@@ -7,9 +7,11 @@
  * Highlights current day, displays item pills, and handles item selection.
  */
 import React from 'react'
-import { isSameDay, isToday } from 'date-fns'
-import { Item, ItemStatus } from '@/lib/types/item'
+
+import { isToday } from 'date-fns'
+
 import { useUIStore } from '@/lib/store/uiStore'
+import { Item, ItemStatus } from '@/lib/types/item'
 
 interface CalendarDayCellProps {
   date: Date
@@ -72,9 +74,7 @@ export function CalendarDayCell({ date, isCurrentMonth, items }: CalendarDayCell
         })}
 
         {items.length > 3 && (
-          <div className="text-[10px] font-medium text-zinc-400 pl-1">
-            +{items.length - 3} more
-          </div>
+          <div className="text-[10px] font-medium text-zinc-400 pl-1">+{items.length - 3} more</div>
         )}
       </div>
     </div>

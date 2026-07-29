@@ -7,6 +7,7 @@
  * Maps universal items with due dates directly onto the calendar grid.
  */
 import React, { useState } from 'react'
+
 import {
   addMonths,
   eachDayOfInterval,
@@ -20,8 +21,11 @@ import {
   subMonths,
 } from 'date-fns'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 import { Item } from '@/lib/types/item'
+
 import { Button } from '@/components/ui/Button'
+
 import { CalendarDayCell } from './CalendarDayCell'
 
 interface CalendarViewProps {

@@ -3,8 +3,8 @@
  *
  * Batch operations for renaming and merging tags across all items in a workspace.
  */
-import { getDB } from './index'
 import { Item } from '../types/item'
+import { getDB } from './index'
 
 /**
  * Rename a tag across all items in a workspace.
@@ -28,9 +28,7 @@ export async function renameTagInWorkspace(
 
   for (const item of items) {
     if (item.tags.includes(source)) {
-      const nextTags = Array.from(
-        new Set(item.tags.map((t) => (t === source ? target : t)))
-      )
+      const nextTags = Array.from(new Set(item.tags.map((t) => (t === source ? target : t))))
       const updated: Item = {
         ...item,
         tags: nextTags,

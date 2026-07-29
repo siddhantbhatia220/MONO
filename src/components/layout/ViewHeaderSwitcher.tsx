@@ -7,9 +7,11 @@
  * List, Board (Kanban), and Calendar views.
  */
 import React from 'react'
+
 import { Calendar, GanttChart, LayoutGrid, List } from 'lucide-react'
-import { ViewMode } from '@/lib/types/view'
+
 import { useAppStore } from '@/lib/store/appStore'
+import { ViewMode } from '@/lib/types/view'
 
 const VIEW_OPTIONS = [
   { id: ViewMode.List, label: 'List', icon: List },

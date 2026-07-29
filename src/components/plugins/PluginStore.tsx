@@ -6,11 +6,15 @@
  * Full featured plugin store with categories, search filtering, and 1-click installation.
  */
 import React, { useState } from 'react'
+
 import { motion } from 'framer-motion'
-import { Search, Download, Check, Sparkles, Filter, ShieldCheck } from 'lucide-react'
+import { Check, Download, Filter, Search, ShieldCheck, Sparkles } from 'lucide-react'
+
+import { apiClient } from '@/lib/api/apiClient'
+
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
-import { apiClient } from '@/lib/api/apiClient'
+
 import { PluginManifest } from './PluginList'
 
 interface MarketplacePlugin extends PluginManifest {
@@ -24,7 +28,8 @@ const MARKETPLACE_PLUGINS: MarketplacePlugin[] = [
   {
     id: 'sample-plugin',
     name: 'Sample Plugin',
-    description: 'A minimal demo plugin that adds custom widgets and task shortcuts to the sidebar.',
+    description:
+      'A minimal demo plugin that adds custom widgets and task shortcuts to the sidebar.',
     entry: '../sample-plugin/dist/index.js',
     version: '0.1.0',
     category: 'UI Extensions',
@@ -34,7 +39,8 @@ const MARKETPLACE_PLUGINS: MarketplacePlugin[] = [
   {
     id: 'markdown-exporter',
     name: 'Markdown Exporter Plugin',
-    description: 'Exports workspace items, notes, and task lists into clean GitHub-flavored Markdown.',
+    description:
+      'Exports workspace items, notes, and task lists into clean GitHub-flavored Markdown.',
     entry: '../plugins/markdown-exporter/index.js',
     version: '1.0.0',
     category: 'Export',
@@ -44,7 +50,8 @@ const MARKETPLACE_PLUGINS: MarketplacePlugin[] = [
   {
     id: 'habit-tracker-widget',
     name: 'Habit Tracker Widget',
-    description: 'Track daily habits directly within your workspace sidebar with visual streak indicators.',
+    description:
+      'Track daily habits directly within your workspace sidebar with visual streak indicators.',
     entry: '../plugins/habit-tracker/index.js',
     version: '1.2.0',
     category: 'Productivity',
@@ -54,7 +61,8 @@ const MARKETPLACE_PLUGINS: MarketplacePlugin[] = [
   {
     id: 'auto-tagger',
     name: 'Auto Tagger',
-    description: 'Automatically applies tags to newly captured items based on title keywords and rules.',
+    description:
+      'Automatically applies tags to newly captured items based on title keywords and rules.',
     entry: '../plugins/auto-tagger/index.js',
     version: '0.9.5',
     category: 'Automation',
@@ -177,9 +185,7 @@ export function PluginStore() {
               </div>
 
               <div className="mt-4 pt-3 border-t border-neutral-100 dark:border-neutral-800/60 flex items-center justify-between">
-                <span className="text-[11px] font-mono text-neutral-400">
-                  v{plugin.version}
-                </span>
+                <span className="text-[11px] font-mono text-neutral-400">v{plugin.version}</span>
 
                 <Button
                   size="sm"

@@ -18,31 +18,29 @@ import { Calendar, Folder, Inbox, Menu, MousePointer, Search } from 'lucide-reac
 
 import { createWorkspace, listWorkspaces } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
+import { filterItems } from '@/lib/search/fuzzySearch'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
+import { ViewMode } from '@/lib/types/view'
 import { SHORTCUTS } from '@/lib/utils/keyboard'
 
-import { listItems } from '@/lib/db/items'
-import { filterItems } from '@/lib/search/fuzzySearch'
-import { ViewMode } from '@/lib/types/view'
-
+import { ExportButton } from '@/components/ImportExport/ExportButton'
+import { ImportDialog } from '@/components/ImportExport/ImportDialog'
+import { InsightsDashboardModal } from '@/components/intelligence/InsightsDashboardModal'
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
 import { AuthModal } from '@/components/layout/AuthModal'
-import { InviteMemberModal } from '@/components/layout/InviteMemberModal'
 import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
+import { InviteMemberModal } from '@/components/layout/InviteMemberModal'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TagManagerModal } from '@/components/layout/TagManagerModal'
-import { PluginStore } from '@/components/plugins/PluginStore'
-import { PluginList } from '@/components/plugins/PluginList'
-import { ImportDialog } from '@/components/ImportExport/ImportDialog'
-import { ExportButton } from '@/components/ImportExport/ExportButton'
-import { InsightsDashboardModal } from '@/components/intelligence/InsightsDashboardModal'
 import { ViewHeaderSwitcher } from '@/components/layout/ViewHeaderSwitcher'
 import { WorkspaceSwitcher } from '@/components/layout/WorkspaceSwitcher'
+import { PluginList } from '@/components/plugins/PluginList'
+import { PluginStore } from '@/components/plugins/PluginStore'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Modal } from '@/components/ui/Modal'
@@ -1030,7 +1028,7 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
 // ============================
 function AppShell() {
   const { toggleSidebar, openCommandPalette, openModal, setSidebarOpen, focusMode } = useUIStore()
-  const { activeViewMode, activeFilterCriteria, activeWorkspace, activeProject } = useAppStore()
+  const { activeViewMode, activeFilterCriteria } = useAppStore()
   const { items } = useItemStore()
   const isMobile = useIsMobile()
 

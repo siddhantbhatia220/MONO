@@ -6,14 +6,14 @@
  *
  * Persisted to localStorage for session continuity.
  */
+import { nanoid } from 'nanoid'
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
 
-import { nanoid } from 'nanoid'
+import { SavedFilter } from '@/lib/types/filterPreset'
+import { DEFAULT_FILTER_CRITERIA, FilterCriteria, ViewMode } from '@/lib/types/view'
 import type { Project, UserPreferences, Workspace } from '@/lib/types/workspace'
 import { DEFAULT_PREFERENCES } from '@/lib/types/workspace'
-import { DEFAULT_FILTER_CRITERIA, FilterCriteria, ViewMode } from '@/lib/types/view'
-import { SavedFilter } from '@/lib/types/filterPreset'
 
 interface AppState {
   // ---- Active Context ----
@@ -60,7 +60,8 @@ export const useAppStore = create<AppState>()(
 
         setActiveProject: (project) => set({ activeProject: project }, false, 'setActiveProject'),
 
-        setActiveViewMode: (viewMode) => set({ activeViewMode: viewMode }, false, 'setActiveViewMode'),
+        setActiveViewMode: (viewMode) =>
+          set({ activeViewMode: viewMode }, false, 'setActiveViewMode'),
 
         setActiveFilterCriteria: (partialFilter) =>
           set(

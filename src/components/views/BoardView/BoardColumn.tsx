@@ -7,9 +7,12 @@
  * Accepts dropped items and renders item cards.
  */
 import React, { useState } from 'react'
+
 import { Plus } from 'lucide-react'
+
 import { Item, ItemStatus } from '@/lib/types/item'
 import { BoardColumnConfig } from '@/lib/types/view'
+
 import { BoardCard } from './BoardCard'
 
 interface BoardColumnProps {

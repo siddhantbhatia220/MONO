@@ -7,11 +7,13 @@
  * Supports Bulk Complete, Bulk Delete, and Selection Reset.
  */
 import React from 'react'
+
 import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircle2, Trash2, X } from 'lucide-react'
-import { useUIStore } from '@/lib/store/uiStore'
-import { useItemStore } from '@/lib/store/itemStore'
+
 import { deleteItem, updateItem } from '@/lib/db/items'
+import { useItemStore } from '@/lib/store/itemStore'
+import { useUIStore } from '@/lib/store/uiStore'
 import { ItemStatus } from '@/lib/types/item'
 
 export function BatchActionBar() {

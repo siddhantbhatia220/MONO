@@ -7,8 +7,11 @@
  * inline sub-item addition, check toggle, and item deletion.
  */
 import React, { useState } from 'react'
+
 import { Plus, Trash2 } from 'lucide-react'
+
 import { SubItem } from '@/lib/types/item'
+
 import { Checkbox } from '@/components/ui/Checkbox'
 
 interface ChecklistManagerProps {

@@ -6,11 +6,14 @@
  * Triggers JSON or Markdown exports of workspace data with direct browser download.
  */
 import React, { useState } from 'react'
+
 import { FileJson, FileText } from 'lucide-react'
-import { Button } from '@/components/ui/Button'
+
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import type { Item } from '@/lib/types/item'
+
+import { Button } from '@/components/ui/Button'
 
 interface ExportButtonProps {
   variant?: 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive'
@@ -26,9 +29,7 @@ export function ExportButton({ variant = 'outline', size = 'sm' }: ExportButtonP
 
   const getWorkspaceItems = (): Item[] => {
     const allItems = Object.values(items)
-    return allItems.filter(
-      (item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId
-    )
+    return allItems.filter((item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId)
   }
 
   const exportAsJson = () => {

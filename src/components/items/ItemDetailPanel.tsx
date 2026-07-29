@@ -18,12 +18,11 @@ import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import { type Item, Priority, type SubItem } from '@/lib/types/item'
 
-import { Button } from '@/components/ui/Button'
-import { Checkbox } from '@/components/ui/Checkbox'
-import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
-import { ChecklistManager } from '@/components/items/ChecklistManager'
-import { AttachmentManager } from '@/components/items/AttachmentManager'
 import { ActivityFeed } from '@/components/items/ActivityFeed'
+import { AttachmentManager } from '@/components/items/AttachmentManager'
+import { ChecklistManager } from '@/components/items/ChecklistManager'
+import { Button } from '@/components/ui/Button'
+import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
 
 export function ItemDetailPanel() {
   const { detailItemId, closeItemDetail, addToast } = useUIStore()
@@ -176,7 +175,7 @@ export function ItemDetailPanel() {
   }
 
   // Sub-items operations
-  const handleAddSubItem = async (e: React.FormEvent) => {
+  const _handleAddSubItem = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!item || !newSubTitle.trim()) return
     try {

@@ -7,11 +7,13 @@
  * stored directly inside local-first IndexedDB items.
  */
 import React, { useState } from 'react'
-import { FileText, Image as ImageIcon, Paperclip, Trash2, Upload } from 'lucide-react'
+
+import { FileText, Paperclip, Trash2, Upload } from 'lucide-react'
 import { nanoid } from 'nanoid'
-import { Attachment, Item } from '@/lib/types/item'
+
 import { updateItem } from '@/lib/db/items'
 import { useItemStore } from '@/lib/store/itemStore'
+import { Attachment, Item } from '@/lib/types/item'
 
 interface AttachmentManagerProps {
   item: Item
@@ -116,11 +118,7 @@ export function AttachmentManager({ item }: AttachmentManagerProps) {
                 {/* Image Thumbnail Preview */}
                 {isImage ? (
                   <div className="w-full h-24 rounded bg-zinc-100 dark:bg-zinc-950 overflow-hidden mb-1.5 flex items-center justify-center">
-                    <img
-                      src={att.dataUrl}
-                      alt={att.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={att.dataUrl} alt={att.name} className="w-full h-full object-cover" />
                   </div>
                 ) : (
                   <div className="w-full h-16 rounded bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-1.5 text-zinc-400">

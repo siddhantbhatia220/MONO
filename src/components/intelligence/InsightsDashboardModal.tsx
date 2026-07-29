@@ -7,21 +7,15 @@
  * priority distribution, and actionable local intelligence insights.
  */
 import React, { useMemo } from 'react'
+
 import { motion } from 'framer-motion'
-import {
-  TrendingUp,
-  Flame,
-  CheckCircle2,
-  Tag,
-  Calendar,
-  Sparkles,
-  BarChart2,
-  PieChart,
-} from 'lucide-react'
-import { Modal } from '@/components/ui/Modal'
+import { Calendar, CheckCircle2, Flame, PieChart, Sparkles, Tag, TrendingUp } from 'lucide-react'
+
+import { calculateProductivityInsights } from '@/lib/intelligence/productivityInsights'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
-import { calculateProductivityInsights } from '@/lib/intelligence/productivityInsights'
+
+import { Modal } from '@/components/ui/Modal'
 
 export function InsightsDashboardModal() {
   const { activeModal, closeModal } = useUIStore()
@@ -103,7 +97,9 @@ export function InsightsDashboardModal() {
                   <div key={prio} className="space-y-1">
                     <div className="flex justify-between text-xs capitalize text-neutral-600 dark:text-neutral-400">
                       <span>{prio}</span>
-                      <span className="font-mono">{count} ({pct}%)</span>
+                      <span className="font-mono">
+                        {count} ({pct}%)
+                      </span>
                     </div>
                     <div className="w-full h-1.5 bg-neutral-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                       <div

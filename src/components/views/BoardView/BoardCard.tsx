@@ -7,10 +7,12 @@
  * Displays title, priority badge, tags, due date, and completion toggle.
  */
 import React from 'react'
+
 import { motion } from 'framer-motion'
 import { Calendar, CheckCircle2, Circle, Tag } from 'lucide-react'
-import { Item, ItemStatus, Priority } from '@/lib/types/item'
+
 import { useUIStore } from '@/lib/store/uiStore'
+import { Item, ItemStatus, Priority } from '@/lib/types/item'
 
 interface BoardCardProps {
   item: Item
