@@ -21,7 +21,7 @@ export function SmartFilterBar() {
     activeFilterCriteria.pinnedOnly
 
   return (
-    <div className="flex flex-wrap items-center gap-2.5 px-4 md:px-6 py-3 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30">
+    <div className="flex items-center gap-2 md:gap-2.5 px-3 md:px-6 py-2.5 md:py-3 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30 overflow-x-auto no-scrollbar flex-nowrap md:flex-wrap">
       {/* Search Input */}
       <div className="relative flex-1 min-w-[200px] max-w-sm">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
