@@ -28,6 +28,7 @@ import { filterItems } from '@/lib/search/fuzzySearch'
 import { ViewMode } from '@/lib/types/view'
 
 import { ItemDetailPanel } from '@/components/items/ItemDetailPanel'
+import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
@@ -41,6 +42,7 @@ import { BoardView } from '@/components/views/BoardView/BoardView'
 import { CalendarView } from '@/components/views/CalendarView/CalendarView'
 import { ListView } from '@/components/views/ListView'
 import { SmartFilterBar } from '@/components/views/SearchView/SmartFilterBar'
+import { TimelineView } from '@/components/views/TimelineView/TimelineView'
 
 const CommandPalette = dynamic(
   () => import('@/components/layout/CommandPalette').then((mod) => mod.CommandPalette),
@@ -1047,7 +1049,12 @@ function AppShell() {
           {activeViewMode === ViewMode.Board && <BoardView items={allItems} />}
 
           {activeViewMode === ViewMode.Calendar && <CalendarView items={allItems} />}
+
+          {activeViewMode === ViewMode.Timeline && <TimelineView items={allItems} />}
         </div>
+
+        {/* Floating Batch Action Bar */}
+        <BatchActionBar />
 
         {/* Quick Capture Bar — always visible at bottom */}
         <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4">
