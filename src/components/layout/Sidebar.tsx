@@ -8,7 +8,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Calendar, Inbox, Keyboard, PanelLeft, Plus, Search, Settings, Star, X } from 'lucide-react'
+import { Bookmark, Calendar, Inbox, Keyboard, PanelLeft, Plus, Search, Settings, Star, X } from 'lucide-react'
 
 import { listProjects } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
@@ -32,7 +32,14 @@ interface NavItem {
 
 export function Sidebar() {
   const { sidebarOpen, toggleSidebar, openCommandPalette, openModal } = useUIStore()
-  const { activeWorkspace, activeProject, setActiveProject } = useAppStore()
+  const {
+    activeWorkspace,
+    activeProject,
+    setActiveProject,
+    savedFilters,
+    setActiveFilterCriteria,
+    removeSavedFilter,
+  } = useAppStore()
   const isMobile = useIsMobile()
   const [projects, setProjects] = useState<Project[]>([])
 
@@ -204,6 +211,47 @@ export function Sidebar() {
                     </button>
                   )
                 })}
+              </div>
+            )}
+
+            {/* Saved Filters section */}
+            {savedFilters.length > 0 && (
+              <div className="mt-4 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/60">
+                <div className="flex items-center justify-between px-2.5 mb-1.5">
+                  <span className="text-[10px] font-bold tracking-wider text-zinc-400 dark:text-zinc-650 uppercase">
+                    Saved Filters
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-0.5">
+                  {savedFilters.map((filter) => (
+                    <div
+                      key={filter.id}
+                      className="group flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[12px] font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
+                      onClick={() => {
+                        setActiveFilterCriteria(filter.criteria)
+                        if (isMobile) toggleSidebar()
+                      }}
+                    >
+                      <div className="flex items-center gap-2 truncate">
+                        <Bookmark size={13} className="text-zinc-400 flex-shrink-0" />
+                        <span className="truncate">{filter.name}</span>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          removeSavedFilter(filter.id)
+                        }}
+                        className="opacity-0 group-hover:opacity-100 p-0.5 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-opacity"
+                        aria-label="Remove saved filter"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </motion.div>
