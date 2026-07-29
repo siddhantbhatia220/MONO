@@ -18,7 +18,7 @@ export class WorkspacesService {
     const workspace = await this.prisma.workspace.create({
       data: {
         name: dto.name,
-        slug: dto.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 'workspace',
+        ownerId: ownerId || 'system-owner',
       },
     })
 
@@ -43,7 +43,7 @@ export class WorkspacesService {
       where: { userId },
       include: { workspace: true },
     })
-    return memberships.map((m) => ({
+    return memberships.map((m: { workspace: Record<string, unknown>; role: string }) => ({
       ...m.workspace,
       role: m.role,
     }))

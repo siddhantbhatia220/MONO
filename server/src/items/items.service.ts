@@ -85,7 +85,7 @@ export class ItemsService {
         itemId: id,
         userId,
         action: 'UPDATE_ITEM',
-        payload: { changes: dto },
+        payload: JSON.parse(JSON.stringify({ changes: dto })),
       },
     })
 
