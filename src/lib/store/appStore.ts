@@ -11,11 +11,16 @@ import { devtools, persist } from 'zustand/middleware'
 
 import type { Project, UserPreferences, Workspace } from '@/lib/types/workspace'
 import { DEFAULT_PREFERENCES } from '@/lib/types/workspace'
+import { DEFAULT_FILTER_CRITERIA, FilterCriteria, ViewMode } from '@/lib/types/view'
 
 interface AppState {
   // ---- Active Context ----
   activeWorkspace: Workspace | null
   activeProject: Project | null
+
+  // ---- View & Filter State ----
+  activeViewMode: ViewMode
+  activeFilterCriteria: FilterCriteria
 
   // ---- User Preferences ----
   preferences: UserPreferences
@@ -26,6 +31,9 @@ interface AppState {
   // ---- Actions ----
   setActiveWorkspace: (workspace: Workspace | null) => void
   setActiveProject: (project: Project | null) => void
+  setActiveViewMode: (viewMode: ViewMode) => void
+  setActiveFilterCriteria: (filter: Partial<FilterCriteria>) => void
+  resetFilterCriteria: () => void
   updatePreferences: (partial: Partial<UserPreferences>) => void
   setResolvedTheme: (theme: 'light' | 'dark') => void
 }
@@ -36,6 +44,8 @@ export const useAppStore = create<AppState>()(
       (set) => ({
         activeWorkspace: null,
         activeProject: null,
+        activeViewMode: ViewMode.List,
+        activeFilterCriteria: DEFAULT_FILTER_CRITERIA,
         preferences: DEFAULT_PREFERENCES,
         resolvedTheme: 'light',
 
@@ -43,6 +53,20 @@ export const useAppStore = create<AppState>()(
           set({ activeWorkspace: workspace, activeProject: null }, false, 'setActiveWorkspace'),
 
         setActiveProject: (project) => set({ activeProject: project }, false, 'setActiveProject'),
+
+        setActiveViewMode: (viewMode) => set({ activeViewMode: viewMode }, false, 'setActiveViewMode'),
+
+        setActiveFilterCriteria: (partialFilter) =>
+          set(
+            (state) => ({
+              activeFilterCriteria: { ...state.activeFilterCriteria, ...partialFilter },
+            }),
+            false,
+            'setActiveFilterCriteria'
+          ),
+
+        resetFilterCriteria: () =>
+          set({ activeFilterCriteria: DEFAULT_FILTER_CRITERIA }, false, 'resetFilterCriteria'),
 
         updatePreferences: (partial) =>
           set(
@@ -57,7 +81,7 @@ export const useAppStore = create<AppState>()(
         name: 'mono-app-store',
         partialize: (state) => ({
           preferences: state.preferences,
-          // Don't persist active workspace here — handled by preferences
+          activeViewMode: state.activeViewMode,
         }),
       }
     ),
