@@ -1,0 +1,131 @@
+// MONO Personal OS — Prisma PostgreSQL Database Schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum ItemType {
+  task
+  note
+  goal
+  event
+  habit
+  bookmark
+  checklist
+}
+
+enum Priority {
+  none
+  low
+  medium
+  high
+  critical
+}
+
+enum ItemStatus {
+  active
+  in_progress
+  completed
+  cancelled
+  archived
+}
+
+model User {
+  id           String            @id @default(cuid())
+  email        String            @unique
+  passwordHash String
+  name         String
+  avatarUrl    String?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  workspaces   WorkspaceMember[]
+  AuditLog     AuditLog[]
+}
+
+model Workspace {
+  id         String            @id @default(cuid())
+  name       String
+  icon       String?           @default("Folder")
+  ownerId    String
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  members    WorkspaceMember[]
+  projects   Project[]
+  items      Item[]
+}
+
+model WorkspaceMember {
+  id          String    @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        Role      @default(EDITOR)
+  createdAt   DateTime  @default(now())
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  workspaceId String
+  name        String
+  icon        String?   @default("Folder")
+  sortOrder   Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  items       Item[]
+}
+
+model Item {
+  id               String     @id @default(cuid())
+  title            String
+  notes            String?
+  content          String?
+  type             ItemType   @default(task)
+  status           ItemStatus @default(active)
+  priority         Priority   @default(none)
+  workspaceId      String
+  projectId        String?
+  parentId         String?
+  dueDate          DateTime?
+  reminderAt       DateTime?
+  tags             String[]
+  properties       Json       @default("{}")
+  estimatedMinutes Int?
+  trackedMinutes   Int?
+  sortOrder        Int        @default(0)
+  pinned           Boolean    @default(false)
+  completedAt      DateTime?
+  crdtState        Bytes?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  workspace Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  project   Project?   @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  auditLogs AuditLog[]
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  itemId    String
+  userId    String
+  action    String
+  payload   Json     @default("{}")
+  createdAt DateTime @default(now())
+
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
