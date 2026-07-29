@@ -38,7 +38,7 @@ export function ItemRow({
   const [hovered, setHovered] = useState(false)
   const [expanded, setExpanded] = useState(true)
 
-  const { openItemDetail, addToast } = useUIStore()
+  const { openItemDetail, addToast, selectedItemIds, toggleItemSelection } = useUIStore()
   const { upsertItem, removeItem } = useItemStore()
   const { preferences } = useAppStore()
 
@@ -74,6 +74,8 @@ export function ItemRow({
     openItemDetail(item.id)
   }, [item.id, onSelect, openItemDetail])
 
+  const isMultiSelected = selectedItemIds.has(item.id)
+
   const isMobile = useIsMobile()
 
   return (
@@ -87,7 +89,7 @@ export function ItemRow({
         group relative flex items-start gap-2 px-2.5 rounded-lg
         cursor-pointer transition-all duration-100
         ${isCompact ? 'py-1' : 'py-2'}
-        ${isSelected ? 'bg-zinc-100 dark:bg-zinc-900' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'}
+        ${isMultiSelected || isSelected ? 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-300/60 dark:border-zinc-700/60' : 'hover:bg-zinc-100 dark:hover:bg-zinc-900'}
         ${isCompleted ? 'opacity-40' : ''}
       `}
       style={{ paddingLeft: `${depth * 20 + 8}px` }}
@@ -95,6 +97,18 @@ export function ItemRow({
       onMouseLeave={() => setHovered(false)}
       role="listitem"
     >
+      {/* Multi-Select Toggle */}
+      <div className="mt-1 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+        <input
+          type="checkbox"
+          checked={isMultiSelected}
+          onChange={() => toggleItemSelection(item.id)}
+          className="w-3.5 h-3.5 rounded border border-zinc-300 dark:border-zinc-700 bg-transparent text-zinc-900 focus:outline-hidden cursor-pointer"
+          title="Select item"
+          aria-label="Select item for batch action"
+        />
+      </div>
+
       {/* Expand/collapse for items with children */}
       {hasChildren ? (
         <button
@@ -110,9 +124,7 @@ export function ItemRow({
             <ChevronRight size={14} />
           </motion.div>
         </button>
-      ) : (
-        <div className="w-[14px] flex-shrink-0" />
-      )}
+      ) : null}
 
       {/* Checkbox */}
       <div className="mt-1 flex-shrink-0">
