@@ -106,6 +106,22 @@ export interface Item {
 
   /** ISO 8601 last-updated timestamp */
   updatedAt: string
+
+  /** Local file and image attachments */
+  attachments?: Attachment[]
+}
+
+// ============================
+// Local File & Image Attachment
+// ============================
+
+export interface Attachment {
+  id: string
+  name: string
+  type: string
+  size: number
+  dataUrl: string
+  createdAt: string
 }
 
 // ============================
