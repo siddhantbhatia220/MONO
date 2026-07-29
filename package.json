@@ -36,7 +36,14 @@
     "lint": "eslint src --ext .ts,.tsx",
     "type-check": "tsc --noEmit",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "server:dev": "npm run --prefix server start:dev",
+    "server:build": "npm run --prefix server build",
+    "server:install": "npm install --prefix server",
+    "db:up": "docker-compose up -d postgres",
+    "db:down": "docker-compose down",
+    "db:generate": "npx prisma generate --schema=server/prisma/schema.prisma",
+    "db:migrate": "npx prisma migrate dev --schema=server/prisma/schema.prisma"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
