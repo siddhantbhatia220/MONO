@@ -46,8 +46,8 @@ export function BoardView({ items }: BoardViewProps) {
   }
 
   return (
-    <div className="flex-1 overflow-x-auto p-4 md:p-6">
-      <div className="flex gap-4 h-[calc(100vh-140px)] min-w-max pb-4">
+    <div className="flex-1 overflow-x-auto p-3 md:p-6 snap-x snap-mandatory scroll-smooth">
+      <div className="flex gap-3 md:gap-4 h-[calc(100vh-160px)] md:h-[calc(100vh-140px)] min-w-full pb-4">
         {DEFAULT_BOARD_COLUMNS.map((col) => {
           const columnItems = items.filter((item) => col.statuses.includes(item.status))
           return (
