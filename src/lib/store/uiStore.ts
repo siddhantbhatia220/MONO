@@ -35,6 +35,9 @@ interface UIState {
   // ---- Toasts ----
   toasts: Toast[]
 
+  // ---- Multi-Select ----
+  selectedItemIds: Set<string>
+
   // ---- Loading States ----
   isLoading: boolean
 
@@ -53,6 +56,10 @@ interface UIState {
   openItemDetail: (itemId: string) => void
   closeItemDetail: () => void
 
+  toggleItemSelection: (id: string) => void
+  clearSelection: () => void
+  setSelectedItems: (ids: string[]) => void
+
   addToast: (toast: Omit<Toast, 'id'>) => void
   removeToast: (id: string) => void
 
@@ -70,8 +77,27 @@ export const useUIStore = create<UIState>()(
       activeModal: null,
       modalData: {},
       detailItemId: null,
+      selectedItemIds: new Set<string>(),
       toasts: [],
       isLoading: false,
+
+      toggleItemSelection: (id) =>
+        set(
+          (state) => {
+            const next = new Set(state.selectedItemIds)
+            if (next.has(id)) next.delete(id)
+            else next.add(id)
+            return { selectedItemIds: next }
+          },
+          false,
+          'toggleItemSelection'
+        ),
+
+      clearSelection: () =>
+        set({ selectedItemIds: new Set<string>() }, false, 'clearSelection'),
+
+      setSelectedItems: (ids) =>
+        set({ selectedItemIds: new Set(ids) }, false, 'setSelectedItems'),
 
       openCommandPalette: (query = '') =>
         set({ commandPaletteOpen: true, commandPaletteQuery: query }, false, 'openCommandPalette'),
