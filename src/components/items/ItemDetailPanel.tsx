@@ -22,6 +22,7 @@ import { ActivityFeed } from '@/components/items/ActivityFeed'
 import { AttachmentManager } from '@/components/items/AttachmentManager'
 import { ChecklistManager } from '@/components/items/ChecklistManager'
 import { Button } from '@/components/ui/Button'
+import { CustomSelect } from '@/components/ui/CustomSelect'
 import { MarkdownEditor } from '@/components/ui/MarkdownEditor'
 
 export function ItemDetailPanel() {
@@ -339,23 +340,18 @@ export function ItemDetailPanel() {
                   <label className="text-[10px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-505 flex items-center gap-1.5">
                     <AlertCircle size={11} /> Priority
                   </label>
-                  <select
-                    value={item.priority}
-                    onChange={(e) => handlePriorityChange(e.target.value as Priority)}
-                    className="
-                      bg-zinc-50 dark:bg-zinc-900/60
-                      border border-zinc-200 dark:border-zinc-800
-                      rounded-lg px-2.5 py-1.5 text-xs font-semibold
-                      text-zinc-800 dark:text-zinc-200 outline-none cursor-pointer
-                    "
-                    aria-label="Priority dropdown"
-                  >
-                    <option value={Priority.None}>None</option>
-                    <option value={Priority.Low}>Low</option>
-                    <option value={Priority.Medium}>Medium</option>
-                    <option value={Priority.High}>High</option>
-                    <option value={Priority.Critical}>Critical</option>
-                  </select>
+                  <CustomSelect
+                    options={[
+                      { value: Priority.None, label: 'None' },
+                      { value: Priority.Low, label: 'Low' },
+                      { value: Priority.Medium, label: 'Medium' },
+                      { value: Priority.High, label: 'High' },
+                      { value: Priority.Critical, label: 'Critical' },
+                    ]}
+                    value={item.priority || Priority.None}
+                    onChange={(val) => handlePriorityChange(val as Priority)}
+                    ariaLabel="Priority dropdown"
+                  />
                 </div>
               </div>
 

@@ -9,6 +9,7 @@ import { useUIStore } from '@/lib/store/uiStore'
 import { ActionType, TriggerType } from '@/lib/types/automation'
 
 import { Button } from '../ui/Button'
+import { CustomSelect } from '../ui/CustomSelect'
 import { Input } from '../ui/Input'
 import { Modal } from '../ui/Modal'
 
@@ -68,15 +69,16 @@ export function AutomationModal() {
               <label className="block text-[11px] font-semibold text-zinc-500 mb-1 uppercase">
                 IF (Trigger)
               </label>
-              <select
+              <CustomSelect
+                options={[
+                  { value: 'status_change', label: 'Status equals' },
+                  { value: 'priority_set', label: 'Priority equals' },
+                  { value: 'tag_added', label: 'Has Tag' },
+                ]}
                 value={triggerType}
-                onChange={(e) => setTriggerType(e.target.value as TriggerType)}
-                className="w-full p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100"
-              >
-                <option value="status_change">Status equals</option>
-                <option value="priority_set">Priority equals</option>
-                <option value="tag_added">Has Tag</option>
-              </select>
+                onChange={(val) => setTriggerType(val as TriggerType)}
+                className="w-full"
+              />
               <input
                 type="text"
                 placeholder="Value (e.g. completed, high)"
@@ -90,15 +92,16 @@ export function AutomationModal() {
               <label className="block text-[11px] font-semibold text-zinc-500 mb-1 uppercase">
                 THEN (Action)
               </label>
-              <select
+              <CustomSelect
+                options={[
+                  { value: 'add_tag', label: 'Add Tag' },
+                  { value: 'set_priority', label: 'Set Priority' },
+                  { value: 'set_due_date', label: 'Set Due Date' },
+                ]}
                 value={actionType}
-                onChange={(e) => setActionType(e.target.value as ActionType)}
-                className="w-full p-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100"
-              >
-                <option value="add_tag">Add Tag</option>
-                <option value="set_priority">Set Priority</option>
-                <option value="set_due_date">Set Due Date</option>
-              </select>
+                onChange={(val) => setActionType(val as ActionType)}
+                className="w-full"
+              />
               <input
                 type="text"
                 placeholder="Value (e.g. done, high, tomorrow)"

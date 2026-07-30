@@ -13,6 +13,8 @@ import { Bookmark, FilterX, Search } from 'lucide-react'
 import { useAppStore } from '@/lib/store/appStore'
 import { ItemStatus, Priority } from '@/lib/types/item'
 
+import { CustomSelect, SelectOption } from '@/components/ui/CustomSelect'
+
 export function SmartFilterBar() {
   const { activeFilterCriteria, setActiveFilterCriteria, resetFilterCriteria, addSavedFilter } =
     useAppStore()
@@ -29,6 +31,21 @@ export function SmartFilterBar() {
     activeFilterCriteria.priority !== 'all' ||
     activeFilterCriteria.status !== 'all' ||
     activeFilterCriteria.pinnedOnly
+
+  const statusOptions: SelectOption[] = [
+    { value: 'all', label: 'All Statuses' },
+    { value: ItemStatus.Active, label: 'Active' },
+    { value: ItemStatus.InProgress, label: 'In Progress' },
+    { value: ItemStatus.Completed, label: 'Completed' },
+  ]
+
+  const priorityOptions: SelectOption[] = [
+    { value: 'all', label: 'All Priorities' },
+    { value: Priority.Critical, label: 'Critical' },
+    { value: Priority.High, label: 'High' },
+    { value: Priority.Medium, label: 'Medium' },
+    { value: Priority.Low, label: 'Low' },
+  ]
 
   return (
     <div className="flex items-center gap-2 md:gap-2.5 px-3 md:px-6 py-2.5 md:py-3 border-b border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/30 overflow-x-auto no-scrollbar flex-nowrap md:flex-wrap">
@@ -52,41 +69,20 @@ export function SmartFilterBar() {
       </div>
 
       {/* Status Filter */}
-      <select
+      <CustomSelect
+        options={statusOptions}
         value={activeFilterCriteria.status}
-        onChange={(e) => setActiveFilterCriteria({ status: e.target.value as ItemStatus | 'all' })}
-        className="
-          px-2.5 py-1.5 text-xs font-medium
-          bg-white dark:bg-zinc-900
-          border border-zinc-200 dark:border-zinc-800
-          rounded-lg text-zinc-700 dark:text-zinc-300
-          focus:outline-hidden cursor-pointer
-        "
-      >
-        <option value="all">All Statuses</option>
-        <option value={ItemStatus.Active}>Active</option>
-        <option value={ItemStatus.InProgress}>In Progress</option>
-        <option value={ItemStatus.Completed}>Completed</option>
-      </select>
+        onChange={(val) => setActiveFilterCriteria({ status: val as ItemStatus | 'all' })}
+        ariaLabel="Filter items by status"
+      />
 
       {/* Priority Filter */}
-      <select
+      <CustomSelect
+        options={priorityOptions}
         value={activeFilterCriteria.priority}
-        onChange={(e) => setActiveFilterCriteria({ priority: e.target.value as Priority | 'all' })}
-        className="
-          px-2.5 py-1.5 text-xs font-medium
-          bg-white dark:bg-zinc-900
-          border border-zinc-200 dark:border-zinc-800
-          rounded-lg text-zinc-700 dark:text-zinc-300
-          focus:outline-hidden cursor-pointer
-        "
-      >
-        <option value="all">All Priorities</option>
-        <option value={Priority.Critical}>Critical</option>
-        <option value={Priority.High}>High</option>
-        <option value={Priority.Medium}>Medium</option>
-        <option value={Priority.Low}>Low</option>
-      </select>
+        onChange={(val) => setActiveFilterCriteria({ priority: val as Priority | 'all' })}
+        ariaLabel="Filter items by priority"
+      />
 
       {/* Save & Reset Filter Buttons */}
       {isFiltered && (
