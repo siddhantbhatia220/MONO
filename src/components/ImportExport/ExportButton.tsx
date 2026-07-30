@@ -76,17 +76,17 @@ export function ExportButton({ variant = 'outline', size = 'sm' }: ExportButtonP
   }
 
   return (
-    <div className="flex items-center space-x-1">
+    <div className="flex items-center gap-1.5 flex-shrink-0">
       <Button
         size={size}
         variant={variant}
         disabled={exporting}
         onClick={exportAsJson}
-        className="flex items-center space-x-1"
+        className="inline-flex items-center gap-1.5 whitespace-nowrap px-2.5 py-1 text-xs font-medium"
         title="Export as JSON"
       >
-        <FileJson className="w-3.5 h-3.5" />
-        <span>JSON</span>
+        <FileJson className="w-3.5 h-3.5 flex-shrink-0" />
+        <span className="whitespace-nowrap">JSON</span>
       </Button>
 
       <Button
@@ -94,11 +94,11 @@ export function ExportButton({ variant = 'outline', size = 'sm' }: ExportButtonP
         variant={variant}
         disabled={exporting}
         onClick={exportAsMarkdown}
-        className="flex items-center space-x-1"
+        className="inline-flex items-center gap-1.5 whitespace-nowrap px-2.5 py-1 text-xs font-medium"
         title="Export as Markdown"
       >
-        <FileText className="w-3.5 h-3.5" />
-        <span>Markdown</span>
+        <FileText className="w-3.5 h-3.5 flex-shrink-0" />
+        <span className="whitespace-nowrap">Markdown</span>
       </Button>
     </div>
   )

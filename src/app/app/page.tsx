@@ -14,7 +14,7 @@ import React, { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { Menu } from 'lucide-react'
+import { AlertCircle, CheckCircle2, Info, Menu } from 'lucide-react'
 
 import { createWorkspace, listWorkspaces } from '@/lib/db/workspaces'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
@@ -94,10 +94,16 @@ function Toasts() {
             onClick={() => removeToast(toast.id)}
             role="alert"
           >
-            {toast.type === 'success' && <span aria-hidden="true">✓</span>}
-            {toast.type === 'error' && <span aria-hidden="true">✕</span>}
-            {toast.type === 'info' && <span aria-hidden="true">·</span>}
-            {toast.message}
+            {toast.type === 'success' && (
+              <CheckCircle2 className="w-4 h-4 text-white dark:text-zinc-900 flex-shrink-0" />
+            )}
+            {toast.type === 'error' && (
+              <AlertCircle className="w-4 h-4 text-white dark:text-zinc-900 flex-shrink-0" />
+            )}
+            {toast.type === 'info' && (
+              <Info className="w-4 h-4 text-white dark:text-zinc-900 flex-shrink-0" />
+            )}
+            <span>{toast.message}</span>
           </motion.div>
         ))}
       </AnimatePresence>
@@ -351,7 +357,7 @@ function WorkspaceHeader() {
             size="icon"
             onClick={toggleSidebar}
             aria-label="Open sidebar menu"
-            className="flex-shrink-0 -ml-1"
+            className="flex-shrink-0 mr-1"
           >
             <Menu size={18} />
           </Button>
@@ -359,7 +365,10 @@ function WorkspaceHeader() {
         <div className="flex items-center gap-2.5">
           {activeProject ? (
             <>
-              <span className="text-base flex-shrink-0">{activeProject.icon ?? '📂'}</span>
+              <ProjectIcon
+                name={activeProject.icon || 'Folder'}
+                className="w-4 h-4 text-zinc-700 dark:text-zinc-300 flex-shrink-0"
+              />
               <h1 className="text-[15px] font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 truncate max-w-[150px] md:max-w-[200px]">
                 {activeProject.name}
               </h1>
@@ -446,16 +455,16 @@ function ProductTourMockup() {
 function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
   const [step, setStep] = useState(0)
   const [workspaceName, setWorkspaceName] = useState('')
-  const [selectedIcon, setSelectedIcon] = useState('⚡')
+  const [selectedIcon, setSelectedIcon] = useState('Zap')
   const [loading, setLoading] = useState(false)
   const { setActiveWorkspace } = useAppStore()
 
-  const ICONS = ['⚡', '🎯', '💡', '📝', '🚀', '🌿']
+  const ICONS = ['Folder', 'Zap', 'Target', 'FileText', 'Rocket', 'Leaf']
   const TEMPLATES = [
-    { name: 'Personal', icon: '🌿', description: 'Daily tasks, habits, personal goals' },
-    { name: 'Work', icon: '⚡', description: 'Projects, meetings, work tasks' },
-    { name: 'Study', icon: '📝', description: 'Notes, assignments, research' },
-    { name: 'Custom', icon: '🎯', description: 'Start from scratch' },
+    { name: 'Personal', icon: 'Leaf', description: 'Daily tasks, habits, personal goals' },
+    { name: 'Work', icon: 'Zap', description: 'Projects, meetings, work tasks' },
+    { name: 'Study', icon: 'FileText', description: 'Notes, assignments, research' },
+    { name: 'Custom', icon: 'Target', description: 'Start from scratch' },
   ]
 
   const handleCreateWorkspace = async () => {
@@ -601,7 +610,10 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
                     group cursor-pointer
                   "
                 >
-                  <span className="text-2xl block mb-2">{t.icon}</span>
+                  <ProjectIcon
+                    name={t.icon}
+                    className="w-6 h-6 text-zinc-900 dark:text-zinc-100 mb-2"
+                  />
                   <p className="font-semibold text-zinc-800 dark:text-zinc-200 text-sm tracking-tight group-hover:text-black dark:group-hover:text-white transition-colors">
                     {t.name}
                   </p>
@@ -630,23 +642,23 @@ function OnboardingScreen({ onComplete }: { onComplete: () => void }) {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-6">
-              {ICONS.map((emoji) => (
+              {ICONS.map((iconName) => (
                 <button
-                  key={emoji}
-                  onClick={() => setSelectedIcon(emoji)}
+                  key={iconName}
+                  onClick={() => setSelectedIcon(iconName)}
                   className={`
-                    w-10 h-10 rounded-xl text-xl flex items-center justify-center border
+                    w-10 h-10 rounded-xl flex items-center justify-center border
                     transition-all duration-100 cursor-pointer
                     ${
-                      selectedIcon === emoji
-                        ? 'border-black dark:border-white bg-zinc-50 dark:bg-zinc-900/50'
-                        : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700'
+                      selectedIcon === iconName
+                        ? 'border-black dark:border-white bg-zinc-50 dark:bg-zinc-900/50 text-zinc-900 dark:text-zinc-100'
+                        : 'border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-700 text-zinc-500'
                     }
                   `}
-                  aria-label={`Choose ${emoji}`}
-                  aria-pressed={selectedIcon === emoji}
+                  aria-label={`Choose ${iconName}`}
+                  aria-pressed={selectedIcon === iconName}
                 >
-                  {emoji}
+                  <ProjectIcon name={iconName} className="w-5 h-5" />
                 </button>
               ))}
             </div>
