@@ -118,6 +118,7 @@ export function AttachmentManager({ item }: AttachmentManagerProps) {
                 {/* Image Thumbnail Preview */}
                 {isImage ? (
                   <div className="w-full h-24 rounded bg-zinc-100 dark:bg-zinc-950 overflow-hidden mb-1.5 flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={att.dataUrl} alt={att.name} className="w-full h-full object-cover" />
                   </div>
                 ) : (

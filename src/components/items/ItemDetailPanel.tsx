@@ -32,7 +32,6 @@ export function ItemDetailPanel() {
   const [notes, setNotes] = useState('')
   const [newTag, setNewTag] = useState('')
   const [subItems, setSubItems] = useState<SubItem[]>([])
-  const [newSubTitle, setNewSubTitle] = useState('')
   // Load item and sub-items when detailItemId changes
   const loadItemDetails = useCallback(async () => {
     if (!detailItemId) {
@@ -171,19 +170,6 @@ export function ItemDetailPanel() {
     } catch (err) {
       console.error(err)
       addToast({ message: 'Failed to delete item', type: 'error' })
-    }
-  }
-
-  // Sub-items operations
-  const _handleAddSubItem = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!item || !newSubTitle.trim()) return
-    try {
-      const sub = await createSubItem(item.id, newSubTitle.trim())
-      setSubItems((prev) => [...prev, sub])
-      setNewSubTitle('')
-    } catch (err) {
-      console.error(err)
     }
   }
 

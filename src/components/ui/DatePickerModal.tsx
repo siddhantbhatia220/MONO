@@ -23,7 +23,7 @@ interface DatePickerModalProps {
 export function DatePickerModal({
   open,
   onClose,
-  selectedDate: _selectedDate,
+  selectedDate,
   onSelectDate,
 }: DatePickerModalProps) {
   const today = startOfToday()
@@ -104,6 +104,7 @@ export function DatePickerModal({
           </label>
           <input
             type="date"
+            value={selectedDate ? selectedDate.split('T')[0] : ''}
             onChange={(e) => {
               if (e.target.value) {
                 handleSelect(new Date(e.target.value))
