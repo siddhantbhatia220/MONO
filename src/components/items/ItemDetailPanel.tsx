@@ -32,6 +32,8 @@ export function ItemDetailPanel() {
   const [notes, setNotes] = useState('')
   const [newTag, setNewTag] = useState('')
   const [subItems, setSubItems] = useState<SubItem[]>([])
+  const [propKey, setPropKey] = useState('')
+  const [propVal, setPropVal] = useState('')
   // Load item and sub-items when detailItemId changes
   const loadItemDetails = useCallback(async () => {
     if (!detailItemId) {
@@ -148,12 +150,45 @@ export function ItemDetailPanel() {
 
   const handleRemoveTag = async (tagToRemove: string) => {
     if (!item) return
+    const updatedTags = item.tags.filter((t) => t !== tagToRemove)
     try {
-      const tags = item.tags.filter((t) => t !== tagToRemove)
-      const updated = await updateItem(item.id, { tags })
+      const updated = await updateItem(item.id, { tags: updatedTags })
       if (updated) {
-        upsertItem(updated)
         setItem(updated)
+        upsertItem(updated)
+      }
+    } catch (err) {
+      console.error(err)
+      addToast({ message: 'Failed to remove tag', type: 'error' })
+    }
+  }
+
+  const handleAddProperty = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!item || !propKey.trim() || !propVal.trim()) return
+    const updatedProps = { ...(item.properties || {}), [propKey.trim()]: propVal.trim() }
+    try {
+      const updated = await updateItem(item.id, { properties: updatedProps })
+      if (updated) {
+        setItem(updated)
+        upsertItem(updated)
+        setPropKey('')
+        setPropVal('')
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handleRemoveProperty = async (key: string) => {
+    if (!item || !item.properties) return
+    const updatedProps = { ...item.properties }
+    delete updatedProps[key]
+    try {
+      const updated = await updateItem(item.id, { properties: updatedProps })
+      if (updated) {
+        setItem(updated)
+        upsertItem(updated)
       }
     } catch (err) {
       console.error(err)
@@ -382,6 +417,56 @@ export function ItemDetailPanel() {
                     aria-label="Add new tag"
                   />
                   <Button type="submit" variant="outline" size="sm" className="h-8 cursor-pointer">
+                    Add
+                  </Button>
+                </form>
+              </div>
+
+              {/* Custom Properties Section */}
+              <div className="flex flex-col gap-2">
+                <label className="text-[10px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-505">
+                  Custom Properties
+                </label>
+                {item.properties && Object.keys(item.properties).length > 0 && (
+                  <div className="flex flex-col gap-1.5 mb-1">
+                    {Object.entries(item.properties).map(([k, v]) => (
+                      <div
+                        key={k}
+                        className="flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-900 text-xs"
+                      >
+                        <span className="font-semibold text-zinc-700 dark:text-zinc-300">{k}:</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px]">
+                            {String(v)}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveProperty(k)}
+                            className="text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <form onSubmit={handleAddProperty} className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Key (e.g. Estimate)"
+                    value={propKey}
+                    onChange={(e) => setPropKey(e.target.value)}
+                    className="flex-1 bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-1 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Value (e.g. 4h)"
+                    value={propVal}
+                    onChange={(e) => setPropVal(e.target.value)}
+                    className="flex-1 bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-lg px-2 py-1 text-xs text-zinc-900 dark:text-zinc-100 outline-none"
+                  />
+                  <Button type="submit" variant="outline" size="sm" className="h-8">
                     Add
                   </Button>
                 </form>

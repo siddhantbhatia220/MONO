@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 
-import { getMockItems } from '../services/itemsService'
+import { fetchWorkspaceItems } from '../services/itemsService'
 
 export async function getItems() {
-  const items = getMockItems()
+  const items = await fetchWorkspaceItems()
   return NextResponse.json({
     count: items.length,
     items,

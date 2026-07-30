@@ -22,6 +22,7 @@ import {
   TrendingUp,
   UploadCloud,
   X,
+  Zap,
 } from 'lucide-react'
 
 import { listProjects } from '@/lib/db/workspaces'
@@ -134,6 +135,15 @@ export function Sidebar() {
       icon: <UploadCloud size={16} strokeWidth={1.8} />,
       action: () => {
         openModal('import-data')
+        if (isMobile) toggleSidebar()
+      },
+    },
+    {
+      id: 'automations',
+      label: 'Automations',
+      icon: <Zap size={16} strokeWidth={1.8} />,
+      action: () => {
+        openModal('automations')
         if (isMobile) toggleSidebar()
       },
     },

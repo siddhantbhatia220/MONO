@@ -79,4 +79,42 @@ export function todayEnd(): string {
   return endOfDay(new Date()).toISOString()
 }
 
+export function parseNaturalDate(expression: string): Date | null {
+  const clean = expression.toLowerCase().trim()
+  const now = startOfDay(new Date())
+
+  if (clean === 'today') return now
+  if (clean === 'tomorrow') return addDays(now, 1)
+  if (clean === 'next week') return addDays(now, 7)
+
+  // Weekdays: monday, tuesday, etc.
+  const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
+  const weekdayMatch = clean.replace(/^next\s+/, '')
+  const dayIndex = daysOfWeek.indexOf(weekdayMatch)
+  if (dayIndex !== -1) {
+    const currentDay = now.getDay()
+    let diff = dayIndex - currentDay
+    if (diff <= 0) diff += 7
+    return addDays(now, diff)
+  }
+
+  // in X days / in X weeks
+  const inDaysMatch = clean.match(/^in\s+(\d+)\s+days?$/)
+  if (inDaysMatch) {
+    return addDays(now, parseInt(inDaysMatch[1], 10))
+  }
+  const inWeeksMatch = clean.match(/^in\s+(\d+)\s+weeks?$/)
+  if (inWeeksMatch) {
+    return addDays(now, parseInt(inWeeksMatch[1], 10) * 7)
+  }
+
+  // Direct ISO/date parse fallback
+  const parsed = new Date(clean)
+  if (!isNaN(parsed.getTime())) {
+    return parsed
+  }
+
+  return null
+}
+
 export { parseISO, addDays, isBefore, isAfter, format }

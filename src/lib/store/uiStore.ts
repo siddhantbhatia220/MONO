@@ -16,6 +16,7 @@ type ModalId =
   | 'plugins'
   | 'import-data'
   | 'insights'
+  | 'automations'
   | null
 
 interface Toast {

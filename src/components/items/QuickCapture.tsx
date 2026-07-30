@@ -10,12 +10,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, Calendar, CornerDownLeft, Hash, Plus } from 'lucide-react'
 
-import { createItem } from '@/lib/db/items'
+import { evaluateAutomations } from '@/lib/automation/ruleEngine'
+import { createItem, updateItem } from '@/lib/db/items'
 import { useIsMobile } from '@/lib/hooks/useIsMobile'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import { useUIStore } from '@/lib/store/uiStore'
 import { ItemType, Priority } from '@/lib/types/item'
+import { parseNaturalDate } from '@/lib/utils/date'
 
 import { SmartSuggestionsWidget } from '@/components/intelligence/SmartSuggestionsWidget'
 
@@ -33,10 +35,12 @@ function parseQuickInput(raw: string): {
   title: string
   tags: string[]
   priority: Priority
+  dueDate?: string
 } {
   let title = raw
   const tags: string[] = []
   let priority: Priority = Priority.None
+  let dueDate: string | undefined
 
   // Extract tags (#tag)
   const tagMatches = raw.match(/#(\w+)/g)
@@ -45,6 +49,16 @@ function parseQuickInput(raw: string): {
       tags.push(t.slice(1))
       title = title.replace(t, '').trim()
     })
+  }
+
+  // Extract date (@tomorrow, @next monday, @in 3 days, etc.)
+  const dateMatch = raw.match(/@([\w\s]+?)(?=\s+#|\s+!|\s*$)/i)
+  if (dateMatch) {
+    const parsedDate = parseNaturalDate(dateMatch[1])
+    if (parsedDate) {
+      dueDate = parsedDate.toISOString()
+      title = title.replace(dateMatch[0], '').trim()
+    }
   }
 
   // Extract priority (!high, !, !!, etc.)
@@ -56,7 +70,7 @@ function parseQuickInput(raw: string): {
     }
   }
 
-  return { title: title.trim(), tags, priority }
+  return { title: title.trim(), tags, priority, dueDate }
 }
 
 export function QuickCapture() {
@@ -100,7 +114,7 @@ export function QuickCapture() {
     if (!value.trim() || !activeWorkspace || isSubmitting) return
 
     setIsSubmitting(true)
-    const { title, tags, priority } = parseQuickInput(value)
+    const { title, tags, priority, dueDate } = parseQuickInput(value)
 
     if (!title) {
       setIsSubmitting(false)
@@ -108,15 +122,23 @@ export function QuickCapture() {
     }
 
     try {
-      const item = await createItem({
+      const initialItem = await createItem({
         title,
         tags,
         priority,
+        dueDate,
         type: ItemType.Task,
         workspaceId: activeWorkspace.id,
         projectId: activeProject?.id,
       })
-      upsertItem(item)
+
+      // Run Visual Automations
+      const automatedItem = evaluateAutomations(initialItem)
+      if (automatedItem !== initialItem) {
+        await updateItem(automatedItem.id, automatedItem)
+      }
+
+      upsertItem(automatedItem)
       setValue('')
       addToast({ message: 'Item created', type: 'success', duration: 2000 })
     } catch {

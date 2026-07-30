@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 
 import { FileJson, FileText } from 'lucide-react'
 
+import { exportWorkspaceBackup } from '@/lib/db/backup'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
 import type { Item } from '@/lib/types/item'
@@ -32,30 +33,10 @@ export function ExportButton({ variant = 'outline', size = 'sm' }: ExportButtonP
     return allItems.filter((item) => !currentWorkspaceId || item.workspaceId === currentWorkspaceId)
   }
 
-  const exportAsJson = () => {
+  const exportAsJson = async () => {
     setExporting(true)
     try {
-      const workspaceItems = getWorkspaceItems()
-
-      const payload = {
-        version: '1.0.0',
-        exportedAt: new Date().toISOString(),
-        workspaceId: currentWorkspaceId,
-        itemsCount: workspaceItems.length,
-        items: workspaceItems,
-      }
-
-      const jsonStr = JSON.stringify(payload, null, 2)
-      const blob = new Blob([jsonStr], { type: 'application/json' })
-      const url = URL.createObjectURL(blob)
-
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `mono-workspace-export-${new Date().toISOString().slice(0, 10)}.json`
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
+      await exportWorkspaceBackup()
     } finally {
       setExporting(false)
     }

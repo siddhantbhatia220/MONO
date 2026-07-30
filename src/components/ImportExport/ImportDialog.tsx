@@ -10,6 +10,7 @@ import React, { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AlertCircle, CheckCircle2, FileJson, UploadCloud, X } from 'lucide-react'
 
+import { restoreWorkspaceBackup } from '@/lib/db/backup'
 import { createItem } from '@/lib/db/items'
 import { useAppStore } from '@/lib/store/appStore'
 import { useItemStore } from '@/lib/store/itemStore'
@@ -55,6 +56,15 @@ export function ImportDialog({ isOpen, onClose }: ImportDialogProps) {
     try {
       const text = await file.text()
       const parsed = JSON.parse(text)
+
+      if (parsed.workspaces && Array.isArray(parsed.workspaces)) {
+        const restored = await restoreWorkspaceBackup(text)
+        if (restored) {
+          setSuccessCount(parsed.items?.length || 1)
+          setFile(null)
+          return
+        }
+      }
 
       const itemsToImport = Array.isArray(parsed)
         ? parsed
