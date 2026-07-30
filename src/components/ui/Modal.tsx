@@ -113,6 +113,9 @@ export function Modal({
               p-6 max-h-[85vh] overflow-y-auto pb-safe-bottom
             `}
           >
+            {/* Mobile sheet drag handle */}
+            <div className="sm:hidden w-10 h-1 bg-zinc-300 dark:bg-zinc-700 rounded-full mx-auto -mt-2 mb-4" />
+
             {/* Header */}
             {(title || !hideCloseButton) && (
               <div className="flex items-start justify-between mb-4 gap-4">

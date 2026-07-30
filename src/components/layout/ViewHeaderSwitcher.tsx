@@ -45,7 +45,7 @@ export function ViewHeaderSwitcher() {
             `}
           >
             <Icon className="w-3.5 h-3.5" />
-            <span>{opt.label}</span>
+            <span className="hidden sm:inline">{opt.label}</span>
           </button>
         )
       })}

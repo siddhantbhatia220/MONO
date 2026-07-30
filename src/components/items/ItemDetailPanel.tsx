@@ -200,7 +200,7 @@ export function ItemDetailPanel() {
       {item && (
         <div
           key="item-detail-drawer"
-          className="fixed inset-0 z-[280] flex justify-end overflow-hidden"
+          className="fixed inset-0 z-[280] flex items-end sm:items-stretch sm:justify-end overflow-hidden"
           role="dialog"
           aria-modal="true"
           aria-label="Item details"
@@ -211,23 +211,27 @@ export function ItemDetailPanel() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeItemDetail}
-            className="fixed inset-0 bg-black/25 dark:bg-black/50 backdrop-blur-sm z-[290]"
+            className="fixed inset-0 bg-black/35 dark:bg-black/60 backdrop-blur-sm z-[290]"
             aria-hidden="true"
           />
 
-          {/* Drawer */}
+          {/* Drawer / Bottom Sheet */}
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            initial={{ y: '100%', opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: '100%', opacity: 0 }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
             className="
-              relative z-[300] w-full sm:max-w-[460px] h-full flex flex-col
+              relative z-[300] w-full sm:max-w-[460px] h-[88dvh] sm:h-full flex flex-col
               bg-white dark:bg-[#0c0c0e]
-              border-l border-zinc-200 dark:border-zinc-800
+              rounded-t-2xl sm:rounded-none
+              border-t sm:border-t-0 sm:border-l border-zinc-200 dark:border-zinc-800
               shadow-2xl overflow-hidden
             "
           >
+            {/* Mobile Sheet Grab Indicator */}
+            <div className="sm:hidden w-10 h-1 bg-zinc-300 dark:bg-zinc-700 rounded-full mx-auto mt-2.5 -mb-1 flex-shrink-0" />
+
             {/* Toolbar */}
             <div className="flex items-center justify-between px-5 h-14 border-b border-zinc-100 dark:border-zinc-800/60 flex-shrink-0">
               <span className="text-[11px] font-bold tracking-wider uppercase text-zinc-400 dark:text-zinc-650">

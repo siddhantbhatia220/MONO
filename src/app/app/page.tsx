@@ -34,6 +34,7 @@ import { BatchActionBar } from '@/components/layout/BatchActionBar'
 import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
 import { InviteMemberModal } from '@/components/layout/InviteMemberModal'
+import { MobileNavDock } from '@/components/layout/MobileNavDock'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TagManagerModal } from '@/components/layout/TagManagerModal'
@@ -382,8 +383,10 @@ function WorkspaceHeader() {
         </div>
       </div>
 
-      <div className="flex items-center space-x-3">
-        <ExportButton size="sm" variant="outline" />
+      <div className="flex items-center space-x-1.5 sm:space-x-3">
+        <div className="hidden sm:block">
+          <ExportButton size="sm" variant="outline" />
+        </div>
         <ViewHeaderSwitcher />
       </div>
     </header>
@@ -1118,13 +1121,16 @@ function AppShell() {
           <BatchActionBar />
 
           {/* Quick Capture Bar — always visible at bottom */}
-          <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4">
+          <div className="flex-shrink-0 border-t border-zinc-100 dark:border-zinc-800/50 bg-white/90 dark:bg-[#0f0f0f]/90 backdrop-blur-xl px-4 md:px-8 py-3 md:py-4 pb-[calc(env(safe-area-inset-bottom,0px)+64px)] md:pb-4">
             <div className="max-w-3xl mx-auto w-full">
               <QuickCapture />
             </div>
           </div>
         </main>
       </div>
+
+      {/* Mobile Navigation Dock */}
+      {!focusMode && <MobileNavDock />}
     </div>
   )
 }
