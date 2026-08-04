@@ -1,0 +1,34 @@
+name: Daily Automated GitHub Commit
+
+on:
+  schedule:
+    # Runs at 00:00 UTC every single day
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Configure Git identity
+        run: |
+          git config --global user.name "Siddhant Bhatia"
+          git config --global user.email "siddhantbhatia220@gmail.com"
+
+      - name: Execute Daily Commit Script
+        run: |
+          python scripts/daily_commit.py
