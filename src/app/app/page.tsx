@@ -36,6 +36,7 @@ import { CreateProjectModal } from '@/components/layout/CreateProjectModal'
 import { FocusModeHeader } from '@/components/layout/FocusModeHeader'
 import { InviteMemberModal } from '@/components/layout/InviteMemberModal'
 import { MobileNavDock } from '@/components/layout/MobileNavDock'
+import { PWAInstallPrompt } from '@/components/layout/PWAInstallPrompt'
 import { SettingsModal } from '@/components/layout/SettingsModal'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { TagManagerModal } from '@/components/layout/TagManagerModal'
@@ -872,6 +873,7 @@ export default function Home() {
       <ImportDialog isOpen={activeModal === 'import-data'} onClose={closeModal} />
       <InsightsDashboardModal />
       <Toasts />
+      <PWAInstallPrompt />
     </>
   )
 }
