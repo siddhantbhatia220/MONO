@@ -45,7 +45,11 @@ interface NavItem {
   action: () => void
 }
 
-export function Sidebar() {
+interface SidebarProps {
+  className?: string
+}
+
+export function Sidebar({ className = '' }: SidebarProps) {
   const { sidebarOpen, toggleSidebar, openCommandPalette, openModal } = useUIStore()
   const {
     activeWorkspace,
@@ -433,12 +437,12 @@ export function Sidebar() {
     <motion.aside
       animate={{ width: sidebarWidth }}
       transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-      className="
+      className={`
         relative flex flex-col h-full flex-shrink-0
         bg-zinc-50 dark:bg-[#0c0c0e]
         border-r border-zinc-200 dark:border-zinc-800
-        overflow-hidden
-      "
+        overflow-hidden ${className}
+      `}
       style={{ width: sidebarWidth }}
       aria-label="Sidebar navigation"
     >
