@@ -4,15 +4,16 @@
  * MONO — Board Card Component
  *
  * A compact, interactive card rendered inside a Kanban column.
- * Displays title, priority badge, tags, due date, and completion toggle.
+ * Displays title, priority badge, tags, due date, completion toggle, and mobile move actions.
  */
-import React from 'react'
+import React, { useState } from 'react'
 
 import { motion } from 'framer-motion'
-import { Calendar, CheckCircle2, Circle, Tag } from 'lucide-react'
+import { Calendar, CheckCircle2, Circle, MoreHorizontal, MoveRight, Tag } from 'lucide-react'
 
 import { useUIStore } from '@/lib/store/uiStore'
 import { Item, ItemStatus, Priority } from '@/lib/types/item'
+import { DEFAULT_BOARD_COLUMNS } from '@/lib/types/view'
 
 interface BoardCardProps {
   item: Item
@@ -21,12 +22,19 @@ interface BoardCardProps {
 
 export function BoardCard({ item, onStatusChange }: BoardCardProps) {
   const { openItemDetail } = useUIStore()
+  const [showMoveMenu, setShowMoveMenu] = useState(false)
   const isCompleted = item.status === ItemStatus.Completed
 
   const handleToggleComplete = (e: React.MouseEvent) => {
     e.stopPropagation()
     const nextStatus = isCompleted ? ItemStatus.Active : ItemStatus.Completed
     onStatusChange(item.id, nextStatus)
+  }
+
+  const handleMoveStatus = (e: React.MouseEvent, newStatus: ItemStatus) => {
+    e.stopPropagation()
+    onStatusChange(item.id, newStatus)
+    setShowMoveMenu(false)
   }
 
   return (
@@ -51,7 +59,7 @@ export function BoardCard({ item, onStatusChange }: BoardCardProps) {
         <button
           type="button"
           onClick={handleToggleComplete}
-          className="mt-0.5 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+          className="mt-0.5 text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"
           aria-label={isCompleted ? 'Mark as incomplete' : 'Mark as completed'}
         >
           {isCompleted ? (
@@ -71,18 +79,57 @@ export function BoardCard({ item, onStatusChange }: BoardCardProps) {
           {item.title}
         </h4>
 
-        {/* Priority Indicator */}
-        {item.priority !== Priority.None && (
-          <span
-            className="
-              text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5
-              bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300
-              rounded border border-zinc-200 dark:border-zinc-700
-            "
-          >
-            {item.priority}
-          </span>
-        )}
+        {/* Mobile Move Button & Priority */}
+        <div className="flex items-center gap-1">
+          {item.priority !== Priority.None && (
+            <span
+              className="
+                text-[10px] uppercase tracking-wider font-semibold px-1.5 py-0.5
+                bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300
+                rounded border border-zinc-200 dark:border-zinc-700
+              "
+            >
+              {item.priority}
+            </span>
+          )}
+
+          {/* Quick Move Trigger for Mobile & Touch */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation()
+                setShowMoveMenu(!showMoveMenu)
+              }}
+              className="p-1 rounded text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+              aria-label="Move card status"
+            >
+              <MoreHorizontal className="w-3.5 h-3.5" />
+            </button>
+
+            {showMoveMenu && (
+              <div
+                className="absolute right-0 top-6 z-50 w-36 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl py-1 text-xs"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="px-2.5 py-1 text-[10px] font-bold text-zinc-400 uppercase tracking-wider border-b border-zinc-100 dark:border-zinc-800">
+                  Move to
+                </div>
+                {DEFAULT_BOARD_COLUMNS.map((col) => (
+                  <button
+                    key={col.id}
+                    type="button"
+                    onClick={(e) => handleMoveStatus(e, col.id as ItemStatus)}
+                    className="w-full text-left px-2.5 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 flex items-center justify-between"
+                  >
+                    <span>{col.title}</span>
+                    <MoveRight className="w-3 h-3 text-zinc-400" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Card Footer: Metadata */}
