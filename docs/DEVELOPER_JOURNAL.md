@@ -18,3 +18,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated developer journal log and verified local build health
 - **Technical Detail**: Recorded daily benchmark metrics for IndexedDB CRUD operations and offline state synchronization integrity.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-06 01:15 UTC] — updated root layout metadata and added json-ld schema
+- **Summary**: updated root layout metadata and added json-ld schema
+- **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
+- **Status**: Verified clean build & local tests passing.
