@@ -23,3 +23,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated root layout metadata and added json-ld schema
 - **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-07 01:57 UTC] — fixed touch scrolling bug and updated mobile drawer padding
+- **Summary**: fixed touch scrolling bug and updated mobile drawer padding
+- **Technical Detail**: Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.
+- **Status**: Verified clean build & local tests passing.
