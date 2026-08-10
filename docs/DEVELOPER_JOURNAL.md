@@ -38,3 +38,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated indexeddb query batching and fixed latency on workspace load
 - **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-10 00:44 UTC] — updated root layout metadata and added json-ld schema
+- **Summary**: updated root layout metadata and added json-ld schema
+- **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
+- **Status**: Verified clean build & local tests passing.
