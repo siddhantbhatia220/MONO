@@ -2,7 +2,7 @@
   "repository": "MONO",
   "description": "Daily automated activity tracking for MONO Personal OS",
   "created_at": "2026-08-04T05:05:49.679582+00:00",
-  "total_commits": 12,
+  "total_commits": 13,
   "logs": [
     {
       "date": "2026-08-04",
@@ -102,8 +102,16 @@
       "commit_message": "refactored search filter query parser and speed up tag search",
       "detail": "Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.",
       "build_status": "healthy"
+    },
+    {
+      "date": "2026-08-14",
+      "timestamp": "2026-08-14T00:52:54.571245+00:00",
+      "type": "feat",
+      "commit_message": "updated root layout metadata and added json-ld schema",
+      "detail": "Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.",
+      "build_status": "healthy"
     }
   ],
-  "last_updated": "2026-08-13T00:54:01.638901+00:00",
-  "latest_commit_message": "refactored search filter query parser and speed up tag search"
+  "last_updated": "2026-08-14T00:52:54.571245+00:00",
+  "latest_commit_message": "updated root layout metadata and added json-ld schema"
 }

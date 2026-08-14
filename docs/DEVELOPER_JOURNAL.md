@@ -58,3 +58,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: refactored search filter query parser and speed up tag search
 - **Technical Detail**: Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-14 00:52 UTC] — updated root layout metadata and added json-ld schema
+- **Summary**: updated root layout metadata and added json-ld schema
+- **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
+- **Status**: Verified clean build & local tests passing.
