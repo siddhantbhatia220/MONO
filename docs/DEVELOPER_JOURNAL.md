@@ -68,3 +68,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated indexeddb query batching and fixed latency on workspace load
 - **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-16 00:30 UTC] — fixed hotkey shortcut listeners inside command palette input
+- **Summary**: fixed hotkey shortcut listeners inside command palette input
+- **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
+- **Status**: Verified clean build & local tests passing.
