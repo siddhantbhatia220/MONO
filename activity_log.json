@@ -2,7 +2,7 @@
   "repository": "MONO",
   "description": "Daily automated activity tracking for MONO Personal OS",
   "created_at": "2026-08-04T05:05:49.679582+00:00",
-  "total_commits": 16,
+  "total_commits": 17,
   "logs": [
     {
       "date": "2026-08-04",
@@ -134,8 +134,16 @@
       "commit_message": "fixed touch scrolling bug and updated mobile drawer padding",
       "detail": "Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.",
       "build_status": "healthy"
+    },
+    {
+      "date": "2026-08-18",
+      "timestamp": "2026-08-18T00:28:39.525675+00:00",
+      "type": "feat",
+      "commit_message": "updated root layout metadata and added json-ld schema",
+      "detail": "Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.",
+      "build_status": "healthy"
     }
   ],
-  "last_updated": "2026-08-17T00:29:34.186198+00:00",
-  "latest_commit_message": "fixed touch scrolling bug and updated mobile drawer padding"
+  "last_updated": "2026-08-18T00:28:39.525675+00:00",
+  "latest_commit_message": "updated root layout metadata and added json-ld schema"
 }
