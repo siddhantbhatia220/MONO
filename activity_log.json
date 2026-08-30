@@ -2,7 +2,7 @@
   "repository": "MONO",
   "description": "Daily automated activity tracking for MONO Personal OS",
   "created_at": "2026-08-04T05:05:49.679582+00:00",
-  "total_commits": 28,
+  "total_commits": 29,
   "logs": [
     {
       "date": "2026-08-04",
@@ -230,8 +230,16 @@
       "commit_message": "fixed hotkey shortcut listeners inside command palette input",
       "detail": "Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.",
       "build_status": "healthy"
+    },
+    {
+      "date": "2026-08-30",
+      "timestamp": "2026-08-30T01:57:38.913541+00:00",
+      "type": "fix",
+      "commit_message": "fixed touch scrolling bug and updated mobile drawer padding",
+      "detail": "Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.",
+      "build_status": "healthy"
     }
   ],
-  "last_updated": "2026-08-29T04:28:39.488263+00:00",
-  "latest_commit_message": "fixed hotkey shortcut listeners inside command palette input"
+  "last_updated": "2026-08-30T01:57:38.913541+00:00",
+  "latest_commit_message": "fixed touch scrolling bug and updated mobile drawer padding"
 }
