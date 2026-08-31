@@ -143,3 +143,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed touch scrolling bug and updated mobile drawer padding
 - **Technical Detail**: Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-08-31 01:53 UTC] — updated dark mode color tokens and fixed badge contrast
+- **Summary**: updated dark mode color tokens and fixed badge contrast
+- **Technical Detail**: Adjusted grayscale tokens in tokens.css for WCAG AA compliance on dark mode. Polished micro-interactions on item card hover and completion toggles.
+- **Status**: Verified clean build & local tests passing.
