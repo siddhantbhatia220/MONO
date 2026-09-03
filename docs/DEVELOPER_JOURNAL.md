@@ -158,3 +158,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed service worker offline cache rules for static app assets
 - **Technical Detail**: Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-03 01:42 UTC] — updated spring physics damping on modal slide animations
+- **Summary**: updated spring physics damping on modal slide animations
+- **Technical Detail**: Adjusted stiffness and damping parameters across modal containers for 60fps spring transitions. Reduced layout shift during panel opens.
+- **Status**: Verified clean build & local tests passing.
