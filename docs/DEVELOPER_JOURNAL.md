@@ -173,3 +173,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed hotkey shortcut listeners inside command palette input
 - **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-06 01:31 UTC] — updated root layout metadata and added json-ld schema
+- **Summary**: updated root layout metadata and added json-ld schema
+- **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
+- **Status**: Verified clean build & local tests passing.
