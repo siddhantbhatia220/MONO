@@ -178,3 +178,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated root layout metadata and added json-ld schema
 - **Technical Detail**: Enhanced RootLayout metadata with SoftwareApplication and Person schemas. Expanded keywords targeting local-first productivity apps.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-07 01:29 UTC] — updated dark mode color tokens and fixed badge contrast
+- **Summary**: updated dark mode color tokens and fixed badge contrast
+- **Technical Detail**: Adjusted grayscale tokens in tokens.css for WCAG AA compliance on dark mode. Polished micro-interactions on item card hover and completion toggles.
+- **Status**: Verified clean build & local tests passing.
