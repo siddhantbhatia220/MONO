@@ -208,3 +208,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed touch scrolling bug and updated mobile drawer padding
 - **Technical Detail**: Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-13 01:38 UTC] — updated indexeddb query batching and fixed latency on workspace load
+- **Summary**: updated indexeddb query batching and fixed latency on workspace load
+- **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
+- **Status**: Verified clean build & local tests passing.
