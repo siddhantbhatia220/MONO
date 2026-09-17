@@ -228,3 +228,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed touch scrolling bug and updated mobile drawer padding
 - **Technical Detail**: Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-17 02:00 UTC] — fixed hotkey shortcut listeners inside command palette input
+- **Summary**: fixed hotkey shortcut listeners inside command palette input
+- **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
+- **Status**: Verified clean build & local tests passing.
