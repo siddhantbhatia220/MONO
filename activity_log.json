@@ -2,7 +2,7 @@
   "repository": "MONO",
   "description": "Daily automated activity tracking for MONO Personal OS",
   "created_at": "2026-08-04T05:05:49.679582+00:00",
-  "total_commits": 47,
+  "total_commits": 48,
   "logs": [
     {
       "date": "2026-08-04",
@@ -382,8 +382,16 @@
       "commit_message": "fixed hotkey shortcut listeners inside command palette input",
       "detail": "Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.",
       "build_status": "healthy"
+    },
+    {
+      "date": "2026-09-18",
+      "timestamp": "2026-09-18T01:47:46.802059+00:00",
+      "type": "fix",
+      "commit_message": "fixed service worker offline cache rules for static app assets",
+      "detail": "Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.",
+      "build_status": "healthy"
     }
   ],
-  "last_updated": "2026-09-17T02:00:18.888567+00:00",
-  "latest_commit_message": "fixed hotkey shortcut listeners inside command palette input"
+  "last_updated": "2026-09-18T01:47:46.802059+00:00",
+  "latest_commit_message": "fixed service worker offline cache rules for static app assets"
 }
