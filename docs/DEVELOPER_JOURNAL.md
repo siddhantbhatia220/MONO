@@ -238,3 +238,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed service worker offline cache rules for static app assets
 - **Technical Detail**: Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-19 01:52 UTC] — updated indexeddb query batching and fixed latency on workspace load
+- **Summary**: updated indexeddb query batching and fixed latency on workspace load
+- **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
+- **Status**: Verified clean build & local tests passing.
