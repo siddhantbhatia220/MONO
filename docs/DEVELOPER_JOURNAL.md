@@ -248,3 +248,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed hotkey shortcut listeners inside command palette input
 - **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-09-21 01:56 UTC] — updated dark mode color tokens and fixed badge contrast
+- **Summary**: updated dark mode color tokens and fixed badge contrast
+- **Technical Detail**: Adjusted grayscale tokens in tokens.css for WCAG AA compliance on dark mode. Polished micro-interactions on item card hover and completion toggles.
+- **Status**: Verified clean build & local tests passing.
