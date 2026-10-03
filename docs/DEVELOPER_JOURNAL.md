@@ -308,3 +308,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: refactored search filter query parser and speed up tag search
 - **Technical Detail**: Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-03 02:32 UTC] — fixed touch scrolling bug and updated mobile drawer padding
+- **Summary**: fixed touch scrolling bug and updated mobile drawer padding
+- **Technical Detail**: Fixed an edge-case touch target overlap in MobileDrawer on narrow screens. Adjusted safe-area inset calculations to prevent virtual keyboard occlusion.
+- **Status**: Verified clean build & local tests passing.
