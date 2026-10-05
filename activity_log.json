@@ -2,7 +2,7 @@
   "repository": "MONO",
   "description": "Daily automated activity tracking for MONO Personal OS",
   "created_at": "2026-08-04T05:05:49.679582+00:00",
-  "total_commits": 64,
+  "total_commits": 65,
   "logs": [
     {
       "date": "2026-08-04",
@@ -518,8 +518,16 @@
       "commit_message": "refactored search filter query parser and speed up tag search",
       "detail": "Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.",
       "build_status": "healthy"
+    },
+    {
+      "date": "2026-10-05",
+      "timestamp": "2026-10-05T02:37:08.636116+00:00",
+      "type": "fix",
+      "commit_message": "fixed service worker offline cache rules for static app assets",
+      "detail": "Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.",
+      "build_status": "healthy"
     }
   ],
-  "last_updated": "2026-10-04T03:03:49.736663+00:00",
-  "latest_commit_message": "refactored search filter query parser and speed up tag search"
+  "last_updated": "2026-10-05T02:37:08.636116+00:00",
+  "latest_commit_message": "fixed service worker offline cache rules for static app assets"
 }

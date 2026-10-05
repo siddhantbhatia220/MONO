@@ -318,3 +318,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: refactored search filter query parser and speed up tag search
 - **Technical Detail**: Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-05 02:37 UTC] — fixed service worker offline cache rules for static app assets
+- **Summary**: fixed service worker offline cache rules for static app assets
+- **Technical Detail**: Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.
+- **Status**: Verified clean build & local tests passing.
