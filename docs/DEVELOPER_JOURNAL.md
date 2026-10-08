@@ -333,3 +333,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated dark mode color tokens and fixed badge contrast
 - **Technical Detail**: Adjusted grayscale tokens in tokens.css for WCAG AA compliance on dark mode. Polished micro-interactions on item card hover and completion toggles.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-08 03:12 UTC] — fixed service worker offline cache rules for static app assets
+- **Summary**: fixed service worker offline cache rules for static app assets
+- **Technical Detail**: Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.
+- **Status**: Verified clean build & local tests passing.
