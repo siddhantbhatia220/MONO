@@ -413,3 +413,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed service worker offline cache rules for static app assets
 - **Technical Detail**: Updated public/sw.js fetch handler to bypass non-GET requests cleanly. Ensured sub-second offline app shell restoration.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-24 02:10 UTC] — fixed hotkey shortcut listeners inside command palette input
+- **Summary**: fixed hotkey shortcut listeners inside command palette input
+- **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
+- **Status**: Verified clean build & local tests passing.
