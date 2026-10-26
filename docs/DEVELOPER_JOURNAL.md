@@ -423,3 +423,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: fixed quick capture input bar positioning when keyboard opens
 - **Technical Detail**: Increased touch target height to 44px on QuickCapture bar icons. Ensured seamless typing experience on iOS Safari and Android Chrome.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-26 01:58 UTC] — updated indexeddb query batching and fixed latency on workspace load
+- **Summary**: updated indexeddb query batching and fixed latency on workspace load
+- **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
+- **Status**: Verified clean build & local tests passing.
