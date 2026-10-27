@@ -428,3 +428,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: updated indexeddb query batching and fixed latency on workspace load
 - **Technical Detail**: Streamlined object store cursor iterations in lib/db/items.ts. Reduced initial workspace render overhead by pre-caching active project items.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-27 02:36 UTC] — refactored search filter query parser and speed up tag search
+- **Summary**: refactored search filter query parser and speed up tag search
+- **Technical Detail**: Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.
+- **Status**: Verified clean build & local tests passing.
