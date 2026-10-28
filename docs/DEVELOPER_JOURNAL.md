@@ -433,3 +433,8 @@ Daily log of technical updates, performance metrics, bug fixes, and architectura
 - **Summary**: refactored search filter query parser and speed up tag search
 - **Technical Detail**: Refactored fuzzySearch.ts to eliminate redundant regex instantiations during live keyboard filtering. Improved query response time under 15ms.
 - **Status**: Verified clean build & local tests passing.
+
+### [2026-10-28 02:45 UTC] — fixed hotkey shortcut listeners inside command palette input
+- **Summary**: fixed hotkey shortcut listeners inside command palette input
+- **Technical Detail**: Prevented accidental shortcut triggers when focused inside rich content editable elements. Improved Escape key modal dismissal stack handling.
+- **Status**: Verified clean build & local tests passing.
